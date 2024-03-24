@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dziś polecamy</title>
+    <style>
+        .container {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: end;
+        }
+        li {
+            list-style-type: none;
+        }
+
+        .container div:nth-child(2) {
+            border-bottom: 3px dotted;
+            height: 1px;
+        }
+
+        .text-eng{
+            font-size: 17px;
+            font-weight: lighter;
+
+        }
+        div{
+            font-weight: bold;
+        }
+
+        @font-face {
+            font-family: 'Arial';
+            src: url('front/arial_bolditalicmt.ttf') format('truetype');
+        }
+        body {
+            font-size: 20px;
+            margin-right: 40px;
+        }
+        h1{
+            text-align: center;
+            margin: 0;
+        }
+
+        h3{
+            margin: 0;
+
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="a4-container">
+    <header>
+        <h1>Dziś polecamy</h1>
+    </header>
+    <main>
+        <section class="menu">
+            <ul>
+                <li>
+                    <h3>Zupy</h3>
+                    <ul>
+                        """
+
+                        for item in cases:
+                        if item.category == 1:
+                        html_content += f"""
+                        <li>
+                            <div class="container">
+                                <div style="text-align: left;"><span>{item.name} {item.masa}</span></div>
+                                <div></div>
+                                <div style="text-align: right;"><span>{item.price}</span></div>
+                            </div>
+                        </li>
+
+                        <li>
+                            <div class="text-eng">
+                                ({item.name_eng})
+                            </div>
+                        </li>
+                        """
+                        html_content += f"""
+                    </ul>
+                </li>
+                <li>
+                    <h3>Вторые блюда</h3>
+                    <ul>
+                        <li>
+                            <div class="container">
+                                <div style="text-align: left;"><span>Pierś w bulce</span></div>
+                                <div></div>
+                                <div style="text-align: right;"><span>500 g</span></div>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <h3>Напитки</h3>
+                    <ul>
+                        <li><span>Горячая шоколад</span> - 11 zł</li>
+                        <li><span>с вишневкой</span> - 14 zł</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+    </main>
+</div>
+</body>
+</html>

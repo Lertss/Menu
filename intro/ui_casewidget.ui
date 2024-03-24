@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CaseWidget</class>
+ <widget class="QWidget" name="CaseWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>691</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>180</width>
+    <height>0</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>230</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">
+border	-radius: 10px;</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="1">
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">
+    border: 1px solid #ccc; /* 1px тонка рамка, solid тип рамки, #ccc сірий колір */
+
+    border-radius: 10px; /* радіус для кутів */</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="qlb_danie">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>580</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <fontweight>Black</fontweight>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>ArrowCursor</cursorShape>
+            </property>
+            <property name="contextMenuPolicy">
+             <enum>Qt::NoContextMenu</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(222, 222, 222);</string>
+            </property>
+            <property name="text">
+             <string>Danie</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="qlb_cena">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>60</width>
+              <height>40</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>12</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgb(222, 222, 222);</string>
+            </property>
+            <property name="text">
+             <string>Cena</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="qlb_des">
+          <property name="maximumSize">
+           <size>
+            <width>650</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+            <bold>false</bold>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(216, 216, 216);</string>
+          </property>
+          <property name="text">
+           <string>Opis </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QPushButton" name="btn_info">
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+ 	 background-color:rgba(200,200,200,90);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+	 height:30
+}
+QPushButton:hover{
+	 background-color:rgba(209,209,209,60);
+     border: 1px solid rgba(0,0,0,50);
+}
+QPushButton:pressed{
+	background-color:rgba(180,180,180,70);
+}</string>
+            </property>
+            <property name="text">
+             <string>Info</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_edit">
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+ 	 background-color:rgba(200,200,200,90);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+	 height:30
+}
+QPushButton:hover{
+	 background-color:rgba(209,209,209,60);
+     border: 1px solid rgba(0,0,0,50);
+}
+QPushButton:pressed{
+	background-color:rgba(180,180,180,70);
+}</string>
+            </property>
+            <property name="text">
+             <string>Edytować</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="btn_delete">
+            <property name="styleSheet">
+             <string notr="true">QPushButton{
+ 	 background-color:rgba(200,200,200,90);
+     border: 1px solid rgba(255,255,255,40);
+     border-radius:7px;
+	 height:30
+}
+QPushButton:hover{
+	 background-color:rgba(209,209,209,60);
+     border: 1px solid rgba(0,0,0,50);
+}
+QPushButton:pressed{
+	background-color:rgba(180,180,180,70);
+}</string>
+            </property>
+            <property name="text">
+             <string>Usunąć</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
