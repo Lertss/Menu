@@ -4,11 +4,13 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QListWidget, QVBoxLayou
 
 import sqlite3
 
+
+
 class Category_list(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Список з можливістю зміни")
+        self.setWindowTitle("Lista kategorij")
 
         layout = QVBoxLayout(self)
 
@@ -17,7 +19,7 @@ class Category_list(QDialog):
 
         self.load_data()  # Завантаження даних з бази даних
 
-        self.button_save = QPushButton("Зберегти зміни")
+        self.button_save = QPushButton("Zapisać zmiany")
         layout.addWidget(self.button_save)
         self.button_save.clicked.connect(self.save_changes)
 
@@ -30,29 +32,45 @@ class Category_list(QDialog):
         # Збереження останнього вибраного елемента
         self.last_selected_item = None
 
-        # Налаштування вигляду вікна
         self.setStyleSheet("""
-            background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,
-            stop:0 rgba(128, 128, 128, 255), /* Світло-сірий */
-            stop:0.427447 rgba(105, 105, 105, 235), /* Сірий */
-            stop:1 rgba(84, 84, 84, 255) /* Темно-сірий */
-            );
-        """)
+                    QDialog {
+                        background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,
+                                                          stop:0 rgba(180, 180, 180, 255), /* Світло-сірий */
+                                                          stop:0.427447 rgba(150, 150, 150, 235), /* Сірий */
+                                                          stop:1 rgba(110, 110, 110, 255) /* Темно-сірий */
+                        );
+                    }
 
-        # Налаштування вигляду QListWidget
-        self.list_widget.setStyleSheet("""
-            QListWidget {
-                background-color: rgba(255, 255, 255, 30);
-                border: 1px solid rgba(255,255,255,40);
-                border-radius: 7px;
-            }
-            QListWidget::item {
-                font-size: 16pt;
-                color: white;
-                padding-left: 10px;
-                border: 1px solid rgba(255,255,255,40);
-            }
-        """)
+                    QListWidget {
+                        background-color: rgba(255, 255, 255, 30);
+                        border: 1px solid rgba(255,255,255,40);
+                        border-radius: 7px;
+                    }
+
+                    QListWidget::item {
+                        padding: 1px;
+                        border: 1px solid rgba(0,0,0,50); /* рамка */
+                        color: white; /* колір тексту */
+                        font-weight: bold; /* зробити текст товстим */
+                    }
+
+                    QPushButton {
+                        color: rgb(255, 255, 255);
+                        background-color: rgba(255,255,255,30);
+                        border: 1px solid rgba(255,255,255,40);
+                        border-radius: 7px;
+                        width: 150px; /* зменшення ширини кнопки */
+                        height: 30px; /* зменшення висоти кнопки */
+                    }
+
+                    QPushButton:hover {
+                        background-color: rgba(255,255,255,40);
+                    }
+
+                    QPushButton:pressed {
+                        background-color: rgba(255,255,255,70);
+                    }
+                """)
 
         # Налаштування вигляду кнопки
         self.button_save.setStyleSheet("""
@@ -61,8 +79,8 @@ class Category_list(QDialog):
                 background-color:rgba(255,255,255,30);
                 border: 1px solid rgba(255,255,255,40);
                 border-radius:7px;
-                width: 230;
-                height: 50;
+                width: 150px;
+                height: 30px;
             }
             QPushButton:hover{
                 background-color:rgba(255,255,255,40);
@@ -71,6 +89,7 @@ class Category_list(QDialog):
                 background-color:rgba(255,255,255,70);
             }
         """)
+
 
     def load_data(self):
         # З'єднання з базою даних
@@ -88,7 +107,7 @@ class Category_list(QDialog):
 
                 layout = QHBoxLayout()
                 layout.addWidget(QLabel(item[0]))
-                delete_button = QPushButton("Видалити")
+                delete_button = QPushButton("Usuń")
                 delete_button.clicked.connect(lambda checked=None, item=item: self.delete_item(item))
                 layout.addWidget(delete_button)
                 list_item_widget.setLayout(layout)
@@ -119,12 +138,28 @@ class Category_list(QDialog):
         with sqlite3.connect('application.sqlite') as connection:
             cursor = connection.cursor()
 
-            # Отримання даних з QListWidget та оновлення бази даних
-            for index in range(self.list_widget.count()):
-                item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
-                cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?", (index, item_name))
+            # Отримати максимальне значення turn_number в базі даних
+            cursor.execute("SELECT MAX(turn_number) FROM category")
+            max_turn_number = cursor.fetchone()[0] or 0  # Якщо MAX(turn_number) повертає None, встановити 0
 
-            # Збереження змін
+            # Якщо максимальне значення досягло 1000, перезаписати всі значення turn_number
+            if max_turn_number >= 999:
+                for index in range(self.list_widget.count()):
+                    item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
+
+                    # Оновити turn_number на основі позиції елемента в списку
+                    cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?",
+                                   (index + 1, item_name))
+            else:
+                # Оновити значення turn_number для кожного елемента
+                for index in range(self.list_widget.count()):
+                    item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
+
+                    # Оновити turn_number, збільшивши максимальне значення на 1
+                    cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?",
+                                   (max_turn_number + index + 1, item_name))
+
+            # Зберегти зміни
             connection.commit()
 
     def selection_changed(self):
