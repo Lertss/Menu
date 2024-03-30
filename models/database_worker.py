@@ -8,8 +8,6 @@ def create_database():
     session = Session()
     session.add(CaseState(case_state_name="Menu dziś"))
     session.add(CaseState(case_state_name="Menu cale"))
-    session.add(Category(category_name="Zupy"))
-    session.add(Category(category_name="II Danie"))
     session.commit()
     session.close()
 
@@ -33,6 +31,15 @@ class Worker:
 
     def getCategories(self) -> list[Category]:
         return [category for category in self.session.query(Category)]
+
+    def getCategoryIdByName(self, category_name):
+        session = Session()
+        category = session.query(Category).filter_by(category_name=category_name).first()
+        session.close()
+        if category:
+            return category.id
+        else:
+            return None
 
     def __del__(self):
         self.session.commit()

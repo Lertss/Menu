@@ -69,6 +69,7 @@ class Ui_New_transaction(object):
 
         self.le_name = QLineEdit(self.frame)
         self.le_name.setObjectName(u"le_name")
+        self.le_name.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_name.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -77,6 +78,7 @@ class Ui_New_transaction(object):
 
         self.le_name_eng = QLineEdit(self.frame)
         self.le_name_eng.setObjectName(u"le_name_eng")
+        self.le_name_eng.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_name_eng.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -85,6 +87,7 @@ class Ui_New_transaction(object):
 
         self.le_description = QLineEdit(self.frame)
         self.le_description.setObjectName(u"le_description")
+        self.le_description.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_description.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -93,6 +96,7 @@ class Ui_New_transaction(object):
 
         self.le_description_eng = QLineEdit(self.frame)
         self.le_description_eng.setObjectName(u"le_description_eng")
+        self.le_description_eng.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_description_eng.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -101,6 +105,7 @@ class Ui_New_transaction(object):
 
         self.le_masa = QLineEdit(self.frame)
         self.le_masa.setObjectName(u"le_masa")
+        self.le_masa.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_masa.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -109,6 +114,7 @@ class Ui_New_transaction(object):
 
         self.le_cena = QLineEdit(self.frame)
         self.le_cena.setObjectName(u"le_cena")
+        self.le_cena.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_cena.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -117,6 +123,10 @@ class Ui_New_transaction(object):
 
         self.button_save_danie = QPushButton(self.frame)
         self.button_save_danie.setObjectName(u"button_save_danie")
+        font = QFont()
+        font.setPointSize(15)
+        font.setBold(True)
+        self.button_save_danie.setFont(font)
         self.button_save_danie.setStyleSheet(u"QPushButton{\n"
 "	 color: rgb(255, 255, 255);\n"
 "     background-color:rgba(255,255,255,30);\n"
@@ -163,6 +173,6 @@ class Ui_New_transaction(object):
         self.le_description_eng.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Sklad(opis) po angielsku", None))
         self.le_masa.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Masa", None))
         self.le_cena.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Cena", None))
-        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", u"Doda\u0107 danie", None))
+        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", u"Dalej", None))
     # retranslateUi
 

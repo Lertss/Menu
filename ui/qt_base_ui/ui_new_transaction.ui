@@ -82,6 +82,9 @@ QComboBox:item {
       </item>
       <item>
        <widget class="QLineEdit" name="le_name">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 16pt;
 color: white;
@@ -97,6 +100,9 @@ padding-left: 10px;</string>
       </item>
       <item>
        <widget class="QLineEdit" name="le_name_eng">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 16pt;
 color: white;
@@ -109,6 +115,9 @@ padding-left: 10px;</string>
       </item>
       <item>
        <widget class="QLineEdit" name="le_description">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 16pt;
 color: white;
@@ -124,6 +133,9 @@ padding-left: 10px;</string>
       </item>
       <item>
        <widget class="QLineEdit" name="le_description_eng">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 16pt;
 color: white;
@@ -139,6 +151,9 @@ padding-left: 10px;</string>
       </item>
       <item>
        <widget class="QLineEdit" name="le_masa">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 16pt;
 color: white;
@@ -151,6 +166,9 @@ padding-left: 10px;</string>
       </item>
       <item>
        <widget class="QLineEdit" name="le_cena">
+        <property name="cursor">
+         <cursorShape>PointingHandCursor</cursorShape>
+        </property>
         <property name="styleSheet">
          <string notr="true">font-size: 16pt;
 color: white;
@@ -163,6 +181,12 @@ padding-left: 10px;</string>
       </item>
       <item>
        <widget class="QPushButton" name="button_save_danie">
+        <property name="font">
+         <font>
+          <pointsize>15</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="styleSheet">
          <string notr="true">QPushButton{
 	 color: rgb(255, 255, 255);
@@ -180,7 +204,7 @@ QPushButton:pressed{
 }</string>
         </property>
         <property name="text">
-         <string>Dodać danie</string>
+         <string>Dalej</string>
         </property>
         <property name="icon">
          <iconset>

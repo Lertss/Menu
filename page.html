@@ -20,7 +20,7 @@
         }
 
         .text-eng{
-            font-size: 17px;
+            font-size: 22px;
             font-weight: lighter;
 
         }
@@ -28,24 +28,22 @@
             font-weight: bold;
         }
 
-        @font-face {
-            font-family: 'Arial';
-            src: url('front/arial_bolditalicmt.ttf') format('truetype');
-        }
+
         body {
-            font-size: 20px;
+            font-size: 25px;
             margin-right: 40px;
+            background-image: url('2006_08_01_211716_ul._Morska_w_Gdyni_ubt.jpeg');
+            background-size: cover; /* щоб зображення заповнило весь екран */
+            background-repeat: no-repeat; /* щоб зображення не повторювалося */
         }
         h1{
             text-align: center;
-            margin: 0;
         }
 
         h3{
-            margin: 0;
-
+            margin-left: 100px;
+            font-size: 35px;
         }
-
 
     </style>
 </head>
@@ -57,53 +55,42 @@
     <main>
         <section class="menu">
             <ul>
-                <li>
-                    <h3>Zupy</h3>
-                    <ul>
-                        """
+                """
 
-                        for item in cases:
-                        if item.category == 1:
-                        html_content += f"""
+                for category in categories:
+                # Получение всех случаев (Case) этой категории с состоянием (CaseState) равным 1
+                cases = session.query(Case).filter(Case.category == category.id, Case.case_state == 1).all()
+
+                # Проверка наличия случаев в категории
+                if cases:
+                html_content += f"""
+                <li>
+                    <h3>{category.category_name}</h3>
+                    """
+                    for item in cases:
+                    html_content += f"""
+                    <ul>
                         <li>
                             <div class="container">
-                                <div style="text-align: left;"><span>{item.name} {item.masa}</span></div>
+                                <div style="text-align: left;">{item.name} </div>
                                 <div></div>
-                                <div style="text-align: right;"><span>{item.price}</span></div>
+                                <div style="text-align: right;"><span class="text-eng">({item.masa} {category.pomiar})</span>  <span>{item.price} zł</span></div>
                             </div>
                         </li>
-
                         <li>
                             <div class="text-eng">
                                 ({item.name_eng})
                             </div>
                         </li>
-                        """
-                        html_content += f"""
                     </ul>
                 </li>
-                <li>
-                    <h3>Вторые блюда</h3>
-                    <ul>
-                        <li>
-                            <div class="container">
-                                <div style="text-align: left;"><span>Pierś w bulce</span></div>
-                                <div></div>
-                                <div style="text-align: right;"><span>500 g</span></div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <h3>Напитки</h3>
-                    <ul>
-                        <li><span>Горячая шоколад</span> - 11 zł</li>
-                        <li><span>с вишневкой</span> - 14 zł</li>
-                    </ul>
-                </li>
+                """
+
+                html_content += """
             </ul>
         </section>
     </main>
 </div>
 </body>
 </html>
+"""

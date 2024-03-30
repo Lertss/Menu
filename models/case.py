@@ -1,5 +1,5 @@
 from models.database import Base
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
 from models.database import Session
 
 
@@ -7,14 +7,14 @@ class Case(Base):
     __tablename__ = 'case'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    name_eng = Column(String)
-    description = Column(String)
-    description_english = Column(String)
-    price = Column(Integer)
-    masa = Column(Integer)
+    name = Column(String, nullable=False)
+    name_eng = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    description_english = Column(String, nullable=False)
+    price = Column(Numeric(precision=10, scale=2), nullable=False)  # Встановлюємо precision=10 та scale=2
+    masa = Column(Integer, nullable=False)
     case_state = Column(Integer, ForeignKey('case_state.id'))
-    category = Column(Integer, ForeignKey('category.id'))
+    category = Column(Integer, ForeignKey('category.id'), nullable=False)
 
     def __init__(self, name: str = "", name_eng: str = "", description: str = "",
                  description_english: str = "", price: str = "", masa: str = "", category: str = ""):

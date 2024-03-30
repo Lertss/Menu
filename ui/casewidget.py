@@ -1,4 +1,7 @@
+import locale
+
 from PySide6 import QtWidgets
+from PySide6.QtGui import QIntValidator, QDoubleValidator
 from PySide6.QtWidgets import QWidget
 
 from models.case_state import Category
@@ -15,7 +18,6 @@ class CaseWidget(QWidget):
     def __init__(self, data: Case, case_list_widget):
         super(CaseWidget, self).__init__()
         self.data = data
-        self.worker = Worker
         self.case_list_widget = case_list_widget
         self.ui = Ui_CaseWidget()
         self.ui.setupUi(self)
@@ -34,14 +36,40 @@ class CaseWidget(QWidget):
         self.new_window = QtWidgets.QDialog()
         self.ui_window = Ui_New_transaction()
         self.ui_window.setupUi(self.new_window)
-        options = []
-        categories = self.worker.getCategories()
 
+        # Отримання категорії для запису Case
+        category = self.case_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
+
+        categories = self.case_list_widget.worker.session.query(Category)
+
+        options = []
         # Виведення всіх категорій
         for category in categories:
             options.append(category.category_name)
 
         self.ui_window.cb_category.addItems(options)
+
+        # Встановлення вибраної категорії
+        if category:
+            index = self.ui_window.cb_category.findText(category.category_name)
+            if index != -1:
+                self.ui_window.cb_category.setCurrentIndex(index)
+
+        self.ui_window.le_name.setText(self.data.name)
+        self.ui_window.le_name_eng.setText(self.data.name_eng)
+        self.ui_window.le_description.setText(self.data.description)
+        self.ui_window.le_description_eng.setText(self.data.description_english)
+        self.ui_window.le_masa.setText(str(self.data.masa))
+
+        # Встановлення значення ціни з урахуванням роздільника коми та двома нулями після коми
+        locale.setlocale(locale.LC_NUMERIC, '')  # Встановлюємо локаль для числового форматування
+        formatted_price = locale._format('%.2f', self.data.price, grouping=True)
+        self.ui_window.le_cena.setText(formatted_price)
+
+        # Додаємо валідатори для полів 'cena' та 'masa'
+        self.ui_window.le_cena.setValidator(QIntValidator())
+        self.ui_window.le_cena.setValidator(QDoubleValidator(bottom=0))
+
         self.new_window.show()
         self.ui_window.button_save_danie.clicked.connect(self.update_window)
 
@@ -54,8 +82,8 @@ class CaseWidget(QWidget):
         description_eng = self.ui_window.le_description_eng.text()
         masa = self.ui_window.le_masa.text()
         cena = self.ui_window.le_cena.text()
-
-        Case.update_case(id, category, name, name_eng, description, description_eng, masa, cena)
+        price_float = float(cena.replace(',', '.'))
+        Case.update_case(id, category, name, name_eng, description, description_eng, masa, price_float)
 
         # Оновлюємо дані у віджеті
         self.reload_data()
@@ -98,8 +126,3 @@ class CaseWidget(QWidget):
             self.ui_window.qlb_category.setText("No Category")
 
         self.new_window.show()
-
-        print(1)
-        # print(self.data.category_name)
-
-

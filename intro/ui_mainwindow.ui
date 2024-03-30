@@ -29,12 +29,6 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="add_danie_m">
-    <property name="title">
-     <string>Dodać danie</string>
-    </property>
-   </widget>
-   <addaction name="add_danie_m"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
