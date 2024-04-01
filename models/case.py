@@ -1,3 +1,5 @@
+import logging
+
 from models.database import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
 from models.database import Session
@@ -32,6 +34,7 @@ class Case(Base):
         session.query(Case).filter(Case.id == self.id).update({Case.case_state: self.case_state})
         session.commit()
         session.close()
+        logging.error("Bląd zmiany statusa dania. *update_state")
 
     @staticmethod
     def delete_case(case_id):
@@ -41,9 +44,10 @@ class Case(Base):
             session.delete(case_to_delete)
             session.commit()
             session.close()
-            print(f'Справа с ID {case_id} удалена успешно.')
+            logging.info(f'Danie z ID {case_id} zostało usunięte. *Case.delete_danie')
+
         else:
-            print(f'Справа с ID {case_id} не найдена.')
+            logging.error(f'Danie z ID {case_id} nie znaleziono. *delete_danie')
 
     @staticmethod
     def create_case(category, name, name_eng, description, description_eng, masa, cena):
@@ -53,28 +57,30 @@ class Case(Base):
             session.add(new_case)
             session.commit()
             session.close()
+            logging.info("Danie stworzono. *Case.create_case")
+        else:
+            logging.error("Bląd stworzenia dania. *Case.create_case")
 
     @staticmethod
     def update_case(case_id, category, name, name_eng, description, description_eng, masa, cena):
         session = Session()
-        user_to_update = session.query(Case).filter_by(id=case_id).first()
+        danie_to_update = session.query(Case).filter_by(id=case_id).first()
 
-        if user_to_update:
-            user_to_update.category = category
-            user_to_update.name = name
-            user_to_update.name_eng = name_eng
-            user_to_update.description = description
-            user_to_update.description_english = description_eng
-            user_to_update.masa = masa
-            user_to_update.price = cena
+        if danie_to_update:
+            danie_to_update.category = category
+            danie_to_update.name = name
+            danie_to_update.name_eng = name_eng
+            danie_to_update.description = description
+            danie_to_update.description_english = description_eng
+            danie_to_update.masa = masa
+            danie_to_update.price = cena
 
             session.commit()
 
-            session.refresh(user_to_update)
-
+            session.refresh(danie_to_update)
+            logging.info("Danie zostało zaktualizowane. *Case.update_case")
         else:
-            print("Пользователь с заданным идентификатором не найден.")
-
+            logging.error(f'Danie z ID {case_id} nie znaleziono *Case.update_case')
         session.close()
 
     def __repr__(self):
