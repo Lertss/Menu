@@ -4,7 +4,7 @@ from PySide6.QtGui import QAction, QIntValidator, QDoubleValidator
 from PySide6.QtWidgets import QMainWindow
 from sqlalchemy import func
 
-from generate_html import generation_pdf
+from service.generate_html import generation_pdf
 from models.case import Case
 from models.database import Session
 from models.database_worker import Worker
@@ -51,7 +51,7 @@ class MainWindow(QMainWindow):
         self.show()
 
 
-    def open_category_list_window(self):  # Додано метод
+    def open_category_list_window(self):
         category_list_dialog = Category_list()
         category_list_dialog.resize(400, 400)
         category_list_dialog.exec_()
@@ -115,6 +115,7 @@ class MainWindow(QMainWindow):
 def new_turn_number():
     session = Session()
     max_turn_number = session.query(func.max(Category.turn_number)).scalar()
+    session.close()
     if max_turn_number:
         if max_turn_number > 0:
             return max_turn_number +1

@@ -37,14 +37,14 @@ class CaseWidget(QWidget):
         self.ui_window = Ui_New_transaction()
         self.ui_window.setupUi(self.new_window)
 
-        # Отримання категорії для запису Case
+        # Getting a category for a Case record
         category = self.case_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
 
         categories = self.case_list_widget.worker.session.query(Category)
 
         options = []
         category_index = None
-        # Виведення всіх категорій
+        # Displaying all categories
         for index, cat in enumerate(categories):
             options.append(cat.category_name)
             if cat.id == category.id:
@@ -54,19 +54,19 @@ class CaseWidget(QWidget):
 
         if category_index is not None:
             self.ui_window.cb_category.setCurrentIndex(category_index)
-
+        self.ui_window.le_title.setText("Aktualizacja dania")
         self.ui_window.le_name.setText(self.data.name)
         self.ui_window.le_name_eng.setText(self.data.name_eng)
         self.ui_window.le_description.setText(self.data.description)
         self.ui_window.le_description_eng.setText(self.data.description_english)
         self.ui_window.le_masa.setText(str(self.data.masa))
 
-        # Встановлення значення ціни з урахуванням роздільника коми та двома нулями після коми
-        locale.setlocale(locale.LC_NUMERIC, '')  # Встановлюємо локаль для числового форматування
+        # Setting the price value with a decimal point and two zeros after the decimal point
+        locale.setlocale(locale.LC_NUMERIC, '')  # Setting the locale for numeric formatting
         formatted_price = locale._format('%.2f', self.data.price, grouping=True)
         self.ui_window.le_cena.setText(formatted_price)
 
-        # Додаємо валідатори для полів 'cena' та 'masa'
+        # Add validators for the 'cena' and 'masa' fields
         self.ui_window.le_cena.setValidator(QIntValidator())
         self.ui_window.le_cena.setValidator(QDoubleValidator(bottom=0))
 
@@ -86,22 +86,22 @@ class CaseWidget(QWidget):
         price_float = float(cena.replace(',', '.'))
         Case.update_case(id, category_id, name, name_eng, description, description_eng, masa, price_float)
 
-        # Оновлюємо дані у віджеті
+        # Update the data in the widget
         self.reload_data()
 
-        # Оновлюємо список віджетів
+        # Update the list of widgets
         self.case_list_widget.reloads()
 
-        # Закриваємо вікно оновлення
+        # Close the update window
         self.new_window.close()
 
     def reload_data(self):
-        # Отримання оновлених даних з бази даних
+        # Getting updated data from the database
         session = Session()
         updated_data = session.query(Case).filter_by(id=self.data.id).first()
         session.close()
 
-        # Оновлення даних та UI віджету
+        # Update data and widget UI
         self.data = updated_data
         self.ui.qlb_danie.setText(self.data.name)
         self.ui.qlb_des.setText(self.data.description)

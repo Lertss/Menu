@@ -17,19 +17,19 @@ class Category_list(QDialog):
         self.list_widget = QListWidget()
         layout.addWidget(self.list_widget)
 
-        self.load_data()  # Завантаження даних з бази даних
+        self.load_data()  # Loading data from the database
 
         self.button_save = QPushButton("Zapisać zmiany")
         layout.addWidget(self.button_save)
         self.button_save.clicked.connect(self.save_changes)
 
-        # Дозволяємо перетягувати елементи в QListWidget
+        # Allow to drag and drop items into a QListWidget
         self.list_widget.setDragDropMode(QListWidget.InternalMove)
 
-        # Відстеження вибору елемента для визначення переміщення
+        # Track item selection to determine movement
         self.list_widget.itemSelectionChanged.connect(self.selection_changed)
 
-        # Збереження останнього вибраного елемента
+        # Save the last selected item
         self.last_selected_item = None
 
         self.setStyleSheet("""
@@ -49,9 +49,9 @@ class Category_list(QDialog):
 
                     QListWidget::item {
                         padding: 1px;
-                        border: 1px solid rgba(0,0,0,50); /* рамка */
-                        color: white; /* колір тексту */
-                        font-weight: bold; /* зробити текст товстим */
+                        border: 1px solid rgba(0,0,0,50); 
+                        color: white;
+                        font-weight: bold; 
                     }
 
                     QPushButton {
@@ -59,8 +59,8 @@ class Category_list(QDialog):
                         background-color: rgba(255,255,255,30);
                         border: 1px solid rgba(255,255,255,40);
                         border-radius: 7px;
-                        width: 150px; /* зменшення ширини кнопки */
-                        height: 30px; /* зменшення висоти кнопки */
+                        width: 150px; 
+                        height: 30px; 
                     }
 
                     QPushButton:hover {
@@ -72,7 +72,7 @@ class Category_list(QDialog):
                     }
                 """)
 
-        # Налаштування вигляду кнопки
+        # Customize the appearance of the button
         self.button_save.setStyleSheet("""
             QPushButton{
                 color: rgb(255, 255, 255);
@@ -92,15 +92,15 @@ class Category_list(QDialog):
 
 
     def load_data(self):
-        # З'єднання з базою даних
+        # Connecting to the database
         with sqlite3.connect('application.sqlite') as connection:
             cursor = connection.cursor()
 
-            # Отримання даних з бази даних
+            # Retrieving data from the database
             cursor.execute("SELECT category_name, turn_number FROM category ORDER BY turn_number")
             data = cursor.fetchall()
 
-            # Заповнення QListWidget
+            # Filling the QListWidget
             for item in data:
                 list_item = QListWidgetItem(self.list_widget)
                 list_item_widget = QWidget()
@@ -116,17 +116,14 @@ class Category_list(QDialog):
                 self.list_widget.setItemWidget(list_item, list_item_widget)
 
     def delete_item(self, item):
-        # З'єднання з базою даних
         with sqlite3.connect('application.sqlite') as connection:
             cursor = connection.cursor()
 
-            # Видалення елемента з бази даних
+            # Deleting an item from the database
             cursor.execute("DELETE FROM category WHERE category_name = ?", (item[0],))
-
-            # Збереження змін
             connection.commit()
 
-        # Видалення елемента з QListWidget
+        # Removing an item from a QListWidget
         for i in range(self.list_widget.count()):
             list_item = self.list_widget.item(i)
             if self.list_widget.itemWidget(list_item).findChild(QLabel).text() == item[0]:
@@ -134,38 +131,36 @@ class Category_list(QDialog):
                 break
 
     def save_changes(self):
-        # З'єднання з базою даних
         with sqlite3.connect('application.sqlite') as connection:
             cursor = connection.cursor()
 
-            # Отримати максимальне значення turn_number в базі даних
+            # Get the maximum turn_number value in the database
             cursor.execute("SELECT MAX(turn_number) FROM category")
             max_turn_number = cursor.fetchone()[0] or 0  # Якщо MAX(turn_number) повертає None, встановити 0
 
-            # Якщо максимальне значення досягло 1000, перезаписати всі значення turn_number
+            # If the maximum value reaches 1000, overwrite all turn_number values
             if max_turn_number >= 999:
                 for index in range(self.list_widget.count()):
                     item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
 
-                    # Оновити turn_number на основі позиції елемента в списку
+                    # Update turn_number based on item position in the list
                     cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?",
                                    (index + 1, item_name))
             else:
-                # Оновити значення turn_number для кожного елемента
+                # Update the turn_number value for each item
                 for index in range(self.list_widget.count()):
                     item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
 
-                    # Оновити turn_number, збільшивши максимальне значення на 1
+                    # Update turn_number by increasing the maximum value by 1
                     cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?",
                                    (max_turn_number + index + 1, item_name))
 
-            # Зберегти зміни
             connection.commit()
 
     def selection_changed(self):
-        # Викликається, коли вибір елемента змінюється
+        # Called when the item selection is changed
         current_item = self.list_widget.currentItem()
         if current_item and self.last_selected_item and current_item != self.last_selected_item:
-            self.save_changes()  # Збереження змін, якщо вибраний елемент змінився
+            self.save_changes()  # Save changes if the selected item has changed
         self.last_selected_item = current_item
 

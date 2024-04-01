@@ -36,6 +36,8 @@ class Worker:
             show_error_message(str(e))
             logging.error(f"DB nie stworzono. {show_error_message(str(e))}. *Worker.createCase")
             return None
+        finally:
+            self.session.close()
 
     def getStates(self) -> list[CaseState]:
         try:
@@ -45,6 +47,8 @@ class Worker:
             show_error_message(str(e))
             logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getStates")
             return []
+        finally:
+            self.session.close()
 
     def getCases(self, state: CaseState) -> list[Case]:
         try:
@@ -57,6 +61,8 @@ class Worker:
             show_error_message(str(e))
             logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCases")
             return []
+        finally:
+            self.session.close()
 
     def getCategories(self) -> list[Category]:
         try:
@@ -66,6 +72,8 @@ class Worker:
             show_error_message(str(e))
             logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCategories")
             return []
+        finally:
+            self.session.close()
 
     def getCategoryIdByName(self, category_name):
         try:
@@ -81,6 +89,8 @@ class Worker:
             show_error_message(str(e))
             logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCategoryIdByName")
             return None
+        finally:
+            self.session.close()
 
     def __del__(self):
         try:

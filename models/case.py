@@ -13,7 +13,7 @@ class Case(Base):
     name_eng = Column(String, nullable=False)
     description = Column(String, nullable=False)
     description_english = Column(String, nullable=False)
-    price = Column(Numeric(precision=10, scale=2), nullable=False)  # Встановлюємо precision=10 та scale=2
+    price = Column(Numeric(precision=10, scale=2), nullable=False)
     masa = Column(Integer, nullable=False)
     case_state = Column(Integer, ForeignKey('case_state.id'))
     category = Column(Integer, ForeignKey('category.id'), nullable=False)
@@ -34,7 +34,7 @@ class Case(Base):
         session.query(Case).filter(Case.id == self.id).update({Case.case_state: self.case_state})
         session.commit()
         session.close()
-        logging.error("Bląd zmiany statusa dania. *update_state")
+        logging.info("Sukces zmiany statusa dania. *update_state")
 
     @staticmethod
     def delete_case(case_id):
@@ -48,6 +48,7 @@ class Case(Base):
 
         else:
             logging.error(f'Danie z ID {case_id} nie znaleziono. *delete_danie')
+            session.close()
 
     @staticmethod
     def create_case(category, name, name_eng, description, description_eng, masa, cena):
@@ -60,6 +61,7 @@ class Case(Base):
             logging.info("Danie stworzono. *Case.create_case")
         else:
             logging.error("Bląd stworzenia dania. *Case.create_case")
+            session.close()
 
     @staticmethod
     def update_case(case_id, category, name, name_eng, description, description_eng, masa, cena):
@@ -78,10 +80,11 @@ class Case(Base):
             session.commit()
 
             session.refresh(danie_to_update)
+            session.close()
             logging.info("Danie zostało zaktualizowane. *Case.update_case")
         else:
             logging.error(f'Danie z ID {case_id} nie znaleziono *Case.update_case')
-        session.close()
+            session.close()
 
     def __repr__(self):
         return f' [{self.name} ID: {self.id}, state: {self.case_state}]'
