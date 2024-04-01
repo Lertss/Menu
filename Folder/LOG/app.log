@@ -2306,3 +2306,55 @@
 2024-04-01 18:31:11,802 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\SEND.html. *create_pdf
 2024-04-01 18:32:07,213 - INFO - Sukces. *Worker.__del__
 2024-04-01 18:32:07,259 - INFO - Sukces. *Worker.__del__
+2024-04-01 18:35:19,835 - INFO - Start
+2024-04-01 18:35:19,835 - WARNING - Folder 'Folder' już istnieje.
+2024-04-01 18:35:19,836 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-01 18:35:19,836 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-01 18:35:19,836 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-01 18:35:19,836 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-01 18:35:19,930 - INFO - Sukces. *Worker.getStates
+2024-04-01 18:35:19,939 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:35:19,943 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:35:26,251 - INFO - Sukces. *Worker.getCategories
+2024-04-01 18:35:28,094 - INFO - Sukces. *Worker.getCategories
+2024-04-01 18:35:28,097 - INFO - Sukces. *Worker.getCategories
+2024-04-01 18:35:28,099 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\DRUK.html. *create_pdf
+2024-04-01 18:35:28,100 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\SEND.html. *create_pdf
+2024-04-01 18:35:34,978 - INFO - Sukces. *Worker.__del__
+2024-04-01 18:35:38,509 - INFO - Sukces. *Worker.__del__
+2024-04-01 18:37:10,225 - INFO - Start
+2024-04-01 18:37:10,225 - WARNING - Folder 'Folder' już istnieje.
+2024-04-01 18:37:10,225 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-01 18:37:10,225 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-01 18:37:10,225 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-01 18:37:10,226 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-01 18:37:10,315 - INFO - Sukces. *Worker.getStates
+2024-04-01 18:37:10,325 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:37:10,328 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:37:11,862 - INFO - Sukces. *Worker.__del__
+2024-04-01 18:37:15,461 - INFO - Start
+2024-04-01 18:37:15,461 - WARNING - Folder 'Folder' już istnieje.
+2024-04-01 18:37:15,462 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-01 18:37:15,462 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-01 18:37:15,462 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-01 18:37:15,462 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-01 18:37:15,551 - INFO - Sukces. *Worker.getStates
+2024-04-01 18:37:15,559 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:37:15,563 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:37:17,070 - INFO - Sukces. *Worker.__del__
+2024-04-01 18:46:30,021 - INFO - Start
+2024-04-01 18:46:30,021 - WARNING - Folder 'Folder' już istnieje.
+2024-04-01 18:46:30,021 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-01 18:46:30,022 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-01 18:46:30,022 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-01 18:46:30,022 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-01 18:46:30,245 - INFO - Sukces. *Worker.getStates
+2024-04-01 18:46:30,273 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:46:30,278 - INFO - Sukces. *Worker.getCases
+2024-04-01 18:46:33,669 - INFO - Sukces zmiany statusa dania. *update_state
+2024-04-01 18:46:39,244 - INFO - Sukces. *Worker.getCategories
+2024-04-01 18:46:39,255 - INFO - Sukces. *Worker.getCategories
+2024-04-01 18:46:39,259 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\DRUK.html. *create_pdf
+2024-04-01 18:46:39,259 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\SEND.html. *create_pdf
+2024-04-01 18:49:27,095 - INFO - Sukces. *Worker.__del__
+2024-04-01 18:49:27,132 - INFO - Sukces. *Worker.__del__
