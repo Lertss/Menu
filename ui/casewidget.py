@@ -43,17 +43,17 @@ class CaseWidget(QWidget):
         categories = self.case_list_widget.worker.session.query(Category)
 
         options = []
+        category_index = None
         # Виведення всіх категорій
-        for category in categories:
-            options.append(category.category_name)
+        for index, cat in enumerate(categories):
+            options.append(cat.category_name)
+            if cat.id == category.id:
+                category_index = index
 
         self.ui_window.cb_category.addItems(options)
 
-        # Встановлення вибраної категорії
-        if category:
-            index = self.ui_window.cb_category.findText(category.category_name)
-            if index != -1:
-                self.ui_window.cb_category.setCurrentIndex(index)
+        if category_index is not None:
+            self.ui_window.cb_category.setCurrentIndex(category_index)
 
         self.ui_window.le_name.setText(self.data.name)
         self.ui_window.le_name_eng.setText(self.data.name_eng)
@@ -75,7 +75,8 @@ class CaseWidget(QWidget):
 
     def update_window(self):
         id = self.data.id
-        category = self.ui_window.cb_category.currentIndex() + 1
+        category_id = self.case_list_widget.worker.session.query(Category).filter_by(
+            category_name=self.ui_window.cb_category.currentText()).first().id
         name = self.ui_window.le_name.text()
         name_eng = self.ui_window.le_name_eng.text()
         description = self.ui_window.le_description.text()
@@ -83,7 +84,7 @@ class CaseWidget(QWidget):
         masa = self.ui_window.le_masa.text()
         cena = self.ui_window.le_cena.text()
         price_float = float(cena.replace(',', '.'))
-        Case.update_case(id, category, name, name_eng, description, description_eng, masa, price_float)
+        Case.update_case(id, category_id, name, name_eng, description, description_eng, masa, price_float)
 
         # Оновлюємо дані у віджеті
         self.reload_data()

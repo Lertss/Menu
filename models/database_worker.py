@@ -27,7 +27,16 @@ class Worker:
         return [it for it in self.session.query(CaseState)]
 
     def getCases(self, state: CaseState) -> list[Case]:
-        return [it for it in self.session.query(Case).filter(Case.case_state == state.id).order_by(Case.name.asc())]
+        # Get the cases from the database
+        cases = self.session.query(Case).filter(Case.case_state == state.id)
+
+        # Join with the Category table
+        cases = cases.join(Category, Case.category == Category.id)
+
+        # Sort the cases by category and then by name
+        cases = cases.order_by(Category.turn_number, Case.name)
+
+        return [case for case in cases]
 
     def getCategories(self) -> list[Category]:
         return [category for category in self.session.query(Category)]
