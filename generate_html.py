@@ -198,14 +198,16 @@ def generate_html_with_list_send(worker, state_id):
                 background-image: url('../image_background/tlo.jpeg');
                 background-repeat: no-repeat;
                 background-attachment: fixed;
-                background-size: 1500px 100vh;
+                background-size: 1500px 120vh;
                 min-height: 100vh;
                 background-position: top left;
                 overflow: hidden;
+                margin-bottom: 150px;
             }
             h1{
                 text-align: center;
                 margin: 15px;
+                margin-top: 125px;
             }
 
             h3{
@@ -281,7 +283,7 @@ def generate_html_with_list_send(worker, state_id):
 
 
 html_directory = os.path.join(current_directory, "Folder", "HTML")
-image_directory = os.path.join(current_directory, "Folder", "Zdjęcia")
+image_directory = os.path.join(current_directory, "Zdjęcia")
 
 
 def generation_pdf():
@@ -310,48 +312,23 @@ def generation_pdf():
         logging.info("Failed to generate html send. *create_pdf")
 
 
-
-
-
-
-
 def create_image():
     with sync_playwright() as p:
         browser = p.chromium.launch(executable_path="C:/Program Files/Google/Chrome/Application/chrome.exe")
         page_send = browser.new_page()
         page_druk = browser.new_page()
 
-        logging.info(browser)
-        logging.info(page_send)
-        logging.info(page_druk)
-
         page_send.goto(rf'{html_directory}/SEND.html')
         page_druk.goto(rf'{html_directory}/DRUK.html')
-
         # Get the full height of the page
         full_height_send = page_send.evaluate("() => document.body.scrollHeight")
         full_height_druk = page_druk.evaluate("() => document.body.scrollHeight")
-
         # Set the viewport to the full height of the page
         page_send.set_viewport_size({"width": 1500, "height": full_height_send})
         page_druk.set_viewport_size({"width": 1050, "height": full_height_druk})
 
-        page_send.screenshot(path=rf'{image_directory}/SEND_full.png', full_page=True)
-        page_druk.screenshot(path=rf'{image_directory}/DRUK_full.png', full_page=True)
-
-        # Open the full screenshots
-        send_full_image = Image.open(rf'{image_directory}/SEND_full.png')
-        druk_full_image = Image.open(rf'{image_directory}/DRUK_full.png')
-
-        # Crop 15px from the bottom
-        send_cropped_image = send_full_image.crop((0, 0, send_full_image.width, send_full_image.height - 15))
-        druk_cropped_image = druk_full_image.crop((0, 0, druk_full_image.width, druk_full_image.height - 15))
-
-        # Save the cropped images
-        send_cropped_image.save(rf'{image_directory}/SEND.png')
-        druk_cropped_image.save(rf'{image_directory}/DRUK.png')
-
-        # Close the browser
+        page_send.screenshot(path=rf'{image_directory}/SEND.png', full_page=True)
+        page_druk.screenshot(path=rf'{image_directory}/DRUK.png', full_page=True)
         browser.close()
     try:
         subprocess.run(

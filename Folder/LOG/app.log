@@ -1721,3 +1721,111 @@ FileNotFoundError: [WinError 2] The system cannot find the file specified
 2024-04-05 16:13:18,897 - INFO - <Page url='about:blank'>
 2024-04-05 16:13:25,398 - INFO - Sukces. *Worker.__del__
 2024-04-05 16:13:25,436 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:16:11,462 - INFO - Start
+2024-04-05 16:16:11,462 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:16:11,462 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-05 16:16:11,462 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:16:11,462 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:16:11,463 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-05 16:16:11,566 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:16:11,577 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:16:11,580 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:16:17,758 - INFO - Sukces zmiany statusa dania. *update_state
+2024-04-05 16:16:18,970 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:16:18,976 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:16:18,979 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\DRUK.html. *create_pdf
+2024-04-05 16:16:18,980 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\SEND.html. *create_pdf
+2024-04-05 16:16:21,092 - INFO - <Browser type=<BrowserType name=chromium executable_path=C:\Users\sergz\AppData\Local\ms-playwright\chromium-1105\chrome-win\chrome.exe> version=123.0.6312.106>
+2024-04-05 16:16:21,092 - INFO - <Page url='about:blank'>
+2024-04-05 16:16:21,092 - INFO - <Page url='about:blank'>
+2024-04-05 16:16:26,828 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:16:26,869 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:23:06,141 - INFO - Start
+2024-04-05 16:23:06,141 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:23:06,142 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-05 16:23:06,142 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:23:06,142 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:23:06,142 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-05 16:23:06,143 - INFO - Folder 'C:\Users\sergz\Desktop\Menu\Folder\Zdjęcia\Full_zdjęcia' został utworzony w folderze C:\Users\sergz\Desktop\Menu\Folder\Zdjęcia.
+2024-04-05 16:23:06,235 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:23:06,247 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:23:06,251 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:23:08,931 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:27:04,226 - INFO - Start
+2024-04-05 16:27:04,226 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:27:04,226 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-05 16:27:04,226 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:27:04,226 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:27:04,226 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-05 16:27:04,227 - WARNING - Folder 'C:\Users\sergz\Desktop\Menu\Folder\Zdjęcia\Full_zdjęcia' już istnieje w folderze C:\Users\sergz\Desktop\Menu\Folder\Zdjęcia.
+2024-04-05 16:27:04,318 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:27:04,328 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:27:04,332 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:27:05,670 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:27:14,502 - INFO - Start
+2024-04-05 16:27:14,503 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:27:14,503 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-05 16:27:14,503 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:27:14,503 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:27:14,503 - INFO - Folder 'Zdjęcia' został utworzony w folderze Folder.
+2024-04-05 16:27:14,504 - INFO - Folder 'C:\Users\sergz\Desktop\Menu\Folder\Zdjęcia\Full_zdjęcia' został utworzony w folderze C:\Users\sergz\Desktop\Menu\Folder\Zdjęcia.
+2024-04-05 16:27:14,595 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:27:14,606 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:27:14,609 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:27:18,340 - INFO - Sukces zmiany statusa dania. *update_state
+2024-04-05 16:27:22,221 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:27:22,226 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:27:22,229 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\DRUK.html. *create_pdf
+2024-04-05 16:27:22,230 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\SEND.html. *create_pdf
+2024-04-05 16:27:24,477 - INFO - <Browser type=<BrowserType name=chromium executable_path=C:\Users\sergz\AppData\Local\ms-playwright\chromium-1105\chrome-win\chrome.exe> version=123.0.6312.106>
+2024-04-05 16:27:24,477 - INFO - <Page url='about:blank'>
+2024-04-05 16:27:24,477 - INFO - <Page url='about:blank'>
+2024-04-05 16:28:18,636 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:28:18,675 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:30:10,665 - INFO - Start
+2024-04-05 16:30:10,665 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:30:10,666 - INFO - Folder 'HTML' został utworzony w folderze Folder.
+2024-04-05 16:30:10,666 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:30:10,666 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:30:10,666 - INFO - Folder 'Zdjęcia' został utworzony w folderze Folder.
+2024-04-05 16:30:10,783 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:30:10,795 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:30:10,798 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:30:14,574 - INFO - Sukces zmiany statusa dania. *update_state
+2024-04-05 16:30:15,437 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:30:15,444 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:30:15,449 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\DRUK.html. *create_pdf
+2024-04-05 16:30:15,449 - INFO - html generated and saved at C:\Users\sergz\Desktop\Menu\Folder\HTML\SEND.html. *create_pdf
+2024-04-05 16:30:17,360 - INFO - <Browser type=<BrowserType name=chromium executable_path=C:\Users\sergz\AppData\Local\ms-playwright\chromium-1105\chrome-win\chrome.exe> version=123.0.6312.106>
+2024-04-05 16:30:17,360 - INFO - <Page url='about:blank'>
+2024-04-05 16:30:17,360 - INFO - <Page url='about:blank'>
+2024-04-05 16:30:23,709 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:30:23,745 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:34:41,467 - INFO - Start
+2024-04-05 16:34:41,467 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:34:41,467 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-05 16:34:41,467 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:34:41,467 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:34:41,467 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-05 16:34:41,562 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:34:41,573 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:34:41,577 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:34:42,913 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:35:07,196 - INFO - Sukces. *Worker.getCategoryIdByName
+2024-04-05 16:35:07,202 - INFO - Danie stworzono. *Case.create_case
+2024-04-05 16:35:07,205 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:35:07,207 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:35:08,692 - INFO - Danie z ID 15 zostało usunięte. *Case.delete_danie
+2024-04-05 16:35:08,693 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:35:11,093 - INFO - Sukces. *Worker.__del__
+2024-04-05 16:37:43,455 - INFO - Start
+2024-04-05 16:37:43,455 - WARNING - Folder 'Folder' już istnieje.
+2024-04-05 16:37:43,455 - WARNING - Folder 'HTML' już istnieje w folderze Folder.
+2024-04-05 16:37:43,455 - WARNING - Folder 'LOG' już istnieje w folderze Folder.
+2024-04-05 16:37:43,456 - WARNING - Folder 'image_background' już istnieje w folderze Folder.
+2024-04-05 16:37:43,456 - WARNING - Folder 'Zdjęcia' już istnieje w folderze Folder.
+2024-04-05 16:37:43,548 - INFO - Sukces. *Worker.getStates
+2024-04-05 16:37:43,559 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:37:43,563 - INFO - Sukces. *Worker.getCases
+2024-04-05 16:37:45,661 - INFO - Sukces. *Worker.getCategories
+2024-04-05 16:38:00,200 - INFO - Sukces. *Worker.__del__

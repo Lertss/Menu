@@ -1,7 +1,7 @@
 import PySide6
 from PySide6 import QtWidgets
 from PySide6.QtGui import QAction, QIntValidator, QDoubleValidator
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QMainWindow, QMessageBox
 from sqlalchemy import func
 
 from generate_html import generation_pdf
@@ -94,22 +94,45 @@ class MainWindow(QMainWindow):
         self.new_window_case.show()
         self.ui_window_case.button_save_danie.clicked.connect(self.add_new_case)
 
+
+
     def add_new_case(self):
         category_name = self.ui_window_case.cb_category.currentText()
-        category_id = self.worker.getCategoryIdByName(category_name)
         name = self.ui_window_case.le_name.text()
         name_eng = self.ui_window_case.le_name_eng.text()
         description = self.ui_window_case.le_description.text()
         description_eng = self.ui_window_case.le_description_eng.text()
         masa = self.ui_window_case.le_masa.text()
         cena = self.ui_window_case.le_cena.text()
-        price_float = float(cena.replace(',', '.'))
-        Case.create_case(category_id, name, name_eng, description, description_eng, price_float, masa)
 
-        for widget in self.findChildren(CaseListWidget):
-            widget.reloads()
+        if not all([category_name, name, name_eng, description, description_eng, masa, cena]):
+            msgBox = QMessageBox()
+            msgBox.setWindowTitle("BLĄD")
+            msgBox.setText("Wypełnij wszystkie pola.")
+            msgBox.setStyleSheet("QMessageBox { background-color: #ffffff; }"
+                                 "QMessageBox QLabel { color: #000000; }"
+                                 "QMessageBox QPushButton { background-color: #8e0000; color: #ffffff; }")
+            msgBox.exec_()
+            return
 
-        self.new_window_case.close()
+        try:
+            category_id = self.worker.getCategoryIdByName(category_name)
+            price_float = float(cena.replace(',', '.'))
+            Case.create_case(category_id, name, name_eng, description, description_eng, price_float, masa)
+
+            for widget in self.findChildren(CaseListWidget):
+                widget.reloads()
+
+            self.new_window_case.close()
+
+        except Exception as e:
+            msgBox = QMessageBox()
+            msgBox.setWindowTitle("BLĄD")
+            msgBox.setText(f"BLĄD podczas dodawania nowego przypadku: {str(e)}")
+            msgBox.setStyleSheet("QMessageBox { background-color: #ffffff; }"
+                                 "QMessageBox QLabel { color: #000000; }"
+                                 "QMessageBox QPushButton { background-color: #8e0000; color: #ffffff; }")
+            msgBox.exec_()
 
 
 def new_turn_number():
