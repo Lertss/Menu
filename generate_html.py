@@ -1,14 +1,12 @@
 import logging
-
 from models.case import Case
 from models.case_state import CaseState, Category
 from models.database import Session
 from models.database_worker import Worker
-
 from PySide6.QtWidgets import QMessageBox
 from playwright.sync_api import sync_playwright
 import subprocess
-
+from PIL import Image
 import os
 
 current_directory = os.getcwd()
@@ -124,7 +122,7 @@ def generate_html_with_list_druk(worker, state_id):
                                     <div style="text-align: left;" class="name">-{item.name}</div>
                                     <div></div>
                                     <div style="text-align: right;">
-                                        <span class="text-eng masa blue">{item.masa} {typ_pomiaru}</span>
+                                        <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
                                         <span class="price blue">{item.price} zł</span>
                                     </div>
                                 </div>
@@ -253,7 +251,7 @@ def generate_html_with_list_send(worker, state_id):
                                     <div style="text-align: left;" class="name">-{item.name}</div>
                                     <div></div>
                                     <div style="text-align: right;">
-                                        <span class="text-eng masa blue">{item.masa} {typ_pomiaru}</span>
+                                        <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
                                         <span class="price blue">{item.price} zł</span>
                                     </div>
                                 </div>
@@ -312,25 +310,49 @@ def generation_pdf():
         logging.info("Failed to generate html send. *create_pdf")
 
 
+
+
+
+
+
 def create_image():
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        browser = p.chromium.launch(executable_path="C:/Program Files/Google/Chrome/Application/chrome.exe")
         page_send = browser.new_page()
         page_druk = browser.new_page()
 
+        logging.info(browser)
+        logging.info(page_send)
+        logging.info(page_druk)
+
         page_send.goto(rf'{html_directory}/SEND.html')
         page_druk.goto(rf'{html_directory}/DRUK.html')
+
         # Get the full height of the page
         full_height_send = page_send.evaluate("() => document.body.scrollHeight")
         full_height_druk = page_druk.evaluate("() => document.body.scrollHeight")
+
         # Set the viewport to the full height of the page
         page_send.set_viewport_size({"width": 1500, "height": full_height_send})
         page_druk.set_viewport_size({"width": 1050, "height": full_height_druk})
 
-        page_send.screenshot(path=rf'{image_directory}/SEND.png', full_page=True)
-        page_druk.screenshot(path=rf'{image_directory}/DRUK.png', full_page=True)
-        browser.close()
+        page_send.screenshot(path=rf'{image_directory}/SEND_full.png', full_page=True)
+        page_druk.screenshot(path=rf'{image_directory}/DRUK_full.png', full_page=True)
 
+        # Open the full screenshots
+        send_full_image = Image.open(rf'{image_directory}/SEND_full.png')
+        druk_full_image = Image.open(rf'{image_directory}/DRUK_full.png')
+
+        # Crop 15px from the bottom
+        send_cropped_image = send_full_image.crop((0, 0, send_full_image.width, send_full_image.height - 15))
+        druk_cropped_image = druk_full_image.crop((0, 0, druk_full_image.width, druk_full_image.height - 15))
+
+        # Save the cropped images
+        send_cropped_image.save(rf'{image_directory}/SEND.png')
+        druk_cropped_image.save(rf'{image_directory}/DRUK.png')
+
+        # Close the browser
+        browser.close()
     try:
         subprocess.run(
             [r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe', rf'{html_directory}/DRUK.html'])

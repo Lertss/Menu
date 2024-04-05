@@ -4,7 +4,7 @@ from PySide6.QtGui import QAction, QIntValidator, QDoubleValidator
 from PySide6.QtWidgets import QMainWindow
 from sqlalchemy import func
 
-from service.generate_html import generation_pdf
+from generate_html import generation_pdf
 from models.case import Case
 from models.database import Session
 from models.database_worker import Worker
