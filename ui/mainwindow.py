@@ -5,14 +5,17 @@ from PySide6.QtWidgets import QMainWindow, QMessageBox
 from sqlalchemy import func
 
 from generate_html import generation_pdf
+from intro.ui_dodawanie_dodatkow import Ui_new_Dodatek
+
 from models.case import Case
 from models.database import Session
 from models.database_worker import Worker
 from ui.categorywidget import Category_list
+from ui.dodatkiwidget import DodatkiList
 from ui.qt_base_ui.ui_add_category import Ui_Dialog
 from intro.ui_mainwindow import Ui_MainWindow
 from ui.caselistwidget import CaseListWidget
-from models.case_state import Category
+from models.case_state import Category, Dodatki
 from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
 
 
@@ -39,13 +42,27 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(func1Action)
         fileMenu.addAction(func2Action)
 
+        fileMenu = menubar.addMenu('Dodatki')
+
+        func5Action = QAction('Dodać dodatek', self)
+        func5Action.triggered.connect(self.open_new_dodatki_window)
+
+        func6Action = QAction('Lista dodatków', self)
+        func6Action.triggered.connect(self.open_dodatki_list_window)
+
+        fileMenu.addAction(func5Action)
+        fileMenu.addAction(func6Action)
+
         func3Action = QAction('Dodać danie', self)
         func3Action.triggered.connect(self.open_new_case_window)
         menubar.addAction(func3Action)
 
-        func4Action = QAction('Wydrukuj', self)
+        func4Action = QAction('Stworyć zdjęcie', self)
         func4Action.triggered.connect(generation_pdf)
         menubar.addAction(func4Action)
+
+
+
 
         self.setWindowTitle('QMenuBar')
         self.show()
@@ -53,6 +70,11 @@ class MainWindow(QMainWindow):
 
     def open_category_list_window(self):
         category_list_dialog = Category_list()
+        category_list_dialog.resize(400, 400)
+        category_list_dialog.exec_()
+
+    def open_dodatki_list_window(self):
+        category_list_dialog = DodatkiList()
         category_list_dialog.resize(400, 400)
         category_list_dialog.exec_()
 
@@ -68,9 +90,10 @@ class MainWindow(QMainWindow):
 
     def add_new_category(self):
         category_name = self.ui_window_category.le_category.text()
+        category_eng_name = self.ui_window_category.le_category_eng.text()
         measurement = self.ui_window_category.le_measurement.text()
         session = Session()
-        new_category = Category(category_name=category_name, pomiar=measurement, turn_number=new_turn_number())
+        new_category = Category(category_name=category_name,category_eng_name=category_eng_name, pomiar=measurement, turn_number=new_turn_number())
         session.add(new_category)
         session.commit()
         session.close()
@@ -94,45 +117,38 @@ class MainWindow(QMainWindow):
         self.new_window_case.show()
         self.ui_window_case.button_save_danie.clicked.connect(self.add_new_case)
 
-
-
     def add_new_case(self):
         category_name = self.ui_window_case.cb_category.currentText()
+        category_id = self.worker.getCategoryIdByName(category_name)
         name = self.ui_window_case.le_name.text()
-        name_eng = self.ui_window_case.le_name_eng.text()
         description = self.ui_window_case.le_description.text()
         description_eng = self.ui_window_case.le_description_eng.text()
         masa = self.ui_window_case.le_masa.text()
         cena = self.ui_window_case.le_cena.text()
+        price_float = float(cena.replace(',', '.'))
+        Case.create_case(category_id, name, description, description_eng, price_float, masa)
 
-        if not all([category_name, name, name_eng, description, description_eng, masa, cena]):
-            msgBox = QMessageBox()
-            msgBox.setWindowTitle("BLĄD")
-            msgBox.setText("Wypełnij wszystkie pola.")
-            msgBox.setStyleSheet("QMessageBox { background-color: #ffffff; }"
-                                 "QMessageBox QLabel { color: #000000; }"
-                                 "QMessageBox QPushButton { background-color: #8e0000; color: #ffffff; }")
-            msgBox.exec_()
-            return
+        for widget in self.findChildren(CaseListWidget):
+            widget.reloads()
 
-        try:
-            category_id = self.worker.getCategoryIdByName(category_name)
-            price_float = float(cena.replace(',', '.'))
-            Case.create_case(category_id, name, name_eng, description, description_eng, price_float, masa)
+        self.new_window_case.close()
 
-            for widget in self.findChildren(CaseListWidget):
-                widget.reloads()
+    def open_new_dodatki_window(self):
+        self.new_window_dodatki = QtWidgets.QDialog()
+        self.ui_window_dodatki = Ui_new_Dodatek()
+        self.ui_window_dodatki.setupUi(self.new_window_dodatki)
+        self.new_window_dodatki.show()
+        self.ui_window_dodatki.button_save_dodatek.clicked.connect(self.add_new_dodatek)
 
-            self.new_window_case.close()
-
-        except Exception as e:
-            msgBox = QMessageBox()
-            msgBox.setWindowTitle("BLĄD")
-            msgBox.setText(f"BLĄD podczas dodawania nowego przypadku: {str(e)}")
-            msgBox.setStyleSheet("QMessageBox { background-color: #ffffff; }"
-                                 "QMessageBox QLabel { color: #000000; }"
-                                 "QMessageBox QPushButton { background-color: #8e0000; color: #ffffff; }")
-            msgBox.exec_()
+    def add_new_dodatek(self):
+        dodatki_name = self.ui_window_dodatki.dodatki.toPlainText()
+        dodatki_eng_name = self.ui_window_dodatki.textEdit_eng.toPlainText()
+        session = Session()
+        new_dodatek = Dodatki(text=dodatki_name, text_eng=dodatki_eng_name)
+        session.add(new_dodatek)
+        session.commit()
+        session.close()
+        self.new_window_dodatki.close()
 
 
 def new_turn_number():

@@ -1,7 +1,7 @@
 import logging
 
 from models.case import Case
-from models.case_state import CaseState, Category
+from models.case_state import CaseState, Category, Dodatki
 from models.database import create_db, Session
 
 from PySide6.QtWidgets import QMessageBox
@@ -67,7 +67,7 @@ class Worker:
     def getCategories(self) -> list[Category]:
         try:
             logging.info("Sukces. *Worker.getCategories")
-            return [category for category in self.session.query(Category)]
+            return self.session.query(Category).order_by(Category.turn_number).all()
         except Exception as e:
             show_error_message(str(e))
             logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCategories")
@@ -91,6 +91,13 @@ class Worker:
             return None
         finally:
             self.session.close()
+
+
+
+
+
+    def getDodatki(self):
+        return [dodatki for dodatki in self.session.query(Dodatki)]
 
     def __del__(self):
         try:

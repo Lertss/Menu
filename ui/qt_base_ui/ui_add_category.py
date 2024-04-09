@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ui_add_category.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.2
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(286, 251)
+        Dialog.resize(286, 342)
         Dialog.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,\n"
 "  stop:0 rgba(128, 128, 128, 255), /* \u0421\u0432\u0456\u0442\u043b\u043e-\u0441\u0456\u0440\u0438\u0439 */\n"
 "  stop:0.427447 rgba(105, 105, 105, 235), /* \u0421\u0456\u0440\u0438\u0439 */\n"
@@ -32,7 +32,7 @@ class Ui_Dialog(object):
 "")
         self.frame = QFrame(Dialog)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(10, 10, 263, 221))
+        self.frame.setGeometry(QRect(10, 10, 263, 271))
         self.frame.setStyleSheet(u"background-color: rgba(255, 255, 255, 30);\n"
 "border: 1px solid rgba(255,255,255,40);\n"
 "border-radius: 7px;")
@@ -64,6 +64,14 @@ class Ui_Dialog(object):
 "padding-left: 10px;")
 
         self.verticalLayout.addWidget(self.le_category)
+
+        self.le_category_eng = QLineEdit(self.frame)
+        self.le_category_eng.setObjectName(u"le_category_eng")
+        self.le_category_eng.setStyleSheet(u"font-size: 16pt;\n"
+"color: white;\n"
+"padding-left: 10px;")
+
+        self.verticalLayout.addWidget(self.le_category_eng)
 
         self.le_measurement = QLineEdit(self.frame)
         self.le_measurement.setObjectName(u"le_measurement")
@@ -112,6 +120,8 @@ class Ui_Dialog(object):
         self.le_title.setText(QCoreApplication.translate("Dialog", u"Dodawanie kategorii", None))
         self.le_category.setText("")
         self.le_category.setPlaceholderText(QCoreApplication.translate("Dialog", u"Categoria", None))
+        self.le_category_eng.setText("")
+        self.le_category_eng.setPlaceholderText(QCoreApplication.translate("Dialog", u"Categoria po angelsku", None))
         self.le_measurement.setText("")
         self.le_measurement.setPlaceholderText(QCoreApplication.translate("Dialog", u"Typ pomiaru", None))
         self.button_save_category.setText(QCoreApplication.translate("Dialog", u"Doda\u0107 kategorie", None))

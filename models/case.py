@@ -10,18 +10,16 @@ class Case(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    name_eng = Column(String, nullable=False)
-    description = Column(String, nullable=False)
+    description = Column(String)
     description_english = Column(String, nullable=False)
     price = Column(Numeric(precision=10, scale=2), nullable=False)
-    masa = Column(Integer, nullable=False)
+    masa = Column(Integer)
     case_state = Column(Integer, ForeignKey('case_state.id'))
     category = Column(Integer, ForeignKey('category.id'), nullable=False)
 
-    def __init__(self, name: str = "", name_eng: str = "", description: str = "",
+    def __init__(self, name: str = "", description: str = "",
                  description_english: str = "", price: str = "", masa: str = "", category: str = ""):
         self.name = name
-        self.name_eng = name_eng
         self.description = description
         self.description_english = description_english
         self.price = price
@@ -51,9 +49,9 @@ class Case(Base):
             session.close()
 
     @staticmethod
-    def create_case(category, name, name_eng, description, description_eng, masa, cena):
+    def create_case(category, name, description, description_eng, masa, cena):
         session = Session()
-        new_case = Case(name, name_eng, description, description_eng, masa, cena, category)
+        new_case = Case(name, description, description_eng, masa, cena, category)
         if new_case:
             session.add(new_case)
             session.commit()
@@ -64,14 +62,14 @@ class Case(Base):
             session.close()
 
     @staticmethod
-    def update_case(case_id, category, name, name_eng, description, description_eng, masa, cena):
+    def update_case(case_id, category, name, description, description_eng, masa, cena):
         session = Session()
         danie_to_update = session.query(Case).filter_by(id=case_id).first()
 
         if danie_to_update:
             danie_to_update.category = category
             danie_to_update.name = name
-            danie_to_update.name_eng = name_eng
+
             danie_to_update.description = description
             danie_to_update.description_english = description_eng
             danie_to_update.masa = masa

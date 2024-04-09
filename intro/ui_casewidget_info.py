@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ui_casewidget_info.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.2
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_CaseWidgetInfo(object):
     def setupUi(self, CaseWidgetInfo):
         if not CaseWidgetInfo.objectName():
             CaseWidgetInfo.setObjectName(u"CaseWidgetInfo")
-        CaseWidgetInfo.resize(400, 300)
+        CaseWidgetInfo.resize(400, 201)
         self.gridLayout = QGridLayout(CaseWidgetInfo)
         self.gridLayout.setObjectName(u"gridLayout")
         self.horizontalLayout = QHBoxLayout()
@@ -49,13 +49,6 @@ class Ui_CaseWidgetInfo(object):
 
 
         self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
-
-        self.qlb_danie_eng = QLabel(CaseWidgetInfo)
-        self.qlb_danie_eng.setObjectName(u"qlb_danie_eng")
-        self.qlb_danie_eng.setMaximumSize(QSize(16777215, 40))
-        self.qlb_danie_eng.setStyleSheet(u"background-color: rgb(222, 222, 222);")
-
-        self.gridLayout.addWidget(self.qlb_danie_eng, 1, 0, 1, 1)
 
         self.groupBox = QGroupBox(CaseWidgetInfo)
         self.groupBox.setObjectName(u"groupBox")
@@ -97,7 +90,7 @@ class Ui_CaseWidgetInfo(object):
         self.verticalLayout.addWidget(self.qlb_des_eng)
 
 
-        self.gridLayout.addWidget(self.groupBox, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.groupBox, 1, 0, 1, 1)
 
 
         self.retranslateUi(CaseWidgetInfo)
@@ -109,7 +102,6 @@ class Ui_CaseWidgetInfo(object):
         CaseWidgetInfo.setWindowTitle(QCoreApplication.translate("CaseWidgetInfo", u"Dialog", None))
         self.qlb_danie.setText(QCoreApplication.translate("CaseWidgetInfo", u"Danie", None))
         self.qlb_cena.setText(QCoreApplication.translate("CaseWidgetInfo", u"Cena", None))
-        self.qlb_danie_eng.setText(QCoreApplication.translate("CaseWidgetInfo", u"Danie po angielsku", None))
         self.groupBox.setTitle(QCoreApplication.translate("CaseWidgetInfo", u"Opis", None))
         self.qlb_category.setText(QCoreApplication.translate("CaseWidgetInfo", u"Kategoria", None))
         self.qlb_masa.setText(QCoreApplication.translate("CaseWidgetInfo", u"Ilo\u015b\u0107", None))

@@ -31,13 +31,19 @@ def save_html(html_content, file_path):
 
 def initialize_session():
     session = Session()
-    categories = session.query(Category).all()
+    categories = session.query(Category).order_by(Category.turn_number).all()
     session.close()
     return session, categories
 
 
 def generate_html_with_list_druk(worker, state_id):
     categories = worker.getCategories()
+    dodatki_list = worker.getDodatki()
+    if dodatki_list:
+        dodatki = dodatki_list[0]
+    else:
+        dodatki = None
+
     html_content = """
     <!DOCTYPE html>
     <html>
@@ -63,11 +69,18 @@ def generate_html_with_list_druk(worker, state_id):
                 border-bottom: 3px dotted;
                 height: 1px;
             }
-
             .text-eng{
                 font-size: 45px;
                 font-weight: lighter;
             }
+            .dodatki {
+                font-weight: normal;
+                color: red;
+                margin-left: 40px;
+                margin-right: 40px; 
+            }
+
+
             div{
                 font-weight: bold;
             }
@@ -77,7 +90,7 @@ def generate_html_with_list_druk(worker, state_id):
                 margin: 0; 
                 padding: 0; 
                 margin-right: 25px;
-                
+
             }
             h1{
                 text-align: center;
@@ -110,40 +123,67 @@ def generate_html_with_list_druk(worker, state_id):
         # Check for cases in the category
         if cases:
             html_content += f"""
-                    <li>
-                        <h3>{category.category_name}</h3>
-                        <ul>
+                                <li>
+                                    <h3>{category.category_name}</h3>
+                                    <ul>
 
-            """
+                        """
             for item in cases:
                 html_content += f"""
-                            <li>
-                                <div class="container">
-                                    <div style="text-align: left;" class="name">-{item.name}</div>
-                                    <div></div>
-                                    <div style="text-align: right;">
-                                        <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
-                                        <span class="price blue">{item.price} zł</span>
-                                    </div>
-                                </div>
-                            </li>
+                                        <li>
+                                            <div class="container">
+                                                <div style="text-align: left;" class="name">-{item.name}</div>
+                                                <div></div>
+                                                <div style="text-align: right;">
+                            """
+                if item.masa and typ_pomiaru:  # Перевіряємо, чи item.masa і typ_pomiaru не є пустими
+                    html_content += f"""
+                                                    <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
+                                """
+                html_content += f"""
+                                                    <span class="price blue">{item.price} zł</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                            """
+                if item.description:  # Перевіряємо, чи існує опис
+                    html_content += f"""
+                                        <li>
+                                            <div class="text-eng description">
+                                                ({item.description})<br>
+                                                {item.description_english}
+                                            </div>
+                                        </li>
+                                """
+                else:
+                    html_content += f"""
                             <li>
                                 <div class="text-eng description">
-                                    ({item.description})<br>
                                     {item.description_english}
                                 </div>
                             </li>
-                """
+
+                    """
+
             html_content += """
                         </ul>
                     </li>
             """
 
-    html_content += """
+    html_content += f"""
+
                 </ul>
-            </section>
-        </main>
-    </div>
+            </main>
+            </div>
+            <div class="dodatki">
+                    <p >
+                        {dodatki.text if dodatki else ""}
+                    </p><br>
+                    <p>
+                        {dodatki.text_eng if dodatki else ""}
+                    </p>
+                </div>
+        </section>
     </body>
     </html>
     """
@@ -151,8 +191,17 @@ def generate_html_with_list_druk(worker, state_id):
     return html_content
 
 
+
+
+
 def generate_html_with_list_send(worker, state_id):
     categories = worker.getCategories()
+    dodatki_list = worker.getDodatki()
+    if dodatki_list:
+        dodatki = dodatki_list[0]
+    else:
+        dodatki = None
+
     html_content = """
     <!DOCTYPE html>
     <html>
@@ -241,40 +290,67 @@ def generate_html_with_list_send(worker, state_id):
         # Check for cases in the category
         if cases:
             html_content += f"""
-                    <li>
-                        <h3>{category.category_name}</h3>
-                        <ul>
+                                <li>
+                                    <h3>{category.category_name}</h3>
+                                    <ul>
 
-            """
+                        """
             for item in cases:
                 html_content += f"""
-                            <li>
-                                <div class="container">
-                                    <div style="text-align: left;" class="name">-{item.name}</div>
-                                    <div></div>
-                                    <div style="text-align: right;">
-                                        <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
-                                        <span class="price blue">{item.price} zł</span>
-                                    </div>
-                                </div>
-                            </li>
+                                        <li>
+                                            <div class="container">
+                                                <div style="text-align: left;" class="name">-{item.name}</div>
+                                                <div></div>
+                                                <div style="text-align: right;">
+                            """
+                if item.masa and typ_pomiaru:  # Перевіряємо, чи item.masa і typ_pomiaru не є пустими
+                    html_content += f"""
+                                                    <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
+                                """
+                html_content += f"""
+                                                    <span class="price blue">{item.price} zł</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                            """
+                if item.description:  # Перевіряємо, чи існує опис
+                    html_content += f"""
+                                        <li>
+                                            <div class="text-eng description">
+                                                ({item.description})<br>
+                                                {item.description_english}
+                                            </div>
+                                        </li>
+                                """
+                else:
+                    html_content += f"""
                             <li>
                                 <div class="text-eng description">
-                                    ({item.description})<br>
                                     {item.description_english}
                                 </div>
                             </li>
-                """
+
+                    """
+
             html_content += """
                         </ul>
                     </li>
             """
 
-    html_content += """
+    html_content += f"""
+
                 </ul>
-            </section>
-        </main>
-    </div>
+            </main>
+            </div>
+            <div class="dodatki">
+                    <p >
+                        {dodatki.text if dodatki else ""}
+                    </p><br>
+                    <p>
+                        {dodatki.text_eng if dodatki else ""}
+                    </p>
+                </div>
+        </section>
     </body>
     </html>
     """
@@ -314,7 +390,7 @@ def generation_pdf():
 
 def create_image():
     with sync_playwright() as p:
-        browser = p.chromium.launch(executable_path="C:/Program Files/Google/Chrome/Application/chrome.exe")
+        browser = p.chromium.launch(executable_path="C:\Program Files\Google\Chrome\Application\chrome.exe")
         page_send = browser.new_page()
         page_druk = browser.new_page()
 

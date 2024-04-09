@@ -11,7 +11,9 @@ from ui.mainwindow import MainWindow
 import logging
 import os
 
-
+logging.basicConfig(filename='Folder/LOG/app.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s',
+                    encoding='utf-8')
 if __name__ == '__main__':
     db_is_created = os.path.exists(DATABASE_NAME)
     if not db_is_created:
@@ -19,13 +21,9 @@ if __name__ == '__main__':
 
     create_folders()
     create_log_file()
-    logging.basicConfig(filename='Folder/LOG/app.log', level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s',
-                        encoding='utf-8')
+
     trim_log_file()
     logging.info("Start")
-
-
 
     app = QApplication()
     window = MainWindow(Worker(Session()))

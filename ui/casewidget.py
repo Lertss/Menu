@@ -56,7 +56,6 @@ class CaseWidget(QWidget):
             self.ui_window.cb_category.setCurrentIndex(category_index)
         self.ui_window.le_title.setText("Aktualizacja dania")
         self.ui_window.le_name.setText(self.data.name)
-        self.ui_window.le_name_eng.setText(self.data.name_eng)
         self.ui_window.le_description.setText(self.data.description)
         self.ui_window.le_description_eng.setText(self.data.description_english)
         self.ui_window.le_masa.setText(str(self.data.masa))
@@ -78,13 +77,13 @@ class CaseWidget(QWidget):
         category_id = self.case_list_widget.worker.session.query(Category).filter_by(
             category_name=self.ui_window.cb_category.currentText()).first().id
         name = self.ui_window.le_name.text()
-        name_eng = self.ui_window.le_name_eng.text()
+
         description = self.ui_window.le_description.text()
         description_eng = self.ui_window.le_description_eng.text()
         masa = self.ui_window.le_masa.text()
         cena = self.ui_window.le_cena.text()
         price_float = float(cena.replace(',', '.'))
-        Case.update_case(id, category_id, name, name_eng, description, description_eng, masa, price_float)
+        Case.update_case(id, category_id, name, description, description_eng, masa, price_float)
 
         # Update the data in the widget
         self.reload_data()
@@ -114,7 +113,6 @@ class CaseWidget(QWidget):
 
         # Assuming self.data is available and contains necessary attributes
         self.ui_window.qlb_danie.setText(self.data.name)
-        self.ui_window.qlb_danie_eng.setText(self.data.name_eng)
         self.ui_window.qlb_des.setText(self.data.description)
         self.ui_window.qlb_des_eng.setText(self.data.description_english)
         self.ui_window.qlb_cena.setText(str(self.data.price) + " pl")
