@@ -1,7 +1,8 @@
+from PySide6.QtWidgets import QMessageBox
+
 from models.database import Session, create_db
 from models.dish import Dish
 from models.dish_state import Category, DishState, Dodatki
-from PySide6.QtWidgets import QMessageBox
 
 
 def create_database():
@@ -36,7 +37,9 @@ class Worker:
             show_error_message(str(e))
             msgbox = QMessageBox()
             msgbox.setText("Bląd:")
-            msgbox.setInformativeText(f"DB nie stworzono. {show_error_message(str(e))}.")
+            msgbox.setInformativeText(
+                f"DB nie stworzono. {show_error_message(str(e))}."
+            )
             msgbox.exec()
             return None
         finally:
@@ -81,7 +84,9 @@ class Worker:
             show_error_message(str(e))
             msgbox = QMessageBox()
             msgbox.setText("Bląd:")
-            msgbox.setInformativeText(f"Bląd wyszukiwania. {show_error_message(str(e))}.")
+            msgbox.setInformativeText(
+                f"Bląd wyszukiwania. {show_error_message(str(e))}."
+            )
             msgbox.exec()
             return []
         finally:
@@ -103,7 +108,9 @@ class Worker:
     def getCategoryIdByName(self, category_name):
         try:
             session = Session()
-            category = session.query(Category).filter_by(category_name=category_name).first()
+            category = (
+                session.query(Category).filter_by(category_name=category_name).first()
+            )
             session.close()
             if category:
                 return category.id

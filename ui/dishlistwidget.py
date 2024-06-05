@@ -1,9 +1,10 @@
-from models.database_worker import Worker
-from models.dish import Dish
-from models.dish_state import DishState
 from PySide6.QtCore import QRect, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter
 from PySide6.QtWidgets import QAbstractItemView, QListWidget, QListWidgetItem, QWidget
+
+from models.database_worker import Worker
+from models.dish import Dish
+from models.dish_state import DishState
 from ui.dishwidget import DishWidget
 from ui.qt_base_ui.ui_todolist import Ui_Form
 

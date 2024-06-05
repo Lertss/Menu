@@ -1,13 +1,14 @@
 import locale
 
+from PySide6 import QtWidgets
+from PySide6.QtGui import QDoubleValidator, QIntValidator
+from PySide6.QtWidgets import QWidget
+
 from intro.ui_dishwidget import Ui_DishWidget
 from intro.ui_dishwidget_info import Ui_DishWidgetInfo
 from models.database import Session
 from models.dish import Dish
 from models.dish_state import Category
-from PySide6 import QtWidgets
-from PySide6.QtGui import QDoubleValidator, QIntValidator
-from PySide6.QtWidgets import QWidget
 from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
 
 
@@ -36,7 +37,11 @@ class DishWidget(QWidget):
         self.ui_window.setupUi(self.new_window)
 
         # Getting a category for a Dish record
-        category = self.dish_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
+        category = (
+            self.dish_list_widget.worker.session.query(Category)
+            .filter_by(id=self.data.category)
+            .first()
+        )
 
         categories = self.dish_list_widget.worker.session.query(Category)
 
@@ -59,7 +64,9 @@ class DishWidget(QWidget):
         self.ui_window.le_masa.setText(str(self.data.masa))
 
         # Setting the price value with a decimal point and two zeros after the decimal point
-        locale.setlocale(locale.LC_NUMERIC, "")  # Setting the locale for numeric formatting
+        locale.setlocale(
+            locale.LC_NUMERIC, ""
+        )  # Setting the locale for numeric formatting
         formatted_price = locale._format("%.2f", self.data.price, grouping=True)
         self.ui_window.le_cena.setText(formatted_price)
 
@@ -85,7 +92,9 @@ class DishWidget(QWidget):
         masa = self.ui_window.le_masa.text()
         cena = self.ui_window.le_cena.text()
         price_float = float(cena.replace(",", "."))
-        Dish.update_dish(id, category_id, name, description, description_eng, masa, price_float)
+        Dish.update_dish(
+            id, category_id, name, description, description_eng, masa, price_float
+        )
 
         # Update the data in the widget
         self.reload_data()
@@ -119,7 +128,11 @@ class DishWidget(QWidget):
         self.ui_window.qlb_des_eng.setText(self.data.description_english)
         self.ui_window.qlb_cena.setText(str(self.data.price) + " pl")
 
-        category = self.dish_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
+        category = (
+            self.dish_list_widget.worker.session.query(Category)
+            .filter_by(id=self.data.category)
+            .first()
+        )
         if category:
             self.ui_window.qlb_category.setText(category.category_name)
             self.ui_window.qlb_masa.setText(str(self.data.masa) + " " + category.pomiar)

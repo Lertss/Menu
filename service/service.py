@@ -21,8 +21,12 @@ def create_folders():
     # Path to a subfolder within the main folder
     sub_folder_path_html = os.path.join(base_folder_path, sub_folder_name_html)
     sub_folder_path_log_bd = os.path.join(base_folder_path, sub_folder_name_log_bd)
-    sub_folder_path_image_back = os.path.join(base_folder_path, sub_folder_name_image_back)
-    sub_folder_path_image_zdjecia = os.path.join(base_folder_path, sub_folder_name_zdjecia)
+    sub_folder_path_image_back = os.path.join(
+        base_folder_path, sub_folder_name_image_back
+    )
+    sub_folder_path_image_zdjecia = os.path.join(
+        base_folder_path, sub_folder_name_zdjecia
+    )
     # Check the existence of a subfolder
     if not os.path.exists(sub_folder_path_html):
         # Create a subfolder if it does not exist

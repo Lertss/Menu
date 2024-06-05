@@ -98,7 +98,9 @@ class Ui_new_Dodatek(object):
 
         self.textEdit_eng = QTextEdit(self.frame)
         self.textEdit_eng.setObjectName("textEdit_eng")
-        self.textEdit_eng.viewport().setProperty("cursor", QCursor(Qt.PointingHandCursor))
+        self.textEdit_eng.viewport().setProperty(
+            "cursor", QCursor(Qt.PointingHandCursor)
+        )
 
         self.verticalLayout.addWidget(self.textEdit_eng)
 
@@ -126,7 +128,9 @@ class Ui_new_Dodatek(object):
             "}"
         )
         icon = QIcon()
-        icon.addFile(":/icons/icons/post_add_white_24dp.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(
+            ":/icons/icons/post_add_white_24dp.svg", QSize(), QIcon.Normal, QIcon.Off
+        )
         self.button_save_dodatek.setIcon(icon)
         self.button_save_dodatek.setIconSize(QSize(24, 24))
 
@@ -139,8 +143,12 @@ class Ui_new_Dodatek(object):
     # setupUi
 
     def retranslateUi(self, new_Dodatek):
-        new_Dodatek.setWindowTitle(QCoreApplication.translate("new_Dodatek", "Dialog", None))
-        self.le_title.setText(QCoreApplication.translate("new_Dodatek", "Dodawanie dodatk\u00f3w", None))
+        new_Dodatek.setWindowTitle(
+            QCoreApplication.translate("new_Dodatek", "Dialog", None)
+        )
+        self.le_title.setText(
+            QCoreApplication.translate("new_Dodatek", "Dodawanie dodatk\u00f3w", None)
+        )
         self.le_title_4.setText(
             QCoreApplication.translate(
                 "new_Dodatek",
@@ -157,7 +165,9 @@ class Ui_new_Dodatek(object):
             )
         )
         self.button_save_dodatek.setText(
-            QCoreApplication.translate("new_Dodatek", "Doda\u0107 opisanie dodatk\u00f3w", None)
+            QCoreApplication.translate(
+                "new_Dodatek", "Doda\u0107 opisanie dodatk\u00f3w", None
+            )
         )
 
     # retranslateUi

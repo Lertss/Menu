@@ -1,6 +1,7 @@
-from models.database import Base, Session
 from PySide6.QtWidgets import QMessageBox
 from sqlalchemy import Column, ForeignKey, Integer, Numeric, String
+
+from models.database import Base, Session
 
 
 class Dish(Base):
@@ -34,7 +35,9 @@ class Dish(Base):
 
     def update_state(self):
         session = Session()
-        session.query(Dish).filter(Dish.id == self.id).update({Dish.dish_state: self.dish_state})
+        session.query(Dish).filter(Dish.id == self.id).update(
+            {Dish.dish_state: self.dish_state}
+        )
         session.commit()
         session.close()
 
@@ -92,7 +95,9 @@ class Dish(Base):
         else:
             msgbox = QMessageBox()
             msgbox.setText("Bląd:")
-            msgbox.setInformativeText(f"Danie z ID {dish_id} nie znaleziono *Dish.update_dish")
+            msgbox.setInformativeText(
+                f"Danie z ID {dish_id} nie znaleziono *Dish.update_dish"
+            )
             msgbox.exec()
             session.close()
 

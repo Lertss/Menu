@@ -10,7 +10,15 @@
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, QSize, Qt
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QComboBox, QFrame, QHBoxLayout, QLabel, QLineEdit, QPushButton, QVBoxLayout
+from PySide6.QtWidgets import (
+    QComboBox,
+    QFrame,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QVBoxLayout,
+)
 
 
 class Ui_New_transaction(object):
@@ -72,31 +80,41 @@ class Ui_New_transaction(object):
 
         self.le_name = QLineEdit(self.frame)
         self.le_name.setObjectName("le_name")
-        self.le_name.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_name.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_name)
 
         self.le_description = QLineEdit(self.frame)
         self.le_description.setObjectName("le_description")
-        self.le_description.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_description.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_description)
 
         self.le_description_eng = QLineEdit(self.frame)
         self.le_description_eng.setObjectName("le_description_eng")
-        self.le_description_eng.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_description_eng.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_description_eng)
 
         self.le_masa = QLineEdit(self.frame)
         self.le_masa.setObjectName("le_masa")
-        self.le_masa.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_masa.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_masa)
 
         self.le_cena = QLineEdit(self.frame)
         self.le_cena.setObjectName("le_cena")
-        self.le_cena.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_cena.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_cena)
 
@@ -119,7 +137,9 @@ class Ui_New_transaction(object):
             "}"
         )
         icon = QIcon()
-        icon.addFile(":/icons/icons/post_add_white_24dp.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(
+            ":/icons/icons/post_add_white_24dp.svg", QSize(), QIcon.Normal, QIcon.Off
+        )
         self.button_save_danie.setIcon(icon)
         self.button_save_danie.setIconSize(QSize(24, 24))
 
@@ -136,19 +156,37 @@ class Ui_New_transaction(object):
     # setupUi
 
     def retranslateUi(self, New_transaction):
-        New_transaction.setWindowTitle(QCoreApplication.translate("New_transaction", "New Transaction", None))
-        self.le_title.setText(QCoreApplication.translate("New_transaction", "Nowe danie", None))
-        self.cb_category.setPlaceholderText(QCoreApplication.translate("New_transaction", "Kategoria", None))
+        New_transaction.setWindowTitle(
+            QCoreApplication.translate("New_transaction", "New Transaction", None)
+        )
+        self.le_title.setText(
+            QCoreApplication.translate("New_transaction", "Nowe danie", None)
+        )
+        self.cb_category.setPlaceholderText(
+            QCoreApplication.translate("New_transaction", "Kategoria", None)
+        )
         self.le_name.setText("")
-        self.le_name.setPlaceholderText(QCoreApplication.translate("New_transaction", "Nazwa dania", None))
+        self.le_name.setPlaceholderText(
+            QCoreApplication.translate("New_transaction", "Nazwa dania", None)
+        )
         self.le_description.setText("")
-        self.le_description.setPlaceholderText(QCoreApplication.translate("New_transaction", "Sklad(opis)", None))
+        self.le_description.setPlaceholderText(
+            QCoreApplication.translate("New_transaction", "Sklad(opis)", None)
+        )
         self.le_description_eng.setText("")
         self.le_description_eng.setPlaceholderText(
-            QCoreApplication.translate("New_transaction", "Sklad(opis) po angielsku", None)
+            QCoreApplication.translate(
+                "New_transaction", "Sklad(opis) po angielsku", None
+            )
         )
-        self.le_masa.setPlaceholderText(QCoreApplication.translate("New_transaction", "Masa", None))
-        self.le_cena.setPlaceholderText(QCoreApplication.translate("New_transaction", "Cena", None))
-        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", "Zapisz", None))
+        self.le_masa.setPlaceholderText(
+            QCoreApplication.translate("New_transaction", "Masa", None)
+        )
+        self.le_cena.setPlaceholderText(
+            QCoreApplication.translate("New_transaction", "Cena", None)
+        )
+        self.button_save_danie.setText(
+            QCoreApplication.translate("New_transaction", "Zapisz", None)
+        )
 
     # retranslateUi
