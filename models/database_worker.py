@@ -1,7 +1,7 @@
-import logging
+
 
 from models.case import Case
-from models.case_state import CaseState, Category
+from models.case_state import CaseState, Category, Dodatki
 from models.database import create_db, Session
 
 from PySide6.QtWidgets import QMessageBox
@@ -14,10 +14,13 @@ def create_database():
         session.add(CaseState(case_state_name="Menu cale"))
         session.commit()
         session.close()
-        logging.info("DB stworzono. *create_database")
     except Exception as e:
         show_error_message(str(e))
-        logging.error(f"DB nie stworzono.{show_error_message(str(e))}. *create_database")
+        msgbox = QMessageBox()
+        msgbox.setText("Bląd:")
+        msgbox.setInformativeText(f"DB nie stworzono.{show_error_message(str(e))}.")
+        msgbox.exec()
+
 
 class Worker:
     def __init__(self, session: Session):
@@ -29,23 +32,28 @@ class Worker:
             self.session.add(case)
             self.session.commit()
             self.session.close()
-            logging.info("DB stworzono. *Worker.createCase")
             return case
 
         except Exception as e:
             show_error_message(str(e))
-            logging.error(f"DB nie stworzono. {show_error_message(str(e))}. *Worker.createCase")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"DB nie stworzono. {show_error_message(str(e))}.")
+            msgbox.exec()
             return None
         finally:
             self.session.close()
 
     def getStates(self) -> list[CaseState]:
         try:
-            logging.info("Sukces. *Worker.getStates")
             return [it for it in self.session.query(CaseState)]
         except Exception as e:
             show_error_message(str(e))
-            logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getStates")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"Bląd. {show_error_message(str(e))}.")
+            msgbox.exec()
+
             return []
         finally:
             self.session.close()
@@ -55,22 +63,41 @@ class Worker:
             cases = self.session.query(Case).filter(Case.case_state == state.id)
             cases = cases.join(Category, Case.category == Category.id)
             cases = cases.order_by(Category.turn_number, Case.name)
-            logging.info("Sukces. *Worker.getCases")
             return [case for case in cases]
         except Exception as e:
             show_error_message(str(e))
-            logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCases")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"Bląd. {show_error_message(str(e))}.")
+            msgbox.exec()
+            return []
+        finally:
+            self.session.close()
+
+    def searchCases(self, search_term: str) -> list[Case]:
+        try:
+            # Змінюйте запит відповідно до ваших критеріїв пошуку
+            cases = self.session.query(Case).filter(Case.name.contains(search_term))
+            return [case for case in cases]
+        except Exception as e:
+            show_error_message(str(e))
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"Bląd wyszukiwania. {show_error_message(str(e))}.")
+            msgbox.exec()
             return []
         finally:
             self.session.close()
 
     def getCategories(self) -> list[Category]:
         try:
-            logging.info("Sukces. *Worker.getCategories")
-            return [category for category in self.session.query(Category)]
+            return self.session.query(Category).order_by(Category.turn_number).all()
         except Exception as e:
             show_error_message(str(e))
-            logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCategories")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"Bląd. {show_error_message(str(e))}.")
+            msgbox.exec()
             return []
         finally:
             self.session.close()
@@ -80,32 +107,41 @@ class Worker:
             session = Session()
             category = session.query(Category).filter_by(category_name=category_name).first()
             session.close()
-            logging.info("Sukces. *Worker.getCategoryIdByName")
             if category:
                 return category.id
             else:
                 return None
         except Exception as e:
             show_error_message(str(e))
-            logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.getCategoryIdByName")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"Bląd. {show_error_message(str(e))}.")
+            msgbox.exec()
             return None
         finally:
             self.session.close()
+
+
+
+
+
+    def getDodatki(self):
+        return [dodatki for dodatki in self.session.query(Dodatki)]
 
     def __del__(self):
         try:
             self.session.commit()
             self.session.close()
-            logging.info("Sukces. *Worker.__del__")
         except Exception as e:
             show_error_message(str(e))
-            logging.error(f"Bląd. {show_error_message(str(e))}. *Worker.__del__")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f"Bląd. {show_error_message(str(e))}.")
+            msgbox.exec()
 
 def show_error_message(error_message):
     msg = QMessageBox()
-    msg.setIcon(QMessageBox.Critical)
     msg.setText("Error")
     msg.setInformativeText(error_message)
     msg.setWindowTitle("Error")
     msg.exec_()
-    logging.info("Sukces. *show_error_message")

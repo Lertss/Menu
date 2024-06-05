@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'ui_new_transaction.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.2
+## Created by: Qt User Interface Compiler version 6.6.3
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -23,7 +23,7 @@ class Ui_New_transaction(object):
     def setupUi(self, New_transaction):
         if not New_transaction.objectName():
             New_transaction.setObjectName(u"New_transaction")
-        New_transaction.resize(281, 504)
+        New_transaction.resize(477, 436)
         New_transaction.setStyleSheet(u"background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,\n"
 "  stop:0 rgba(128, 128, 128, 255), /* \u0421\u0432\u0456\u0442\u043b\u043e-\u0441\u0456\u0440\u0438\u0439 */\n"
 "  stop:0.427447 rgba(85, 85, 85, 235), /* \u0421\u0456\u0440\u0438\u0439 */\n"
@@ -69,25 +69,14 @@ class Ui_New_transaction(object):
 
         self.le_name = QLineEdit(self.frame)
         self.le_name.setObjectName(u"le_name")
-        self.le_name.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_name.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
 
         self.verticalLayout.addWidget(self.le_name)
 
-        self.le_name_eng = QLineEdit(self.frame)
-        self.le_name_eng.setObjectName(u"le_name_eng")
-        self.le_name_eng.setCursor(QCursor(Qt.PointingHandCursor))
-        self.le_name_eng.setStyleSheet(u"font-size: 16pt;\n"
-"color: white;\n"
-"padding-left: 10px;")
-
-        self.verticalLayout.addWidget(self.le_name_eng)
-
         self.le_description = QLineEdit(self.frame)
         self.le_description.setObjectName(u"le_description")
-        self.le_description.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_description.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -96,7 +85,6 @@ class Ui_New_transaction(object):
 
         self.le_description_eng = QLineEdit(self.frame)
         self.le_description_eng.setObjectName(u"le_description_eng")
-        self.le_description_eng.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_description_eng.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -105,7 +93,6 @@ class Ui_New_transaction(object):
 
         self.le_masa = QLineEdit(self.frame)
         self.le_masa.setObjectName(u"le_masa")
-        self.le_masa.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_masa.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -114,7 +101,6 @@ class Ui_New_transaction(object):
 
         self.le_cena = QLineEdit(self.frame)
         self.le_cena.setObjectName(u"le_cena")
-        self.le_cena.setCursor(QCursor(Qt.PointingHandCursor))
         self.le_cena.setStyleSheet(u"font-size: 16pt;\n"
 "color: white;\n"
 "padding-left: 10px;")
@@ -123,10 +109,6 @@ class Ui_New_transaction(object):
 
         self.button_save_danie = QPushButton(self.frame)
         self.button_save_danie.setObjectName(u"button_save_danie")
-        font = QFont()
-        font.setPointSize(15)
-        font.setBold(True)
-        self.button_save_danie.setFont(font)
         self.button_save_danie.setStyleSheet(u"QPushButton{\n"
 "	 color: rgb(255, 255, 255);\n"
 "     background-color:rgba(255,255,255,30);\n"
@@ -163,16 +145,15 @@ class Ui_New_transaction(object):
     def retranslateUi(self, New_transaction):
         New_transaction.setWindowTitle(QCoreApplication.translate("New_transaction", u"New Transaction", None))
         self.le_title.setText(QCoreApplication.translate("New_transaction", u"Nowe danie", None))
-        self.cb_category.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Wybra\u0107 kategorie", None))
+        self.cb_category.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Kategoria", None))
         self.le_name.setText("")
         self.le_name.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Nazwa dania", None))
-        self.le_name_eng.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Angielska nazwa dania", None))
         self.le_description.setText("")
         self.le_description.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Sklad(opis)", None))
         self.le_description_eng.setText("")
         self.le_description_eng.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Sklad(opis) po angielsku", None))
         self.le_masa.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Masa", None))
         self.le_cena.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Cena", None))
-        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", u"Dalej", None))
+        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", u"Zapisz", None))
     # retranslateUi
 

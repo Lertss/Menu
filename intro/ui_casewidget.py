@@ -27,7 +27,7 @@ class Ui_CaseWidget(object):
         CaseWidget.setMinimumSize(QSize(180, 0))
         CaseWidget.setMaximumSize(QSize(16777215, 230))
         CaseWidget.setStyleSheet(u"\n"
-"border	-radius: 10px;")
+"border	-radius: 10px; background-color: rgb(144, 144, 144)")
         self.gridLayout = QGridLayout(CaseWidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.frame = QFrame(CaseWidget)
@@ -167,7 +167,7 @@ class Ui_CaseWidget(object):
         self.qlb_cena.setText(QCoreApplication.translate("CaseWidget", u"Cena", None))
         self.qlb_des.setText(QCoreApplication.translate("CaseWidget", u"Opis ", None))
         self.btn_info.setText(QCoreApplication.translate("CaseWidget", u"Info", None))
-        self.btn_edit.setText(QCoreApplication.translate("CaseWidget", u"Edytowa\u0107", None))
-        self.btn_delete.setText(QCoreApplication.translate("CaseWidget", u"Usun\u0105\u0107", None))
+        self.btn_edit.setText(QCoreApplication.translate("CaseWidget", u"Edytuj", None))
+        self.btn_delete.setText(QCoreApplication.translate("CaseWidget", u"Usu\u0144", None))
     # retranslateUi
 

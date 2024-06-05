@@ -1,4 +1,4 @@
-import logging
+import json
 import os
 
 
@@ -17,9 +17,7 @@ def create_folders():
     if not os.path.exists(base_folder_path):
         # Create a main folder if it does not exist
         os.makedirs(base_folder_path)
-        logging.info(f"Folder '{base_folder_name}' został utworzony.")
-    else:
-        logging.warning(f"Folder '{base_folder_name}' już istnieje.")
+
 
     # Path to a subfolder within the main folder
     sub_folder_path_html = os.path.join(base_folder_path, sub_folder_name_html)
@@ -30,43 +28,34 @@ def create_folders():
     if not os.path.exists(sub_folder_path_html):
         # Create a subfolder if it does not exist
         os.makedirs(sub_folder_path_html)
-        logging.info(f"Folder '{sub_folder_name_html}' został utworzony w folderze {base_folder_name}.")
-    else:
-        logging.warning(f"Folder '{sub_folder_name_html}' już istnieje w folderze {base_folder_name}.")
 
     if not os.path.exists(sub_folder_path_log_bd):
         os.makedirs(sub_folder_path_log_bd)
-        logging.info(f"Folder '{sub_folder_name_log_bd}' został utworzony w folderze {base_folder_name}.")
-    else:
-        logging.warning(f"Folder '{sub_folder_name_log_bd}' już istnieje w folderze {base_folder_name}.")
 
     if not os.path.exists(sub_folder_path_image_back):
         os.makedirs(sub_folder_path_image_back)
-        logging.info(f"Folder '{sub_folder_name_image_back}' został utworzony w folderze {base_folder_name}.")
-    else:
-        logging.warning(f"Folder '{sub_folder_name_image_back}' już istnieje w folderze {base_folder_name}.")
 
     if not os.path.exists(sub_folder_path_image_zdjecia):
         os.makedirs(sub_folder_path_image_zdjecia)
-        logging.info(f"Folder '{sub_folder_name_zdjecia}' został utworzony w folderze {base_folder_name}.")
+
+
+def load_settings():
+    if os.path.exists("Folder/LOG/settings.json"):
+        with open("Folder/LOG/settings.json", "r") as file:
+            return json.load(file)
     else:
-        logging.warning(f"Folder '{sub_folder_name_zdjecia}' już istnieje w folderze {base_folder_name}.")
+        return {
+            "headline": "rgb(130, 174, 90);",
+            "category": "rgb(255, 126, 40)",
+            "main": "rgb(130, 174, 90);",
+            "masa": "yellow",
+            "cena": "yellow",
+            "english_dish": "rgb(130, 174, 90);",
+            "description": "rgb(130, 174, 90);",
+            "dodatki": "red"
+        }
 
 
-MAX_LOGS = 500
-
-
-def trim_log_file():
-    """limit of 500 entries in the log"""
-    try:
-        with open('app.log', 'r', encoding='utf-8') as f:
-            lines = f.readlines()
-
-        # Saving the last MAX_LOGS lines
-        lines = lines[-MAX_LOGS:]
-
-        with open('app.log', 'w', encoding='utf-8') as f:
-            f.writelines(lines)
-    except FileNotFoundError:
-        # If the file does not exist, do nothing
-        pass
+def save_settings(settings):
+    with open("Folder/LOG/settings.json", "w") as file:
+        json.dump(settings, file)

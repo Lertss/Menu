@@ -1,13 +1,12 @@
-import logging
 from models.case import Case
-from models.case_state import CaseState, Category
+from models.case_state import Category
 from models.database import Session
 from models.database_worker import Worker
 from PySide6.QtWidgets import QMessageBox
 from playwright.sync_api import sync_playwright
-import subprocess
-from PIL import Image
 import os
+
+from service.service import load_settings
 
 current_directory = os.getcwd()
 
@@ -19,25 +18,29 @@ def save_html(html_content, file_path):
         return True
     except FileNotFoundError as e:
         error_message = f"File not found: {file_path}. *save_html"
-        logging.error(error_message)
         QMessageBox.critical(None, "Error", error_message)
         return False
     except IOError as e:
         error_message = f"Error writing to file: {file_path}. *save_html"
-        logging.error(error_message)
         QMessageBox.critical(None, "Error", error_message)
         return False
 
 
 def initialize_session():
     session = Session()
-    categories = session.query(Category).all()
+    categories = session.query(Category).order_by(Category.turn_number).all()
     session.close()
     return session, categories
 
 
 def generate_html_with_list_druk(worker, state_id):
     categories = worker.getCategories()
+    dodatki_list = worker.getDodatki()
+    if dodatki_list:
+        dodatki = dodatki_list[0]
+    else:
+        dodatki = None
+
     html_content = """
     <!DOCTYPE html>
     <html>
@@ -58,16 +61,25 @@ def generate_html_with_list_druk(worker, state_id):
             li {
                 list-style-type: none;
             }
-
+            .category_eng{
+            font-weight:100;
+            }
             .container div:nth-child(2) {
                 border-bottom: 3px dotted;
                 height: 1px;
             }
-
             .text-eng{
                 font-size: 45px;
                 font-weight: lighter;
             }
+            .dodatki {
+                font-weight: normal;
+                color: red;
+                margin-left: 40px;
+                margin-right: 40px; 
+            }
+
+
             div{
                 font-weight: bold;
             }
@@ -76,8 +88,9 @@ def generate_html_with_list_druk(worker, state_id):
                 font-size: 45px;
                 margin: 0; 
                 padding: 0; 
-                margin-right: 25px;
-                
+                width: 1450px;
+                margin-right: 100px;
+
             }
             h1{
                 text-align: center;
@@ -110,40 +123,67 @@ def generate_html_with_list_druk(worker, state_id):
         # Check for cases in the category
         if cases:
             html_content += f"""
-                    <li>
-                        <h3>{category.category_name}</h3>
-                        <ul>
+                                <li>
+                                    <h3>{category.category_name} <span class="category_eng">({category.category_eng_name})</span></h3>
+                                    <ul>
 
-            """
+                        """
             for item in cases:
                 html_content += f"""
-                            <li>
-                                <div class="container">
-                                    <div style="text-align: left;" class="name">-{item.name}</div>
-                                    <div></div>
-                                    <div style="text-align: right;">
-                                        <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
-                                        <span class="price blue">{item.price} zł</span>
-                                    </div>
-                                </div>
-                            </li>
+                                        <li>
+                                            <div class="container">
+                                                <div style="text-align: left;" class="name">-{item.name}</div>
+                                                <div></div>
+                                                <div style="text-align: right;">
+                            """
+                if item.masa and typ_pomiaru:  # Перевіряємо, чи item.masa і typ_pomiaru не є пустими
+                    html_content += f"""
+                                                    <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
+                                """
+                html_content += f"""
+                                                    <span class="price blue">{item.price} zł</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                            """
+                if item.description:  # Перевіряємо, чи існує опис
+                    html_content += f"""
+                                        <li>
+                                            <div class="text-eng description">
+                                                ({item.description})<br>
+                                                {item.description_english}
+                                            </div>
+                                        </li>
+                                """
+                else:
+                    html_content += f"""
                             <li>
                                 <div class="text-eng description">
-                                    ({item.description})<br>
                                     {item.description_english}
                                 </div>
                             </li>
-                """
+
+                    """
+
             html_content += """
                         </ul>
                     </li>
             """
 
-    html_content += """
+    html_content += f"""
+
                 </ul>
-            </section>
-        </main>
-    </div>
+            </main>
+            </div>
+            <div class="dodatki">
+                    <p >
+                        {dodatki.text if dodatki else ""}
+                        <br>
+                        <br>
+                        {dodatki.text_eng if dodatki else ""}
+                    </p>
+                </div>
+        </section>
     </body>
     </html>
     """
@@ -152,8 +192,15 @@ def generate_html_with_list_druk(worker, state_id):
 
 
 def generate_html_with_list_send(worker, state_id):
+    settings = load_settings()
     categories = worker.getCategories()
-    html_content = """
+    dodatki_list = worker.getDodatki()
+    if dodatki_list:
+        dodatki = dodatki_list[0]
+    else:
+        dodatki = None
+
+    html_content = f"""
     <!DOCTYPE html>
     <html>
     <head>
@@ -161,64 +208,80 @@ def generate_html_with_list_send(worker, state_id):
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dziś polecamy</title>
         <style>
-            .a4-container {
+            .a4-container {{
                 margin-left: -40px; 
-                                margin-top: -50px
-            }
-            .container {
+                margin-top: -50px
+            }}
+            .container {{
                 display: grid;
                 grid-template-columns: auto 1fr auto;
                 align-items: end;
                 margin-top: 10px
-            }
-            li {
+            }}
+            li {{
                 list-style-type: none;
-            }
-
-            .container div:nth-child(2) {
+            }}
+             .dodatki {{
+                font-weight: normal;
+                color: {settings['dodatki']};
+                margin-left: 40px;
+                margin-right: 40px; 
+            }}
+            .container div:nth-child(2) {{
                 border-bottom: 3px dotted;
                 height: 1px;
-            }
+            }}
 
-            .text-eng{
+            .text-eng{{
                 font-size: 45px;
                 font-weight: lighter;
-            }
-            div{
+                color: {settings['english_dish']};
+            }}
+            div{{
                 font-weight: bold;
-            }
+            }}
 
-            body{
+            body{{
                 font-size: 45px;
                 margin: 0; 
                 padding: 0; 
                 margin-right: 25px;
                 width: 1450px;
-                color: rgb(130, 174, 90);
+                color: {settings['main']};
                 background-image: url('../image_background/tlo.jpeg');
                 background-repeat: no-repeat;
                 background-attachment: fixed;
-                background-size: 1500px 100vh;
+                background-size: 1500px 120vh;
                 min-height: 100vh;
                 background-position: top left;
                 overflow: hidden;
-            }
-            h1{
+                margin-bottom: 150px;
+            }}
+             .category_eng{{
+            font-weight:100;
+            }}
+            h1{{
                 text-align: center;
                 margin: 15px;
-            }
+                margin-top: 125px;
+                color: {settings['headline']};
+            }}
 
-            h3{
+            h3{{
                 margin-left: 100px;
                 font-size: 60px;
                 margin-top: 10px;
                 margin-bottom: 0; 
-                color: rgb(255, 126, 40);
-            }
+                color: {settings['category']};
+            }}
 
-            .blue {
-                color: yellow;
-            }
+            .masa {{
+                color: {settings['masa']};
+            }}
+            .cena {{
+                color: {settings['cena']};
+            }}
+            
         </style>
     </head>
     <body>
@@ -239,40 +302,74 @@ def generate_html_with_list_send(worker, state_id):
         # Check for cases in the category
         if cases:
             html_content += f"""
-                    <li>
-                        <h3>{category.category_name}</h3>
-                        <ul>
+                                <li>
+ <h3>{category.category_name} <span class="category_eng">({category.category_eng_name})</span></h3>                                    <ul>
 
-            """
+                        """
             for item in cases:
                 html_content += f"""
-                            <li>
-                                <div class="container">
-                                    <div style="text-align: left;" class="name">-{item.name}</div>
-                                    <div></div>
-                                    <div style="text-align: right;">
-                                        <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
-                                        <span class="price blue">{item.price} zł</span>
-                                    </div>
-                                </div>
-                            </li>
+                                        <li>
+                                            <div class="container">
+                                                <div style="text-align: left;" class="name">-{item.name}</div>
+                                                <div></div>
+                                                <div style="text-align: right;">
+                            """
+                if item.masa and typ_pomiaru:  # Перевіряємо, чи item.masa і typ_pomiaru не є пустими
+                    html_content += f"""
+                                                    <span class="text-eng masa">({item.masa} {typ_pomiaru})</span>
+                                """
+                html_content += f"""
+                                                    <span class="cena">{item.price} zł</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                            """
+                if item.description:
+                    html_content += f"""
+                                        <li>
+                                            <div class="text-eng description">
+                                             <span style="color: {settings['description']};">
+                                                ({item.description})<br>
+                                               </span> 
+                                                <span style="color: {settings['english_dish']};">
+                                                    {item.description_english}
+                                                </span>
+                                            </div>
+                                        </li>
+                                """
+                else:
+                    html_content += f"""
                             <li>
                                 <div class="text-eng description">
-                                    ({item.description})<br>
+                                <span style="color: {settings['english_dish']};">
                                     {item.description_english}
+                                </span>
                                 </div>
                             </li>
-                """
+
+                    """
+
             html_content += """
                         </ul>
                     </li>
             """
 
-    html_content += """
+    html_content += f"""
+
                 </ul>
-            </section>
-        </main>
-    </div>
+            </main>
+            </div>
+            <div class="dodatki">
+                    <p>
+                        {dodatki.text if dodatki else ""}
+                        <br>
+                        <br>
+                        <span style="color: {settings['english_dish']};">
+                        {dodatki.text_eng if dodatki else ""}
+                        </span>
+                    </p>
+                </div>
+        </section>
     </body>
     </html>
     """
@@ -281,7 +378,7 @@ def generate_html_with_list_send(worker, state_id):
 
 
 html_directory = os.path.join(current_directory, "Folder", "HTML")
-image_directory = os.path.join(current_directory, "Folder", "Zdjęcia")
+image_directory = os.path.join(current_directory, "Zdjęcia")
 
 
 def generation_pdf():
@@ -299,62 +396,51 @@ def generation_pdf():
     file_path_druk = os.path.join(html_directory, "DRUK.html")
     file_path_send = os.path.join(html_directory, "SEND.html")
 
-    if save_html(html_content_druk, file_path_druk):
-        logging.info(f"html generated and saved at {file_path_druk}. *create_pdf")
-    else:
-        logging.info("Failed to generate html druk. *create_pdf")
-    if save_html(html_content_send, file_path_send):
-        logging.info(f"html generated and saved at {file_path_send}. *create_pdf")
+    if save_html(html_content_druk, file_path_druk) and save_html(html_content_send, file_path_send):
+        print("DD")
         create_image()
     else:
-        logging.info("Failed to generate html send. *create_pdf")
+        print("ss")
+        msgbox = QMessageBox()
+        msgbox.setText("Bląd:")
+        msgbox.setInformativeText("Wystąpił błąd podczas tworzenia plików html i obrazów.")
+        msgbox.exec()
 
 
 
+def find_file(filename, search_path):
+    result = []
+
+    # Перебираємо всі файли та папки у вказаній директорії
+    for root, dirs, files in os.walk(search_path):
+        if filename in files:
+            result.append(os.path.join(root, filename))
+
+    return result
 
 
+# Шукаємо chrome.exe та msedge.exe у директоріях Program Files та Program Files (x86)
+chrome_files = find_file("chrome.exe", "C:\\Program Files")
+chrome_files += find_file("chrome.exe", "C:\\Program Files (x86)")
 
 
 def create_image():
     with sync_playwright() as p:
-        browser = p.chromium.launch(executable_path="C:/Program Files/Google/Chrome/Application/chrome.exe")
-        page_send = browser.new_page()
-        page_druk = browser.new_page()
+        browser = p.chromium.launch(executable_path=chrome_files[0])
+        try:
+            page_send = browser.new_page()
+            page_druk = browser.new_page()
 
-        logging.info(browser)
-        logging.info(page_send)
-        logging.info(page_druk)
+            page_send.goto(rf'{html_directory}/SEND.html')
+            page_druk.goto(rf'{html_directory}/DRUK.html')
+            # Get the full height of the page
+            full_height_send = page_send.evaluate("() => document.body.scrollHeight")
+            full_height_druk = page_druk.evaluate("() => document.body.scrollHeight")
+            # Set the viewport to the full height of the page
+            page_send.set_viewport_size({"width": 1500, "height": full_height_send})
+            page_druk.set_viewport_size({"width": 1500, "height": full_height_druk})
 
-        page_send.goto(rf'{html_directory}/SEND.html')
-        page_druk.goto(rf'{html_directory}/DRUK.html')
-
-        # Get the full height of the page
-        full_height_send = page_send.evaluate("() => document.body.scrollHeight")
-        full_height_druk = page_druk.evaluate("() => document.body.scrollHeight")
-
-        # Set the viewport to the full height of the page
-        page_send.set_viewport_size({"width": 1500, "height": full_height_send})
-        page_druk.set_viewport_size({"width": 1050, "height": full_height_druk})
-
-        page_send.screenshot(path=rf'{image_directory}/SEND_full.png', full_page=True)
-        page_druk.screenshot(path=rf'{image_directory}/DRUK_full.png', full_page=True)
-
-        # Open the full screenshots
-        send_full_image = Image.open(rf'{image_directory}/SEND_full.png')
-        druk_full_image = Image.open(rf'{image_directory}/DRUK_full.png')
-
-        # Crop 15px from the bottom
-        send_cropped_image = send_full_image.crop((0, 0, send_full_image.width, send_full_image.height - 15))
-        druk_cropped_image = druk_full_image.crop((0, 0, druk_full_image.width, druk_full_image.height - 15))
-
-        # Save the cropped images
-        send_cropped_image.save(rf'{image_directory}/SEND.png')
-        druk_cropped_image.save(rf'{image_directory}/DRUK.png')
-
-        # Close the browser
-        browser.close()
-    try:
-        subprocess.run(
-            [r'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe', rf'{html_directory}/DRUK.html'])
-    except FileNotFoundError as e:
-        logging.error(f"Error opening DRUK.html: {e} *create_image")
+            page_send.screenshot(path=rf'{image_directory}/SEND.png', full_page=True)
+            page_druk.screenshot(path=rf'{image_directory}/DRUK.png', full_page=True)
+        finally:
+            browser.close()
