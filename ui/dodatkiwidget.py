@@ -8,7 +8,7 @@ class DodatkiList(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Список категорій")
+        self.setWindowTitle("Lista ketegorij")
 
         layout = QVBoxLayout(self)
 
@@ -19,7 +19,7 @@ class DodatkiList(QDialog):
 
         self.load_data()
 
-        self.button_save = QPushButton("Зберегти зміни")
+        self.button_save = QPushButton("Zapisać zmiany")
         layout.addWidget(self.button_save)
         self.button_save.clicked.connect(self.save_changes)
 
@@ -94,7 +94,7 @@ class DodatkiList(QDialog):
 
             layout = QHBoxLayout()
             layout.addWidget(QLabel(item.text))
-            delete_button = QPushButton("Видалити")
+            delete_button = QPushButton("Usuń")
             delete_button.clicked.connect(lambda checked=None, item=item: self.delete_item(item))
             layout.addWidget(delete_button)
             list_item_widget.setLayout(layout)

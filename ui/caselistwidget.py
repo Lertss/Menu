@@ -1,5 +1,5 @@
-from PySide6 import QtWidgets
-from PySide6.QtCore import Slot, Qt
+from PySide6.QtCore import Qt, QRect
+from PySide6.QtGui import QPainter, QBrush, QColor
 from PySide6.QtWidgets import QWidget, QAbstractItemView, QListWidgetItem, QListWidget
 
 from models.database_worker import Worker
@@ -7,7 +7,6 @@ from models.case import Case
 from models.case_state import CaseState
 from ui.qt_base_ui.ui_todolist import Ui_Form
 from ui.casewidget import CaseWidget
-from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
 
 
 class MyListWidget(QListWidget):
@@ -19,6 +18,7 @@ class MyListWidget(QListWidget):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setAcceptDrops(True)
         self.model().rowsInserted.connect(self.handleRowsInserted, Qt.QueuedConnection)
+
 
     def handleRowsInserted(self, parent, first, last):
         for it in range(first, last + 1):
@@ -45,6 +45,15 @@ class CaseListWidget(QWidget):
         self.listWidget = MyListWidget(self.case_state.id, self)
         self.ui.todoListLayout.addWidget(self.listWidget)
         self.reloads()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+
+        # Фон
+        painter.setBrush(QBrush(QColor(185, 185, 185)))
+        painter.drawRect(QRect(0, 0, self.width(), self.height()))
+
+
 
     def reloads(self):
         self.listWidget.clear()

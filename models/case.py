@@ -1,4 +1,4 @@
-import logging
+from PySide6.QtWidgets import QMessageBox
 
 from models.database import Base
 from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
@@ -32,7 +32,6 @@ class Case(Base):
         session.query(Case).filter(Case.id == self.id).update({Case.case_state: self.case_state})
         session.commit()
         session.close()
-        logging.info("Sukces zmiany statusa dania. *update_state")
 
     @staticmethod
     def delete_case(case_id):
@@ -42,10 +41,13 @@ class Case(Base):
             session.delete(case_to_delete)
             session.commit()
             session.close()
-            logging.info(f'Danie z ID {case_id} zostało usunięte. *Case.delete_danie')
 
         else:
-            logging.error(f'Danie z ID {case_id} nie znaleziono. *delete_danie')
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f'Danie z ID {case_id} nie znaleziono.')
+            msgbox.exec()
+
             session.close()
 
     @staticmethod
@@ -56,9 +58,12 @@ class Case(Base):
             session.add(new_case)
             session.commit()
             session.close()
-            logging.info("Danie stworzono. *Case.create_case")
         else:
-            logging.error("Bląd stworzenia dania. *Case.create_case")
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText("Bląd stworzenia dania. *Case.create_case")
+            msgbox.exec()
+
             session.close()
 
     @staticmethod
@@ -79,9 +84,11 @@ class Case(Base):
 
             session.refresh(danie_to_update)
             session.close()
-            logging.info("Danie zostało zaktualizowane. *Case.update_case")
         else:
-            logging.error(f'Danie z ID {case_id} nie znaleziono *Case.update_case')
+            msgbox = QMessageBox()
+            msgbox.setText("Bląd:")
+            msgbox.setInformativeText(f'Danie z ID {case_id} nie znaleziono *Case.update_case')
+            msgbox.exec()
             session.close()
 
     def __repr__(self):

@@ -145,7 +145,7 @@ class Ui_New_transaction(object):
     def retranslateUi(self, New_transaction):
         New_transaction.setWindowTitle(QCoreApplication.translate("New_transaction", u"New Transaction", None))
         self.le_title.setText(QCoreApplication.translate("New_transaction", u"Nowe danie", None))
-        self.cb_category.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Wybra\u0107 kategorie", None))
+        self.cb_category.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Kategoria", None))
         self.le_name.setText("")
         self.le_name.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Nazwa dania", None))
         self.le_description.setText("")
@@ -154,6 +154,6 @@ class Ui_New_transaction(object):
         self.le_description_eng.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Sklad(opis) po angielsku", None))
         self.le_masa.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Masa", None))
         self.le_cena.setPlaceholderText(QCoreApplication.translate("New_transaction", u"Cena", None))
-        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", u"Doda\u0107 danie", None))
+        self.button_save_danie.setText(QCoreApplication.translate("New_transaction", u"Zapisz", None))
     # retranslateUi
 

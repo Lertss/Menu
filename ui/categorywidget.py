@@ -1,9 +1,7 @@
-from PySide6.QtWidgets import QApplication, QDialog, QListWidget, QVBoxLayout, QWidget, QPushButton, QListWidgetItem, QAbstractItemView, QLabel, QHBoxLayout
-from PySide6.QtWidgets import QApplication, QMainWindow, QListWidget, QVBoxLayout, QWidget, QPushButton
-
-
 import sqlite3
 
+from PySide6.QtWidgets import QDialog, QListWidgetItem, QLabel, QHBoxLayout
+from PySide6.QtWidgets import QListWidget, QVBoxLayout, QWidget, QPushButton
 
 
 class Category_list(QDialog):

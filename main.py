@@ -1,31 +1,51 @@
+
 import os
 import sys
 
+from PySide6.QtGui import QPalette, QColor
 from PySide6.QtWidgets import QApplication
 
 from models.database import DATABASE_NAME, Session
 from models.database_worker import create_database, Worker
-from service.service import create_folders, trim_log_file, create_log_file
+from service.service import create_folders
+from ui.mainwindow import MainWindow, style_bar_menu
 
-from ui.mainwindow import MainWindow
-import logging
-import os
 
-logging.basicConfig(filename='Folder/LOG/app.log', level=logging.INFO,
-                    format='%(asctime)s - %(levelname)s - %(message)s',
-                    encoding='utf-8')
+def set_light_theme(app):
+    palette = QPalette()
+
+    # Настроюємо кольори для світлої теми
+    palette.setColor(QPalette.Window, QColor(232, 232, 232))
+    palette.setColor(QPalette.WindowText, QColor(0, 0, 0))
+    palette.setColor(QPalette.Base, QColor(205, 205, 205))
+    palette.setColor(QPalette.AlternateBase, QColor(240, 240, 240))
+    palette.setColor(QPalette.ToolTipBase, QColor(255, 255, 255))
+    palette.setColor(QPalette.ToolTipText, QColor(0, 0, 0))
+    palette.setColor(QPalette.Text, QColor(0, 0, 0))
+    palette.setColor(QPalette.Button, QColor(240, 240, 240))
+    palette.setColor(QPalette.ButtonText, QColor(0, 0, 0))
+    palette.setColor(QPalette.BrightText, QColor(255, 0, 0))
+    palette.setColor(QPalette.Highlight, QColor(0, 120, 215))
+    palette.setColor(QPalette.HighlightedText, QColor(255, 255, 255))
+
+    app.setPalette(palette)
+
+
+
+
 if __name__ == '__main__':
+    create_folders()
     db_is_created = os.path.exists(DATABASE_NAME)
     if not db_is_created:
         create_database()
 
-    create_folders()
-    create_log_file()
 
-    trim_log_file()
-    logging.info("Start")
 
     app = QApplication()
+
+    app.setStyleSheet(style_bar_menu)
+    set_light_theme(app)
     window = MainWindow(Worker(Session()))
     window.show()
     sys.exit(app.exec())
+

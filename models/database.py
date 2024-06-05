@@ -1,4 +1,4 @@
-import logging
+
 
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -14,4 +14,3 @@ Base = declarative_base()
 
 def create_db():
     Base.metadata.create_all(engine)
-    logging.info("DB stworzono. *create_db")

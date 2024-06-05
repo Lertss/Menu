@@ -1,7 +1,5 @@
-import logging
-
-from models.database import Base, Session
-from sqlalchemy import Column, Integer, String, Sequence
+from models.database import Base
+from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
 

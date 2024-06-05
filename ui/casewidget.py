@@ -9,7 +9,7 @@ from models.database import Session
 from models.case import Case
 from intro.ui_casewidget import Ui_CaseWidget
 from intro.ui_casewidget_info import Ui_CaseWidgetInfo
-from models.database_worker import Worker
+
 from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
 
 
