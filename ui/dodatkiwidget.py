@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QListWidget, QPushButton, QHBoxLayout, QLabel, QListWidgetItem, QWidget
 
-from models.case_state import Dodatki
+from models.dish_state import Dodatki
 from models.database import Session
 
 
@@ -31,9 +31,9 @@ class DodatkiList(QDialog):
         self.setStyleSheet("""
             QDialog {
                 background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,
-                                                  stop:0 rgba(180, 180, 180, 255), /* Світло-сірий */
-                                                  stop:0.427447 rgba(150, 150, 150, 235), /* Сірий */
-                                                  stop:1 rgba(110, 110, 110, 255) /* Темно-сірий */
+                                                  stop:0 rgba(180, 180, 180, 255), 
+                                                  stop:0.427447 rgba(150, 150, 150, 235), 
+                                                  stop:1 rgba(110, 110, 110, 255)
                 );
             }
 

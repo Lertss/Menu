@@ -33,9 +33,9 @@ class Category_list(QDialog):
         self.setStyleSheet("""
                     QDialog {
                         background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,
-                                                          stop:0 rgba(180, 180, 180, 255), /* Світло-сірий */
-                                                          stop:0.427447 rgba(150, 150, 150, 235), /* Сірий */
-                                                          stop:1 rgba(110, 110, 110, 255) /* Темно-сірий */
+                                                          stop:0 rgba(180, 180, 180, 255), 
+                                                          stop:0.427447 rgba(150, 150, 150, 235), 
+                                                          stop:1 rgba(110, 110, 110, 255) 
                         );
                     }
 
@@ -134,7 +134,7 @@ class Category_list(QDialog):
 
             # Get the maximum turn_number value in the database
             cursor.execute("SELECT MAX(turn_number) FROM category")
-            max_turn_number = cursor.fetchone()[0] or 0  # Якщо MAX(turn_number) повертає None, встановити 0
+            max_turn_number = cursor.fetchone()[0] or 0  # If MAX(turn_number) returns None, set 0
 
             # If the maximum value reaches 1000, overwrite all turn_number values
             if max_turn_number >= 999:

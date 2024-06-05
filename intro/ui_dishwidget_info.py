@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_casewidget_info.ui'
+## Form generated from reading UI file 'ui_dishwidget_info.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.3
 ##
@@ -19,16 +19,16 @@ from PySide6.QtWidgets import (QApplication, QDialog, QGridLayout, QGroupBox,
     QHBoxLayout, QLabel, QSizePolicy, QVBoxLayout,
     QWidget)
 
-class Ui_CaseWidgetInfo(object):
-    def setupUi(self, CaseWidgetInfo):
-        if not CaseWidgetInfo.objectName():
-            CaseWidgetInfo.setObjectName(u"CaseWidgetInfo")
-        CaseWidgetInfo.resize(400, 201)
-        self.gridLayout = QGridLayout(CaseWidgetInfo)
+class Ui_DishWidgetInfo(object):
+    def setupUi(self, DishWidgetInfo):
+        if not DishWidgetInfo.objectName():
+            DishWidgetInfo.setObjectName(u"DishWidgetInfo")
+        DishWidgetInfo.resize(400, 201)
+        self.gridLayout = QGridLayout(DishWidgetInfo)
         self.gridLayout.setObjectName(u"gridLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.qlb_danie = QLabel(CaseWidgetInfo)
+        self.qlb_danie = QLabel(DishWidgetInfo)
         self.qlb_danie.setObjectName(u"qlb_danie")
         self.qlb_danie.setMaximumSize(QSize(16777215, 40))
         font = QFont()
@@ -39,7 +39,7 @@ class Ui_CaseWidgetInfo(object):
 
         self.horizontalLayout.addWidget(self.qlb_danie)
 
-        self.qlb_cena = QLabel(CaseWidgetInfo)
+        self.qlb_cena = QLabel(DishWidgetInfo)
         self.qlb_cena.setObjectName(u"qlb_cena")
         self.qlb_cena.setMaximumSize(QSize(60, 40))
         self.qlb_cena.setFont(font)
@@ -50,7 +50,7 @@ class Ui_CaseWidgetInfo(object):
 
         self.gridLayout.addLayout(self.horizontalLayout, 0, 0, 1, 1)
 
-        self.groupBox = QGroupBox(CaseWidgetInfo)
+        self.groupBox = QGroupBox(DishWidgetInfo)
         self.groupBox.setObjectName(u"groupBox")
         self.groupBox.setMaximumSize(QSize(16777215, 16777215))
         self.groupBox.setFont(font)
@@ -93,19 +93,19 @@ class Ui_CaseWidgetInfo(object):
         self.gridLayout.addWidget(self.groupBox, 1, 0, 1, 1)
 
 
-        self.retranslateUi(CaseWidgetInfo)
+        self.retranslateUi(DishWidgetInfo)
 
-        QMetaObject.connectSlotsByName(CaseWidgetInfo)
+        QMetaObject.connectSlotsByName(DishWidgetInfo)
     # setupUi
 
-    def retranslateUi(self, CaseWidgetInfo):
-        CaseWidgetInfo.setWindowTitle(QCoreApplication.translate("CaseWidgetInfo", u"Dialog", None))
-        self.qlb_danie.setText(QCoreApplication.translate("CaseWidgetInfo", u"Danie", None))
-        self.qlb_cena.setText(QCoreApplication.translate("CaseWidgetInfo", u"Cena", None))
-        self.groupBox.setTitle(QCoreApplication.translate("CaseWidgetInfo", u"Opis", None))
-        self.qlb_category.setText(QCoreApplication.translate("CaseWidgetInfo", u"Kategoria", None))
-        self.qlb_masa.setText(QCoreApplication.translate("CaseWidgetInfo", u"Ilo\u015b\u0107", None))
-        self.qlb_des.setText(QCoreApplication.translate("CaseWidgetInfo", u"Opis", None))
-        self.qlb_des_eng.setText(QCoreApplication.translate("CaseWidgetInfo", u"Opis po angelsku", None))
+    def retranslateUi(self, DishWidgetInfo):
+        DishWidgetInfo.setWindowTitle(QCoreApplication.translate("DishWidgetInfo", u"Dialog", None))
+        self.qlb_danie.setText(QCoreApplication.translate("DishWidgetInfo", u"Danie", None))
+        self.qlb_cena.setText(QCoreApplication.translate("DishWidgetInfo", u"Cena", None))
+        self.groupBox.setTitle(QCoreApplication.translate("DishWidgetInfo", u"Opis", None))
+        self.qlb_category.setText(QCoreApplication.translate("DishWidgetInfo", u"Kategoria", None))
+        self.qlb_masa.setText(QCoreApplication.translate("DishWidgetInfo", u"Ilo\u015b\u0107", None))
+        self.qlb_des.setText(QCoreApplication.translate("DishWidgetInfo", u"Opis", None))
+        self.qlb_des_eng.setText(QCoreApplication.translate("DishWidgetInfo", u"Opis po angelsku", None))
     # retranslateUi
 

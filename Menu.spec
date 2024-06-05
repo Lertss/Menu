@@ -29,7 +29,7 @@ exe = EXE(
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
-    upx=True,  # <--- Додайте цей параметр
+    upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
     console=True,
@@ -39,7 +39,7 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
     icon=['pyzunia.ico'],
-    onefile=True  # <--- Додайте цей параметр
+    onefile=True
 )
 
 coll = COLLECT(
@@ -48,7 +48,7 @@ coll = COLLECT(
     a.zipfiles,
     a.datas,
     strip=False,
-    upx=True,  # <--- Додайте цей параметр
+    upx=True,
     upx_exclude=[],
     name='main'
 )

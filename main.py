@@ -14,7 +14,7 @@ from ui.mainwindow import MainWindow, style_bar_menu
 def set_light_theme(app):
     palette = QPalette()
 
-    # Настроюємо кольори для світлої теми
+
     palette.setColor(QPalette.Window, QColor(232, 232, 232))
     palette.setColor(QPalette.WindowText, QColor(0, 0, 0))
     palette.setColor(QPalette.Base, QColor(205, 205, 205))
