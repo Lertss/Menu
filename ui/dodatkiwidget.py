@@ -1,5 +1,3 @@
-from models.database import Session
-from models.dish_state import Dodatki
 from PySide6.QtWidgets import (
     QDialog,
     QHBoxLayout,
@@ -10,6 +8,9 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QWidget,
 )
+
+from models.database import Session
+from models.dish_state import Dodatki
 
 
 class DodatkiList(QDialog):
@@ -107,7 +108,9 @@ class DodatkiList(QDialog):
             layout = QHBoxLayout()
             layout.addWidget(QLabel(item.text))
             delete_button = QPushButton("Usuń")
-            delete_button.clicked.connect(lambda checked=None, item=item: self.delete_item(item))
+            delete_button.clicked.connect(
+                lambda checked=None, item=item: self.delete_item(item)
+            )
             layout.addWidget(delete_button)
             list_item_widget.setLayout(layout)
 
@@ -122,7 +125,10 @@ class DodatkiList(QDialog):
 
         for i in range(self.list_widget.count()):
             list_item = self.list_widget.item(i)
-            if self.list_widget.itemWidget(list_item).findChild(QLabel).text() == item.text:
+            if (
+                self.list_widget.itemWidget(list_item).findChild(QLabel).text()
+                == item.text
+            ):
                 self.list_widget.takeItem(i)
                 break
 
@@ -140,7 +146,11 @@ class DodatkiList(QDialog):
 
     def selection_changed(self):
         current_item = self.list_widget.currentItem()
-        if current_item and self.last_selected_item and current_item != self.last_selected_item:
+        if (
+            current_item
+            and self.last_selected_item
+            and current_item != self.last_selected_item
+        ):
             self.save_changes()
         self.last_selected_item = current_item
         self.session.close()

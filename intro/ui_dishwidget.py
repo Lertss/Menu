@@ -10,7 +10,15 @@
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, QSize, Qt
 from PySide6.QtGui import QCursor, QFont
-from PySide6.QtWidgets import QFrame, QGridLayout, QHBoxLayout, QLabel, QPushButton, QSizePolicy, QVBoxLayout
+from PySide6.QtWidgets import (
+    QFrame,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+)
 
 
 class Ui_DishWidget(object):
@@ -20,7 +28,9 @@ class Ui_DishWidget(object):
         DishWidget.resize(691, 230)
         DishWidget.setMinimumSize(QSize(180, 0))
         DishWidget.setMaximumSize(QSize(16777215, 230))
-        DishWidget.setStyleSheet("\n" "border	-radius: 10px; background-color: rgb(144, 144, 144)")
+        DishWidget.setStyleSheet(
+            "\n" "border	-radius: 10px; background-color: rgb(144, 144, 144)"
+        )
         self.gridLayout = QGridLayout(DishWidget)
         self.gridLayout.setObjectName("gridLayout")
         self.frame = QFrame(DishWidget)
@@ -45,7 +55,9 @@ class Ui_DishWidget(object):
         self.qlb_danie = QLabel(self.frame)
         self.qlb_danie.setObjectName("qlb_danie")
         self.qlb_danie.setEnabled(True)
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy = QSizePolicy(
+            QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred
+        )
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.qlb_danie.sizePolicy().hasHeightForWidth())
@@ -162,12 +174,16 @@ class Ui_DishWidget(object):
     # setupUi
 
     def retranslateUi(self, DishWidget):
-        DishWidget.setWindowTitle(QCoreApplication.translate("DishWidget", "Form", None))
+        DishWidget.setWindowTitle(
+            QCoreApplication.translate("DishWidget", "Form", None)
+        )
         self.qlb_danie.setText(QCoreApplication.translate("DishWidget", "Danie", None))
         self.qlb_cena.setText(QCoreApplication.translate("DishWidget", "Cena", None))
         self.qlb_des.setText(QCoreApplication.translate("DishWidget", "Opis ", None))
         self.btn_info.setText(QCoreApplication.translate("DishWidget", "Info", None))
         self.btn_edit.setText(QCoreApplication.translate("DishWidget", "Edytuj", None))
-        self.btn_delete.setText(QCoreApplication.translate("DishWidget", "Usu\u0144", None))
+        self.btn_delete.setText(
+            QCoreApplication.translate("DishWidget", "Usu\u0144", None)
+        )
 
     # retranslateUi

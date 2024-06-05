@@ -1,4 +1,9 @@
 import PySide6
+from PySide6 import QtWidgets
+from PySide6.QtGui import QAction, QDoubleValidator, QIntValidator
+from PySide6.QtWidgets import QColorDialog, QLineEdit, QMainWindow
+from sqlalchemy import func
+
 from generate_html import generation_pdf
 from intro.ui_dodawanie_dodatkow import Ui_new_Dodatek
 from intro.ui_mainwindow import Ui_MainWindow
@@ -6,11 +11,7 @@ from models.database import Session
 from models.database_worker import Worker
 from models.dish import Dish
 from models.dish_state import Category, Dodatki
-from PySide6 import QtWidgets
-from PySide6.QtGui import QAction, QDoubleValidator, QIntValidator
-from PySide6.QtWidgets import QColorDialog, QLineEdit, QMainWindow
 from service.service import load_settings, save_settings
-from sqlalchemy import func
 from ui.categorywidget import Category_list
 from ui.dishlistwidget import DishListWidget
 from ui.dodatkiwidget import DodatkiList
@@ -119,7 +120,10 @@ class MainWindow(QMainWindow):
         for dish_list_widget in self.dish_list_widgets:
             dish_list_widget.listWidget.clear()
             for dish in self.worker.getDishs(dish_list_widget.dish_state):
-                if text.lower() in dish.name.lower() or text.lower() in dish.description.lower():
+                if (
+                    text.lower() in dish.name.lower()
+                    or text.lower() in dish.description.lower()
+                ):
                     dish_list_widget._add_widget(dish)
 
     def open_category_list_window(self):
@@ -140,7 +144,9 @@ class MainWindow(QMainWindow):
         self.ui_window_category = Ui_Dialog()
         self.ui_window_category.setupUi(self.new_window_category)
         self.new_window_category.show()
-        self.ui_window_category.button_save_category.clicked.connect(self.add_new_category)
+        self.ui_window_category.button_save_category.clicked.connect(
+            self.add_new_category
+        )
 
     def add_new_category(self):
         category_name = self.ui_window_category.le_category.text()
@@ -185,7 +191,9 @@ class MainWindow(QMainWindow):
         masa = self.ui_window_dish.le_masa.text()
         cena = self.ui_window_dish.le_cena.text()
         price_float = float(cena.replace(",", "."))
-        Dish.create_dish(category_id, name, description, description_eng, price_float, masa)
+        Dish.create_dish(
+            category_id, name, description, description_eng, price_float, masa
+        )
 
         for widget in self.findChildren(DishListWidget):
             widget.reloads()

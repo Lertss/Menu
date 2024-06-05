@@ -91,13 +91,27 @@ class Ui_DishWidgetInfo(object):
     # setupUi
 
     def retranslateUi(self, DishWidgetInfo):
-        DishWidgetInfo.setWindowTitle(QCoreApplication.translate("DishWidgetInfo", "Dialog", None))
-        self.qlb_danie.setText(QCoreApplication.translate("DishWidgetInfo", "Danie", None))
-        self.qlb_cena.setText(QCoreApplication.translate("DishWidgetInfo", "Cena", None))
-        self.groupBox.setTitle(QCoreApplication.translate("DishWidgetInfo", "Opis", None))
-        self.qlb_category.setText(QCoreApplication.translate("DishWidgetInfo", "Kategoria", None))
-        self.qlb_masa.setText(QCoreApplication.translate("DishWidgetInfo", "Ilo\u015b\u0107", None))
+        DishWidgetInfo.setWindowTitle(
+            QCoreApplication.translate("DishWidgetInfo", "Dialog", None)
+        )
+        self.qlb_danie.setText(
+            QCoreApplication.translate("DishWidgetInfo", "Danie", None)
+        )
+        self.qlb_cena.setText(
+            QCoreApplication.translate("DishWidgetInfo", "Cena", None)
+        )
+        self.groupBox.setTitle(
+            QCoreApplication.translate("DishWidgetInfo", "Opis", None)
+        )
+        self.qlb_category.setText(
+            QCoreApplication.translate("DishWidgetInfo", "Kategoria", None)
+        )
+        self.qlb_masa.setText(
+            QCoreApplication.translate("DishWidgetInfo", "Ilo\u015b\u0107", None)
+        )
         self.qlb_des.setText(QCoreApplication.translate("DishWidgetInfo", "Opis", None))
-        self.qlb_des_eng.setText(QCoreApplication.translate("DishWidgetInfo", "Opis po angelsku", None))
+        self.qlb_des_eng.setText(
+            QCoreApplication.translate("DishWidgetInfo", "Opis po angelsku", None)
+        )
 
     # retranslateUi

@@ -60,19 +60,25 @@ class Ui_Dialog(object):
 
         self.le_category = QLineEdit(self.frame)
         self.le_category.setObjectName("le_category")
-        self.le_category.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_category.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_category)
 
         self.le_category_eng = QLineEdit(self.frame)
         self.le_category_eng.setObjectName("le_category_eng")
-        self.le_category_eng.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_category_eng.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_category_eng)
 
         self.le_measurement = QLineEdit(self.frame)
         self.le_measurement.setObjectName("le_measurement")
-        self.le_measurement.setStyleSheet("font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;")
+        self.le_measurement.setStyleSheet(
+            "font-size: 16pt;\n" "color: white;\n" "padding-left: 10px;"
+        )
 
         self.verticalLayout.addWidget(self.le_measurement)
 
@@ -100,7 +106,9 @@ class Ui_Dialog(object):
             "}"
         )
         icon = QIcon()
-        icon.addFile(":/icons/icons/post_add_white_24dp.svg", QSize(), QIcon.Normal, QIcon.Off)
+        icon.addFile(
+            ":/icons/icons/post_add_white_24dp.svg", QSize(), QIcon.Normal, QIcon.Off
+        )
         self.button_save_category.setIcon(icon)
         self.button_save_category.setIconSize(QSize(24, 24))
 
@@ -114,13 +122,23 @@ class Ui_Dialog(object):
 
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", "Dialog", None))
-        self.le_title.setText(QCoreApplication.translate("Dialog", "Dodawanie kategorii", None))
+        self.le_title.setText(
+            QCoreApplication.translate("Dialog", "Dodawanie kategorii", None)
+        )
         self.le_category.setText("")
-        self.le_category.setPlaceholderText(QCoreApplication.translate("Dialog", "Categoria", None))
+        self.le_category.setPlaceholderText(
+            QCoreApplication.translate("Dialog", "Categoria", None)
+        )
         self.le_category_eng.setText("")
-        self.le_category_eng.setPlaceholderText(QCoreApplication.translate("Dialog", "Categoria po angelsku", None))
+        self.le_category_eng.setPlaceholderText(
+            QCoreApplication.translate("Dialog", "Categoria po angelsku", None)
+        )
         self.le_measurement.setText("")
-        self.le_measurement.setPlaceholderText(QCoreApplication.translate("Dialog", "Typ pomiaru", None))
-        self.button_save_category.setText(QCoreApplication.translate("Dialog", "Doda\u0107 kategorie", None))
+        self.le_measurement.setPlaceholderText(
+            QCoreApplication.translate("Dialog", "Typ pomiaru", None)
+        )
+        self.button_save_category.setText(
+            QCoreApplication.translate("Dialog", "Doda\u0107 kategorie", None)
+        )
 
     # retranslateUi

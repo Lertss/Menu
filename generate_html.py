@@ -1,13 +1,13 @@
 import os
 
+from playwright.sync_api import sync_playwright
+from PySide6.QtWidgets import QMessageBox
+
 from models.database import Session
 from models.database_worker import Worker
 from models.dish import Dish
 from models.dish_state import Category
-from playwright.sync_api import sync_playwright
-from PySide6.QtWidgets import QMessageBox
 from service.service import load_settings
-
 
 current_directory = os.getcwd()
 
@@ -118,7 +118,11 @@ def generate_html_with_list_druk(worker, state_id):
 
     for category in categories:
         session, categories = initialize_session()
-        dishs = session.query(Dish).filter(Dish.category == category.id, Dish.dish_state == 1).all()
+        dishs = (
+            session.query(Dish)
+            .filter(Dish.category == category.id, Dish.dish_state == 1)
+            .all()
+        )
         typ_pomiaru = category.pomiar
         session.close()
         # Check for dishs in the category
@@ -296,7 +300,11 @@ def generate_html_with_list_send(worker, state_id):
 
     for category in categories:
         session, categories = initialize_session()
-        dishs = session.query(Dish).filter(Dish.category == category.id, Dish.dish_state == 1).all()
+        dishs = (
+            session.query(Dish)
+            .filter(Dish.category == category.id, Dish.dish_state == 1)
+            .all()
+        )
         typ_pomiaru = category.pomiar
         session.close()
         # Check for dishs in the category
@@ -314,7 +322,9 @@ def generate_html_with_list_send(worker, state_id):
                                                 <div></div>
                                                 <div style="text-align: right;">
                             """
-                if item.masa and typ_pomiaru:  # Check if item.masa and typ_pomiaru are not empty
+                if (
+                    item.masa and typ_pomiaru
+                ):  # Check if item.masa and typ_pomiaru are not empty
                     html_content += f"""
                                                     <span class="text-eng masa">({item.masa} {typ_pomiaru})</span>
                                 """
@@ -396,12 +406,16 @@ def generation_pdf():
     file_path_druk = os.path.join(html_directory, "DRUK.html")
     file_path_send = os.path.join(html_directory, "SEND.html")
 
-    if save_html(html_content_druk, file_path_druk) and save_html(html_content_send, file_path_send):
+    if save_html(html_content_druk, file_path_druk) and save_html(
+        html_content_send, file_path_send
+    ):
         create_image()
     else:
         msgbox = QMessageBox()
         msgbox.setText("Bląd:")
-        msgbox.setInformativeText("Wystąpił błąd podczas tworzenia plików html i obrazów.")
+        msgbox.setInformativeText(
+            "Wystąpił błąd podczas tworzenia plików html i obrazów."
+        )
         msgbox.exec()
 
 

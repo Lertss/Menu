@@ -106,7 +106,9 @@ class Category_list(QDialog):
             cursor = connection.cursor()
 
             # Retrieving data from the database
-            cursor.execute("SELECT category_name, turn_number FROM category ORDER BY turn_number")
+            cursor.execute(
+                "SELECT category_name, turn_number FROM category ORDER BY turn_number"
+            )
             data = cursor.fetchall()
 
             # Filling the QListWidget
@@ -117,7 +119,9 @@ class Category_list(QDialog):
                 layout = QHBoxLayout()
                 layout.addWidget(QLabel(item[0]))
                 delete_button = QPushButton("Usuń")
-                delete_button.clicked.connect(lambda checked=None, item=item: self.delete_item(item))
+                delete_button.clicked.connect(
+                    lambda checked=None, item=item: self.delete_item(item)
+                )
                 layout.addWidget(delete_button)
                 list_item_widget.setLayout(layout)
 
@@ -135,7 +139,10 @@ class Category_list(QDialog):
         # Removing an item from a QListWidget
         for i in range(self.list_widget.count()):
             list_item = self.list_widget.item(i)
-            if self.list_widget.itemWidget(list_item).findChild(QLabel).text() == item[0]:
+            if (
+                self.list_widget.itemWidget(list_item).findChild(QLabel).text()
+                == item[0]
+            ):
                 self.list_widget.takeItem(i)
                 break
 
@@ -145,21 +152,32 @@ class Category_list(QDialog):
 
             # Get the maximum turn_number value in the database
             cursor.execute("SELECT MAX(turn_number) FROM category")
-            max_turn_number = cursor.fetchone()[0] or 0  # If MAX(turn_number) returns None, set 0
+            max_turn_number = (
+                cursor.fetchone()[0] or 0
+            )  # If MAX(turn_number) returns None, set 0
 
             # If the maximum value reaches 1000, overwrite all turn_number values
             if max_turn_number >= 999:
                 for index in range(self.list_widget.count()):
-                    item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
+                    item_name = (
+                        self.list_widget.itemWidget(self.list_widget.item(index))
+                        .findChild(QLabel)
+                        .text()
+                    )
 
                     # Update turn_number based on item position in the list
                     cursor.execute(
-                        "UPDATE category SET turn_number = ? WHERE category_name = ?", (index + 1, item_name)
+                        "UPDATE category SET turn_number = ? WHERE category_name = ?",
+                        (index + 1, item_name),
                     )
             else:
                 # Update the turn_number value for each item
                 for index in range(self.list_widget.count()):
-                    item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
+                    item_name = (
+                        self.list_widget.itemWidget(self.list_widget.item(index))
+                        .findChild(QLabel)
+                        .text()
+                    )
 
                     # Update turn_number by increasing the maximum value by 1
                     cursor.execute(
@@ -172,6 +190,10 @@ class Category_list(QDialog):
     def selection_changed(self):
         # Called when the item selection is changed
         current_item = self.list_widget.currentItem()
-        if current_item and self.last_selected_item and current_item != self.last_selected_item:
+        if (
+            current_item
+            and self.last_selected_item
+            and current_item != self.last_selected_item
+        ):
             self.save_changes()  # Save changes if the selected item has changed
         self.last_selected_item = current_item
