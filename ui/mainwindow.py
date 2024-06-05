@@ -7,12 +7,12 @@ from sqlalchemy import func
 from generate_html import generation_pdf
 from intro.ui_dodawanie_dodatkow import Ui_new_Dodatek
 from intro.ui_mainwindow import Ui_MainWindow
-from models.case import Case
-from models.case_state import Category, Dodatki
+from models.dish import Dish
+from models.dish_state import Category, Dodatki
 from models.database import Session
 from models.database_worker import Worker
 from service.service import save_settings, load_settings
-from ui.caselistwidget import CaseListWidget
+from ui.dishlistwidget import DishListWidget
 from ui.categorywidget import Category_list
 from ui.dodatkiwidget import DodatkiList
 from ui.qt_base_ui.ui_add_category import Ui_Dialog
@@ -32,13 +32,13 @@ class MainWindow(QMainWindow):
         self.search_line.setPlaceholderText("Szukaj...")
         self.search_line.setStyleSheet("color: rgb(255, 0, 0);")
         self.search_line.textChanged.connect(self.handle_search)
-        self.ui.verticalLayout.insertWidget(0, self.search_line)  # Додати рядок пошуку зверху
+        self.ui.verticalLayout.insertWidget(0, self.search_line)
 
-        self.case_list_widgets = []
+        self.dish_list_widgets = []
         for it in self.worker.getStates():
-            case_list_widget = CaseListWidget(it, self.worker)
-            self.case_list_widgets.append(case_list_widget)
-            self.ui.todoListLayout.addWidget(case_list_widget)
+            dish_list_widget = DishListWidget(it, self.worker)
+            self.dish_list_widgets.append(dish_list_widget)
+            self.ui.todoListLayout.addWidget(dish_list_widget)
 
     def initUI(self):
         menubar = self.menuBar()
@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
         fileMenu.addAction(func6Action)
 
         func3Action = QAction('Nowe danie', self)
-        func3Action.triggered.connect(self.open_new_case_window)
+        func3Action.triggered.connect(self.open_new_dish_window)
         menubar.addAction(func3Action)
 
         func4Action = QAction('Zdjęcie', self)
@@ -122,11 +122,11 @@ class MainWindow(QMainWindow):
             save_settings(self.settings)
 
     def handle_search(self, text):
-        for case_list_widget in self.case_list_widgets:
-            case_list_widget.listWidget.clear()
-            for case in self.worker.getCases(case_list_widget.case_state):
-                if text.lower() in case.name.lower() or text.lower() in case.description.lower():
-                    case_list_widget._add_widget(case)
+        for dish_list_widget in self.dish_list_widgets:
+            dish_list_widget.listWidget.clear()
+            for dish in self.worker.getDishs(dish_list_widget.dish_state):
+                if text.lower() in dish.name.lower() or text.lower() in dish.description.lower():
+                    dish_list_widget._add_widget(dish)
 
     def open_category_list_window(self):
         category_list_dialog = Category_list()
@@ -159,13 +159,13 @@ class MainWindow(QMainWindow):
         session.close()
         self.new_window_category.close()
 
-    def open_new_case_window(self):
-        self.new_window_case = QtWidgets.QDialog()
-        self.ui_window_case = Ui_New_transaction()
-        self.ui_window_case.setupUi(self.new_window_case)
+    def open_new_dish_window(self):
+        self.new_window_dish = QtWidgets.QDialog()
+        self.ui_window_dish = Ui_New_transaction()
+        self.ui_window_dish.setupUi(self.new_window_dish)
 
-        self.ui_window_case.le_masa.setValidator(QIntValidator())
-        self.ui_window_case.le_cena.setValidator(QDoubleValidator())
+        self.ui_window_dish.le_masa.setValidator(QIntValidator())
+        self.ui_window_dish.le_cena.setValidator(QDoubleValidator())
 
         options = []
         categories = self.worker.getCategories()
@@ -173,25 +173,25 @@ class MainWindow(QMainWindow):
         for category in categories:
             options.append(category.category_name)
 
-        self.ui_window_case.cb_category.addItems(options)
-        self.new_window_case.show()
-        self.ui_window_case.button_save_danie.clicked.connect(self.add_new_case)
+        self.ui_window_dish.cb_category.addItems(options)
+        self.new_window_dish.show()
+        self.ui_window_dish.button_save_danie.clicked.connect(self.add_new_dish)
 
-    def add_new_case(self):
-        category_name = self.ui_window_case.cb_category.currentText()
+    def add_new_dish(self):
+        category_name = self.ui_window_dish.cb_category.currentText()
         category_id = self.worker.getCategoryIdByName(category_name)
-        name = self.ui_window_case.le_name.text()
-        description = self.ui_window_case.le_description.text()
-        description_eng = self.ui_window_case.le_description_eng.text()
-        masa = self.ui_window_case.le_masa.text()
-        cena = self.ui_window_case.le_cena.text()
+        name = self.ui_window_dish.le_name.text()
+        description = self.ui_window_dish.le_description.text()
+        description_eng = self.ui_window_dish.le_description_eng.text()
+        masa = self.ui_window_dish.le_masa.text()
+        cena = self.ui_window_dish.le_cena.text()
         price_float = float(cena.replace(',', '.'))
-        Case.create_case(category_id, name, description, description_eng, price_float, masa)
+        Dish.create_dish(category_id, name, description, description_eng, price_float, masa)
 
-        for widget in self.findChildren(CaseListWidget):
+        for widget in self.findChildren(DishListWidget):
             widget.reloads()
 
-        self.new_window_case.close()
+        self.new_window_dish.close()
 
     def open_new_dodatki_window(self):
         self.new_window_dodatki = QtWidgets.QDialog()

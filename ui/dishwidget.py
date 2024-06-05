@@ -4,43 +4,43 @@ from PySide6 import QtWidgets
 from PySide6.QtGui import QIntValidator, QDoubleValidator
 from PySide6.QtWidgets import QWidget
 
-from models.case_state import Category
+from models.dish_state import Category
 from models.database import Session
-from models.case import Case
-from intro.ui_casewidget import Ui_CaseWidget
-from intro.ui_casewidget_info import Ui_CaseWidgetInfo
+from models.dish import Dish
+from intro.ui_dishwidget import Ui_DishWidget
+from intro.ui_dishwidget_info import Ui_DishWidgetInfo
 
 from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
 
 
-class CaseWidget(QWidget):
+class DishWidget(QWidget):
 
-    def __init__(self, data: Case, case_list_widget):
-        super(CaseWidget, self).__init__()
+    def __init__(self, data: Dish, dish_list_widget):
+        super(DishWidget, self).__init__()
         self.data = data
-        self.case_list_widget = case_list_widget
-        self.ui = Ui_CaseWidget()
+        self.dish_list_widget = dish_list_widget
+        self.ui = Ui_DishWidget()
         self.ui.setupUi(self)
         self.ui.qlb_danie.setText(data.name)
         self.ui.qlb_des.setText(data.description)
         self.ui.qlb_cena.setText(str(data.price) + " pl")
-        self.ui.btn_delete.clicked.connect(self.delete_case)
+        self.ui.btn_delete.clicked.connect(self.delete_dish)
         self.ui.btn_edit.clicked.connect(self.open_update_window)
         self.ui.btn_info.clicked.connect(self.open_info_window)
 
-    def delete_case(self):
-        Case.delete_case(self.data.id)
-        self.case_list_widget.reloads()
+    def delete_dish(self):
+        Dish.delete_dish(self.data.id)
+        self.dish_list_widget.reloads()
 
     def open_update_window(self):
         self.new_window = QtWidgets.QDialog()
         self.ui_window = Ui_New_transaction()
         self.ui_window.setupUi(self.new_window)
 
-        # Getting a category for a Case record
-        category = self.case_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
+        # Getting a category for a Dish record
+        category = self.dish_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
 
-        categories = self.case_list_widget.worker.session.query(Category)
+        categories = self.dish_list_widget.worker.session.query(Category)
 
         options = []
         category_index = None
@@ -74,7 +74,7 @@ class CaseWidget(QWidget):
 
     def update_window(self):
         id = self.data.id
-        category_id = self.case_list_widget.worker.session.query(Category).filter_by(
+        category_id = self.dish_list_widget.worker.session.query(Category).filter_by(
             category_name=self.ui_window.cb_category.currentText()).first().id
         name = self.ui_window.le_name.text()
 
@@ -83,13 +83,13 @@ class CaseWidget(QWidget):
         masa = self.ui_window.le_masa.text()
         cena = self.ui_window.le_cena.text()
         price_float = float(cena.replace(',', '.'))
-        Case.update_case(id, category_id, name, description, description_eng, masa, price_float)
+        Dish.update_dish(id, category_id, name, description, description_eng, masa, price_float)
 
         # Update the data in the widget
         self.reload_data()
 
         # Update the list of widgets
-        self.case_list_widget.reloads()
+        self.dish_list_widget.reloads()
 
         # Close the update window
         self.new_window.close()
@@ -97,7 +97,7 @@ class CaseWidget(QWidget):
     def reload_data(self):
         # Getting updated data from the database
         session = Session()
-        updated_data = session.query(Case).filter_by(id=self.data.id).first()
+        updated_data = session.query(Dish).filter_by(id=self.data.id).first()
         session.close()
 
         # Update data and widget UI
@@ -108,7 +108,7 @@ class CaseWidget(QWidget):
 
     def open_info_window(self):
         self.new_window = QtWidgets.QDialog()
-        self.ui_window = Ui_CaseWidgetInfo()
+        self.ui_window = Ui_DishWidgetInfo()
         self.ui_window.setupUi(self.new_window)
 
         # Assuming self.data is available and contains necessary attributes
@@ -117,7 +117,7 @@ class CaseWidget(QWidget):
         self.ui_window.qlb_des_eng.setText(self.data.description_english)
         self.ui_window.qlb_cena.setText(str(self.data.price) + " pl")
 
-        category = self.case_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
+        category = self.dish_list_widget.worker.session.query(Category).filter_by(id=self.data.category).first()
         if category:
             self.ui_window.qlb_category.setText(category.category_name)
             self.ui_window.qlb_masa.setText(str(self.data.masa) + " " + category.pomiar)

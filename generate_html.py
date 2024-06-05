@@ -1,5 +1,5 @@
-from models.case import Case
-from models.case_state import Category
+from models.dish import Dish
+from models.dish_state import Category
 from models.database import Session
 from models.database_worker import Worker
 from PySide6.QtWidgets import QMessageBox
@@ -117,18 +117,18 @@ def generate_html_with_list_druk(worker, state_id):
 
     for category in categories:
         session, categories = initialize_session()
-        cases = session.query(Case).filter(Case.category == category.id, Case.case_state == 1).all()
+        dishs = session.query(Dish).filter(Dish.category == category.id, Dish.dish_state == 1).all()
         typ_pomiaru = category.pomiar
         session.close()
-        # Check for cases in the category
-        if cases:
+        # Check for dishs in the category
+        if dishs:
             html_content += f"""
                                 <li>
                                     <h3>{category.category_name} <span class="category_eng">({category.category_eng_name})</span></h3>
                                     <ul>
 
                         """
-            for item in cases:
+            for item in dishs:
                 html_content += f"""
                                         <li>
                                             <div class="container">
@@ -136,7 +136,7 @@ def generate_html_with_list_druk(worker, state_id):
                                                 <div></div>
                                                 <div style="text-align: right;">
                             """
-                if item.masa and typ_pomiaru:  # Перевіряємо, чи item.masa і typ_pomiaru не є пустими
+                if item.masa and typ_pomiaru:  #
                     html_content += f"""
                                                     <span class="text-eng masa blue">({item.masa} {typ_pomiaru})</span>
                                 """
@@ -146,7 +146,7 @@ def generate_html_with_list_druk(worker, state_id):
                                             </div>
                                         </li>
                             """
-                if item.description:  # Перевіряємо, чи існує опис
+                if item.description:  # Check if the description exists
                     html_content += f"""
                                         <li>
                                             <div class="text-eng description">
@@ -296,17 +296,17 @@ def generate_html_with_list_send(worker, state_id):
 
     for category in categories:
         session, categories = initialize_session()
-        cases = session.query(Case).filter(Case.category == category.id, Case.case_state == 1).all()
+        dishs = session.query(Dish).filter(Dish.category == category.id, Dish.dish_state == 1).all()
         typ_pomiaru = category.pomiar
         session.close()
-        # Check for cases in the category
-        if cases:
+        # Check for dishs in the category
+        if dishs:
             html_content += f"""
                                 <li>
  <h3>{category.category_name} <span class="category_eng">({category.category_eng_name})</span></h3>                                    <ul>
 
                         """
-            for item in cases:
+            for item in dishs:
                 html_content += f"""
                                         <li>
                                             <div class="container">
@@ -314,7 +314,7 @@ def generate_html_with_list_send(worker, state_id):
                                                 <div></div>
                                                 <div style="text-align: right;">
                             """
-                if item.masa and typ_pomiaru:  # Перевіряємо, чи item.masa і typ_pomiaru не є пустими
+                if item.masa and typ_pomiaru:  # Check if item.masa and typ_pomiaru are not empty
                     html_content += f"""
                                                     <span class="text-eng masa">({item.masa} {typ_pomiaru})</span>
                                 """
@@ -411,15 +411,14 @@ def generation_pdf():
 def find_file(filename, search_path):
     result = []
 
-    # Перебираємо всі файли та папки у вказаній директорії
+    # Search all files and folders in the specified directory
     for root, dirs, files in os.walk(search_path):
         if filename in files:
             result.append(os.path.join(root, filename))
 
     return result
 
-
-# Шукаємо chrome.exe та msedge.exe у директоріях Program Files та Program Files (x86)
+# Look for chrome.exe in the Program Files and Program Files (x86) directories
 chrome_files = find_file("chrome.exe", "C:\\Program Files")
 chrome_files += find_file("chrome.exe", "C:\\Program Files (x86)")
 

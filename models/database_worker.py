@@ -1,7 +1,7 @@
 
 
-from models.case import Case
-from models.case_state import CaseState, Category, Dodatki
+from models.dish import Dish
+from models.dish_state import DishState, Category, Dodatki
 from models.database import create_db, Session
 
 from PySide6.QtWidgets import QMessageBox
@@ -10,8 +10,8 @@ def create_database():
     try:
         create_db()
         session = Session()
-        session.add(CaseState(case_state_name="Menu dziś"))
-        session.add(CaseState(case_state_name="Menu cale"))
+        session.add(DishState(dish_state_name="Menu dziś"))
+        session.add(DishState(dish_state_name="Menu cale"))
         session.commit()
         session.close()
     except Exception as e:
@@ -26,13 +26,13 @@ class Worker:
     def __init__(self, session: Session):
         self.session = session
 
-    def createCase(self, state: CaseState) -> Case:
+    def createDish(self, state: DishState) -> Dish:
         try:
-            case = Case(state.id)
-            self.session.add(case)
+            dish = Dish(state.id)
+            self.session.add(dish)
             self.session.commit()
             self.session.close()
-            return case
+            return dish
 
         except Exception as e:
             show_error_message(str(e))
@@ -44,9 +44,9 @@ class Worker:
         finally:
             self.session.close()
 
-    def getStates(self) -> list[CaseState]:
+    def getStates(self) -> list[DishState]:
         try:
-            return [it for it in self.session.query(CaseState)]
+            return [it for it in self.session.query(DishState)]
         except Exception as e:
             show_error_message(str(e))
             msgbox = QMessageBox()
@@ -58,12 +58,12 @@ class Worker:
         finally:
             self.session.close()
 
-    def getCases(self, state: CaseState) -> list[Case]:
+    def getDishs(self, state: DishState) -> list[Dish]:
         try:
-            cases = self.session.query(Case).filter(Case.case_state == state.id)
-            cases = cases.join(Category, Case.category == Category.id)
-            cases = cases.order_by(Category.turn_number, Case.name)
-            return [case for case in cases]
+            dishs = self.session.query(Dish).filter(Dish.dish_state == state.id)
+            dishs = dishs.join(Category, Dish.category == Category.id)
+            dishs = dishs.order_by(Category.turn_number, Dish.name)
+            return [dish for dish in dishs]
         except Exception as e:
             show_error_message(str(e))
             msgbox = QMessageBox()
@@ -74,11 +74,11 @@ class Worker:
         finally:
             self.session.close()
 
-    def searchCases(self, search_term: str) -> list[Case]:
+    def searchDishs(self, search_term: str) -> list[Dish]:
         try:
-            # Змінюйте запит відповідно до ваших критеріїв пошуку
-            cases = self.session.query(Case).filter(Case.name.contains(search_term))
-            return [case for case in cases]
+            # Modify the query according to your search criteria
+            dishs = self.session.query(Dish).filter(Dish.name.contains(search_term))
+            return [dish for dish in dishs]
         except Exception as e:
             show_error_message(str(e))
             msgbox = QMessageBox()

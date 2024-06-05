@@ -15,9 +15,9 @@
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,
-  stop:0 rgba(105, 105, 105, 255), /* Світло-сірий */
-  stop:0.427447 rgba(105, 105, 105, 235), /* Сірий */
-  stop:1 rgba(84, 84, 84, 255) /* Темно-сірий */
+  stop:0 rgba(105, 105, 105, 255),
+  stop:0.427447 rgba(105, 105, 105, 235),
+  stop:1 rgba(84, 84, 84, 255)
 );
 </string>
   </property>

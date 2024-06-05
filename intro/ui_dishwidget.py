@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'ui_casewidget.ui'
+## Form generated from reading UI file 'ui_dishwidget.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.6.2
 ##
@@ -19,18 +19,18 @@ from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
     QLabel, QPushButton, QSizePolicy, QVBoxLayout,
     QWidget)
 
-class Ui_CaseWidget(object):
-    def setupUi(self, CaseWidget):
-        if not CaseWidget.objectName():
-            CaseWidget.setObjectName(u"CaseWidget")
-        CaseWidget.resize(691, 230)
-        CaseWidget.setMinimumSize(QSize(180, 0))
-        CaseWidget.setMaximumSize(QSize(16777215, 230))
-        CaseWidget.setStyleSheet(u"\n"
+class Ui_DishWidget(object):
+    def setupUi(self, DishWidget):
+        if not DishWidget.objectName():
+            DishWidget.setObjectName(u"DishWidget")
+        DishWidget.resize(691, 230)
+        DishWidget.setMinimumSize(QSize(180, 0))
+        DishWidget.setMaximumSize(QSize(16777215, 230))
+        DishWidget.setStyleSheet(u"\n"
 "border	-radius: 10px; background-color: rgb(144, 144, 144)")
-        self.gridLayout = QGridLayout(CaseWidget)
+        self.gridLayout = QGridLayout(DishWidget)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.frame = QFrame(CaseWidget)
+        self.frame = QFrame(DishWidget)
         self.frame.setObjectName(u"frame")
         self.frame.setStyleSheet(u"\n"
 "    border: 1px solid #ccc; /* 1px \u0442\u043e\u043d\u043a\u0430 \u0440\u0430\u043c\u043a\u0430, solid \u0442\u0438\u043f \u0440\u0430\u043c\u043a\u0438, #ccc \u0441\u0456\u0440\u0438\u0439 \u043a\u043e\u043b\u0456\u0440 */\n"
@@ -156,18 +156,18 @@ class Ui_CaseWidget(object):
         self.gridLayout.addWidget(self.frame, 1, 1, 1, 1)
 
 
-        self.retranslateUi(CaseWidget)
+        self.retranslateUi(DishWidget)
 
-        QMetaObject.connectSlotsByName(CaseWidget)
+        QMetaObject.connectSlotsByName(DishWidget)
     # setupUi
 
-    def retranslateUi(self, CaseWidget):
-        CaseWidget.setWindowTitle(QCoreApplication.translate("CaseWidget", u"Form", None))
-        self.qlb_danie.setText(QCoreApplication.translate("CaseWidget", u"Danie", None))
-        self.qlb_cena.setText(QCoreApplication.translate("CaseWidget", u"Cena", None))
-        self.qlb_des.setText(QCoreApplication.translate("CaseWidget", u"Opis ", None))
-        self.btn_info.setText(QCoreApplication.translate("CaseWidget", u"Info", None))
-        self.btn_edit.setText(QCoreApplication.translate("CaseWidget", u"Edytuj", None))
-        self.btn_delete.setText(QCoreApplication.translate("CaseWidget", u"Usu\u0144", None))
+    def retranslateUi(self, DishWidget):
+        DishWidget.setWindowTitle(QCoreApplication.translate("DishWidget", u"Form", None))
+        self.qlb_danie.setText(QCoreApplication.translate("DishWidget", u"Danie", None))
+        self.qlb_cena.setText(QCoreApplication.translate("DishWidget", u"Cena", None))
+        self.qlb_des.setText(QCoreApplication.translate("DishWidget", u"Opis ", None))
+        self.btn_info.setText(QCoreApplication.translate("DishWidget", u"Info", None))
+        self.btn_edit.setText(QCoreApplication.translate("DishWidget", u"Edytuj", None))
+        self.btn_delete.setText(QCoreApplication.translate("DishWidget", u"Usu\u0144", None))
     # retranslateUi
 
