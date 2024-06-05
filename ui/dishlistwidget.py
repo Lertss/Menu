@@ -1,12 +1,11 @@
-from PySide6.QtCore import Qt, QRect
-from PySide6.QtGui import QPainter, QBrush, QColor
-from PySide6.QtWidgets import QWidget, QAbstractItemView, QListWidgetItem, QListWidget
-
 from models.database_worker import Worker
 from models.dish import Dish
 from models.dish_state import DishState
-from ui.qt_base_ui.ui_todolist import Ui_Form
+from PySide6.QtCore import QRect, Qt
+from PySide6.QtGui import QBrush, QColor, QPainter
+from PySide6.QtWidgets import QAbstractItemView, QListWidget, QListWidgetItem, QWidget
 from ui.dishwidget import DishWidget
+from ui.qt_base_ui.ui_todolist import Ui_Form
 
 
 class MyListWidget(QListWidget):
@@ -18,7 +17,6 @@ class MyListWidget(QListWidget):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setAcceptDrops(True)
         self.model().rowsInserted.connect(self.handleRowsInserted, Qt.QueuedConnection)
-
 
     def handleRowsInserted(self, parent, first, last):
         for it in range(first, last + 1):
@@ -52,8 +50,6 @@ class DishListWidget(QWidget):
         # Background.
         painter.setBrush(QBrush(QColor(185, 185, 185)))
         painter.drawRect(QRect(0, 0, self.width(), self.height()))
-
-
 
     def reloads(self):
         self.listWidget.clear()

@@ -1,10 +1,8 @@
-
-
+from models.database import Session, create_db
 from models.dish import Dish
-from models.dish_state import DishState, Category, Dodatki
-from models.database import create_db, Session
-
+from models.dish_state import Category, DishState, Dodatki
 from PySide6.QtWidgets import QMessageBox
+
 
 def create_database():
     try:
@@ -121,10 +119,6 @@ class Worker:
         finally:
             self.session.close()
 
-
-
-
-
     def getDodatki(self):
         return [dodatki for dodatki in self.session.query(Dodatki)]
 
@@ -138,6 +132,7 @@ class Worker:
             msgbox.setText("Bląd:")
             msgbox.setInformativeText(f"Bląd. {show_error_message(str(e))}.")
             msgbox.exec()
+
 
 def show_error_message(error_message):
     msg = QMessageBox()

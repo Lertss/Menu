@@ -1,7 +1,15 @@
 import sqlite3
 
-from PySide6.QtWidgets import QDialog, QListWidgetItem, QLabel, QHBoxLayout
-from PySide6.QtWidgets import QListWidget, QVBoxLayout, QWidget, QPushButton
+from PySide6.QtWidgets import (
+    QDialog,
+    QHBoxLayout,
+    QLabel,
+    QListWidget,
+    QListWidgetItem,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class Category_list(QDialog):
@@ -30,12 +38,13 @@ class Category_list(QDialog):
         # Save the last selected item
         self.last_selected_item = None
 
-        self.setStyleSheet("""
+        self.setStyleSheet(
+            """
                     QDialog {
                         background-color: qlineargradient(spread:pad, x1:1, y1:1, x2:0, y2:0,
-                                                          stop:0 rgba(180, 180, 180, 255), 
-                                                          stop:0.427447 rgba(150, 150, 150, 235), 
-                                                          stop:1 rgba(110, 110, 110, 255) 
+                                                          stop:0 rgba(180, 180, 180, 255),
+                                                          stop:0.427447 rgba(150, 150, 150, 235),
+                                                          stop:1 rgba(110, 110, 110, 255)
                         );
                     }
 
@@ -47,9 +56,9 @@ class Category_list(QDialog):
 
                     QListWidget::item {
                         padding: 1px;
-                        border: 1px solid rgba(0,0,0,50); 
+                        border: 1px solid rgba(0,0,0,50);
                         color: white;
-                        font-weight: bold; 
+                        font-weight: bold;
                     }
 
                     QPushButton {
@@ -57,8 +66,8 @@ class Category_list(QDialog):
                         background-color: rgba(255,255,255,30);
                         border: 1px solid rgba(255,255,255,40);
                         border-radius: 7px;
-                        width: 150px; 
-                        height: 30px; 
+                        width: 150px;
+                        height: 30px;
                     }
 
                     QPushButton:hover {
@@ -68,10 +77,12 @@ class Category_list(QDialog):
                     QPushButton:pressed {
                         background-color: rgba(255,255,255,70);
                     }
-                """)
+                """
+        )
 
         # Customize the appearance of the button
-        self.button_save.setStyleSheet("""
+        self.button_save.setStyleSheet(
+            """
             QPushButton{
                 color: rgb(255, 255, 255);
                 background-color:rgba(255,255,255,30);
@@ -86,12 +97,12 @@ class Category_list(QDialog):
             QPushButton:pressed{
                 background-color:rgba(255,255,255,70);
             }
-        """)
-
+        """
+        )
 
     def load_data(self):
         # Connecting to the database
-        with sqlite3.connect('application.sqlite') as connection:
+        with sqlite3.connect("application.sqlite") as connection:
             cursor = connection.cursor()
 
             # Retrieving data from the database
@@ -114,7 +125,7 @@ class Category_list(QDialog):
                 self.list_widget.setItemWidget(list_item, list_item_widget)
 
     def delete_item(self, item):
-        with sqlite3.connect('application.sqlite') as connection:
+        with sqlite3.connect("application.sqlite") as connection:
             cursor = connection.cursor()
 
             # Deleting an item from the database
@@ -129,7 +140,7 @@ class Category_list(QDialog):
                 break
 
     def save_changes(self):
-        with sqlite3.connect('application.sqlite') as connection:
+        with sqlite3.connect("application.sqlite") as connection:
             cursor = connection.cursor()
 
             # Get the maximum turn_number value in the database
@@ -142,16 +153,19 @@ class Category_list(QDialog):
                     item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
 
                     # Update turn_number based on item position in the list
-                    cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?",
-                                   (index + 1, item_name))
+                    cursor.execute(
+                        "UPDATE category SET turn_number = ? WHERE category_name = ?", (index + 1, item_name)
+                    )
             else:
                 # Update the turn_number value for each item
                 for index in range(self.list_widget.count()):
                     item_name = self.list_widget.itemWidget(self.list_widget.item(index)).findChild(QLabel).text()
 
                     # Update turn_number by increasing the maximum value by 1
-                    cursor.execute("UPDATE category SET turn_number = ? WHERE category_name = ?",
-                                   (max_turn_number + index + 1, item_name))
+                    cursor.execute(
+                        "UPDATE category SET turn_number = ? WHERE category_name = ?",
+                        (max_turn_number + index + 1, item_name),
+                    )
 
             connection.commit()
 
@@ -161,4 +175,3 @@ class Category_list(QDialog):
         if current_item and self.last_selected_item and current_item != self.last_selected_item:
             self.save_changes()  # Save changes if the selected item has changed
         self.last_selected_item = current_item
-

@@ -1,19 +1,18 @@
 import PySide6
-from PySide6 import QtWidgets
-from PySide6.QtGui import QAction, QIntValidator, QDoubleValidator
-from PySide6.QtWidgets import QMainWindow, QColorDialog, QLineEdit
-from sqlalchemy import func
-
 from generate_html import generation_pdf
 from intro.ui_dodawanie_dodatkow import Ui_new_Dodatek
 from intro.ui_mainwindow import Ui_MainWindow
-from models.dish import Dish
-from models.dish_state import Category, Dodatki
 from models.database import Session
 from models.database_worker import Worker
-from service.service import save_settings, load_settings
-from ui.dishlistwidget import DishListWidget
+from models.dish import Dish
+from models.dish_state import Category, Dodatki
+from PySide6 import QtWidgets
+from PySide6.QtGui import QAction, QDoubleValidator, QIntValidator
+from PySide6.QtWidgets import QColorDialog, QLineEdit, QMainWindow
+from service.service import load_settings, save_settings
+from sqlalchemy import func
 from ui.categorywidget import Category_list
+from ui.dishlistwidget import DishListWidget
 from ui.dodatkiwidget import DodatkiList
 from ui.qt_base_ui.ui_add_category import Ui_Dialog
 from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
@@ -42,78 +41,73 @@ class MainWindow(QMainWindow):
 
     def initUI(self):
         menubar = self.menuBar()
-        fileMenu = menubar.addMenu('Kategoria')
+        fileMenu = menubar.addMenu("Kategoria")
 
-        func1Action = QAction('Nowa kategoria', self)
+        func1Action = QAction("Nowa kategoria", self)
         func1Action.triggered.connect(self.open_new_category_window)
 
-        func2Action = QAction('Lista kategorii', self)
+        func2Action = QAction("Lista kategorii", self)
         func2Action.triggered.connect(self.open_category_list_window)
 
         fileMenu.addAction(func1Action)
         fileMenu.addAction(func2Action)
 
-        fileMenu = menubar.addMenu('Dodatki')
+        fileMenu = menubar.addMenu("Dodatki")
 
-        func5Action = QAction('Nowy dodatek', self)
+        func5Action = QAction("Nowy dodatek", self)
         func5Action.triggered.connect(self.open_new_dodatki_window)
 
-        func6Action = QAction('Lista dodatków', self)
+        func6Action = QAction("Lista dodatków", self)
         func6Action.triggered.connect(self.open_dodatki_list_window)
 
         fileMenu.addAction(func5Action)
         fileMenu.addAction(func6Action)
 
-        func3Action = QAction('Nowe danie', self)
+        func3Action = QAction("Nowe danie", self)
         func3Action.triggered.connect(self.open_new_dish_window)
         menubar.addAction(func3Action)
 
-        func4Action = QAction('Zdjęcie', self)
+        func4Action = QAction("Zdjęcie", self)
         func4Action.triggered.connect(generation_pdf)
         menubar.addAction(func4Action)
 
-
-
         # Add color picker buttons
-        color_menu = menubar.addMenu('Ustawienia Koloru')
+        color_menu = menubar.addMenu("Ustawienia Koloru")
 
-        headline_action = QAction('Kolor naglówka ', self)
-        headline_action.triggered.connect(lambda: self.change_color('headline'))
+        headline_action = QAction("Kolor naglówka ", self)
+        headline_action.triggered.connect(lambda: self.change_color("headline"))
         color_menu.addAction(headline_action)
 
-        category_action = QAction('Kolor kategorij', self)
-        category_action.triggered.connect(lambda: self.change_color('category'))
+        category_action = QAction("Kolor kategorij", self)
+        category_action.triggered.connect(lambda: self.change_color("category"))
         color_menu.addAction(category_action)
 
-        main_action = QAction('Kolory nazwy dania', self)
-        main_action.triggered.connect(lambda: self.change_color('main'))
+        main_action = QAction("Kolory nazwy dania", self)
+        main_action.triggered.connect(lambda: self.change_color("main"))
         color_menu.addAction(main_action)
 
-        danie_eng_action = QAction('Kolor opisu ', self)
-        danie_eng_action.triggered.connect(lambda: self.change_color('description'))
+        danie_eng_action = QAction("Kolor opisu ", self)
+        danie_eng_action.triggered.connect(lambda: self.change_color("description"))
         color_menu.addAction(danie_eng_action)
 
-        danie_eng_action = QAction('Kolor eng. nazwy dania ', self)
-        danie_eng_action.triggered.connect(lambda: self.change_color('english_dish'))
+        danie_eng_action = QAction("Kolor eng. nazwy dania ", self)
+        danie_eng_action.triggered.connect(lambda: self.change_color("english_dish"))
         color_menu.addAction(danie_eng_action)
 
-        masa_action = QAction('Kolor masy', self)
-        masa_action.triggered.connect(lambda: self.change_color('masa'))
+        masa_action = QAction("Kolor masy", self)
+        masa_action.triggered.connect(lambda: self.change_color("masa"))
         color_menu.addAction(masa_action)
 
-        cena_action = QAction('Kolor ceny', self)
-        cena_action.triggered.connect(lambda: self.change_color('cena'))
+        cena_action = QAction("Kolor ceny", self)
+        cena_action.triggered.connect(lambda: self.change_color("cena"))
         color_menu.addAction(cena_action)
 
-        dodatki_action = QAction('Kolory dodatków', self)
-        dodatki_action.triggered.connect(lambda: self.change_color('dodatki'))
+        dodatki_action = QAction("Kolory dodatków", self)
+        dodatki_action.triggered.connect(lambda: self.change_color("dodatki"))
         color_menu.addAction(dodatki_action)
 
-
-
-        self.setWindowTitle('QMenuBar')
+        self.setWindowTitle("QMenuBar")
         self.show()
-
 
     def change_color(self, element):
         color = QColorDialog.getColor()
@@ -153,7 +147,12 @@ class MainWindow(QMainWindow):
         category_eng_name = self.ui_window_category.le_category_eng.text()
         measurement = self.ui_window_category.le_measurement.text()
         session = Session()
-        new_category = Category(category_name=category_name,category_eng_name=category_eng_name, pomiar=measurement, turn_number=new_turn_number())
+        new_category = Category(
+            category_name=category_name,
+            category_eng_name=category_eng_name,
+            pomiar=measurement,
+            turn_number=new_turn_number(),
+        )
         session.add(new_category)
         session.commit()
         session.close()
@@ -185,7 +184,7 @@ class MainWindow(QMainWindow):
         description_eng = self.ui_window_dish.le_description_eng.text()
         masa = self.ui_window_dish.le_masa.text()
         cena = self.ui_window_dish.le_cena.text()
-        price_float = float(cena.replace(',', '.'))
+        price_float = float(cena.replace(",", "."))
         Dish.create_dish(category_id, name, description, description_eng, price_float, masa)
 
         for widget in self.findChildren(DishListWidget):
@@ -211,16 +210,16 @@ class MainWindow(QMainWindow):
         self.new_window_dodatki.close()
 
 
-
 def new_turn_number():
     session = Session()
     max_turn_number = session.query(func.max(Category.turn_number)).scalar()
     session.close()
     if max_turn_number:
         if max_turn_number > 0:
-            return max_turn_number +1
+            return max_turn_number + 1
     else:
         return 1
+
 
 style_bar_menu = """
         QMenuBar {

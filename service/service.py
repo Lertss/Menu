@@ -18,7 +18,6 @@ def create_folders():
         # Create a main folder if it does not exist
         os.makedirs(base_folder_path)
 
-
     # Path to a subfolder within the main folder
     sub_folder_path_html = os.path.join(base_folder_path, sub_folder_name_html)
     sub_folder_path_log_bd = os.path.join(base_folder_path, sub_folder_name_log_bd)
@@ -52,7 +51,7 @@ def load_settings():
             "cena": "yellow",
             "english_dish": "rgb(130, 174, 90);",
             "description": "rgb(130, 174, 90);",
-            "dodatki": "red"
+            "dodatki": "red",
         }
 
 

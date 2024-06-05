@@ -1,12 +1,10 @@
+from models.database import Base, Session
 from PySide6.QtWidgets import QMessageBox
-
-from models.database import Base
-from sqlalchemy import Column, Integer, String, ForeignKey, Numeric
-from models.database import Session
+from sqlalchemy import Column, ForeignKey, Integer, Numeric, String
 
 
 class Dish(Base):
-    __tablename__ = 'dish'
+    __tablename__ = "dish"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
@@ -14,11 +12,18 @@ class Dish(Base):
     description_english = Column(String, nullable=False)
     price = Column(Numeric(precision=10, scale=2), nullable=False)
     masa = Column(Integer)
-    dish_state = Column(Integer, ForeignKey('dish_state.id'))
-    category = Column(Integer, ForeignKey('category.id'), nullable=False)
+    dish_state = Column(Integer, ForeignKey("dish_state.id"))
+    category = Column(Integer, ForeignKey("category.id"), nullable=False)
 
-    def __init__(self, name: str = "", description: str = "",
-                 description_english: str = "", price: str = "", masa: str = "", category: str = ""):
+    def __init__(
+        self,
+        name: str = "",
+        description: str = "",
+        description_english: str = "",
+        price: str = "",
+        masa: str = "",
+        category: str = "",
+    ):
         self.name = name
         self.description = description
         self.description_english = description_english
@@ -45,7 +50,7 @@ class Dish(Base):
         else:
             msgbox = QMessageBox()
             msgbox.setText("Bląd:")
-            msgbox.setInformativeText(f'Danie z ID {dish_id} nie znaleziono.')
+            msgbox.setInformativeText(f"Danie z ID {dish_id} nie znaleziono.")
             msgbox.exec()
 
             session.close()
@@ -87,9 +92,9 @@ class Dish(Base):
         else:
             msgbox = QMessageBox()
             msgbox.setText("Bląd:")
-            msgbox.setInformativeText(f'Danie z ID {dish_id} nie znaleziono *Dish.update_dish')
+            msgbox.setInformativeText(f"Danie z ID {dish_id} nie znaleziono *Dish.update_dish")
             msgbox.exec()
             session.close()
 
     def __repr__(self):
-        return f' [{self.name} ID: {self.id}, state: {self.dish_state}]'
+        return f" [{self.name} ID: {self.id}, state: {self.dish_state}]"
