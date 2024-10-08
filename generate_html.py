@@ -367,6 +367,7 @@ def generate_html_with_list_send(worker, state_id):
     html_content += f"""
 
                 </ul>
+                </section>
             </main>
             </div>
             <div class="dodatki">
@@ -379,7 +380,6 @@ def generate_html_with_list_send(worker, state_id):
                         </span>
                     </p>
                 </div>
-        </section>
     </body>
     </html>
     """

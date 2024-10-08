@@ -167,8 +167,9 @@ Folder
 media
 tlo.jpeg
 pyzunia.ico
-application.sqlite
+models/application.sqlite
 Menu.spec
 myapp.spec
 pyzunia.ico
+ui_designer/
 
