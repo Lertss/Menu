@@ -10,11 +10,19 @@ a = Analysis(
         ('ui/qt_base_ui', '.'),
         ('intro', '.'),
     ],
-    hiddenimports=['PySide6'],
+    hiddenimports=[
+        'PySide6',
+        'PySide6.QtCore',
+        'PySide6.QtGui',
+        'PySide6.QtWidgets',
+        'xml',
+        'xml.etree.ElementTree',
+    ],
+
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
-    excludes=['tkinter', 'unittest', 'html', 'http', 'xml', 'pip', 'pyinstaller'],
+    excludes=['tkinter', 'unittest', 'pip', 'pyinstaller'],
     noarchive=False,
 )
 
@@ -32,7 +40,7 @@ exe = EXE(
     upx=True,
     upx_exclude=[],
     runtime_tmpdir=None,
-    console=True,
+    console=False,
     disable_windowed_traceback=False,
     argv_emulation=False,
     target_arch=None,

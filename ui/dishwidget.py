@@ -22,10 +22,11 @@ class DishWidget(QWidget):
         self.ui.setupUi(self)
         self.ui.qlb_danie.setText(data.name)
         self.ui.qlb_des.setText(data.description)
-        self.ui.qlb_cena.setText(str(data.price) + " pl")
+        self.ui.qlb_cena.setText(str(data.price))
         self.ui.btn_delete.clicked.connect(self.delete_dish)
         self.ui.btn_edit.clicked.connect(self.open_update_window)
         self.ui.btn_info.clicked.connect(self.open_info_window)
+
 
     def delete_dish(self):
         Dish.delete_dish(self.data.id)
@@ -37,13 +38,15 @@ class DishWidget(QWidget):
         self.ui_window.setupUi(self.new_window)
 
         # Getting a category for a Dish record
-        category = (
-            self.dish_list_widget.worker.session.query(Category)
-            .filter_by(id=self.data.category)
-            .first()
-        )
+        with Session() as session:
+            session = session
+            category = (
+                session.query(Category)
+                .filter_by(id=self.data.category)
+                .first()
+            )
 
-        categories = self.dish_list_widget.worker.session.query(Category)
+        categories = session.query(Category)
 
         options = []
         category_index = None
@@ -79,12 +82,14 @@ class DishWidget(QWidget):
 
     def update_window(self):
         id = self.data.id
-        category_id = (
-            self.dish_list_widget.worker.session.query(Category)
-            .filter_by(category_name=self.ui_window.cb_category.currentText())
-            .first()
-            .id
-        )
+        with Session() as session:
+            session = session
+            category_id = (
+                session.query(Category)
+                .filter_by(category_name=self.ui_window.cb_category.currentText())
+                .first()
+                .id
+            )
         name = self.ui_window.le_name.text()
 
         description = self.ui_window.le_description.text()
@@ -107,15 +112,15 @@ class DishWidget(QWidget):
 
     def reload_data(self):
         # Getting updated data from the database
-        session = Session()
-        updated_data = session.query(Dish).filter_by(id=self.data.id).first()
-        session.close()
+        with Session() as session:
+            updated_data = session.query(Dish).filter_by(id=self.data.id).first()
+
 
         # Update data and widget UI
         self.data = updated_data
         self.ui.qlb_danie.setText(self.data.name)
         self.ui.qlb_des.setText(self.data.description)
-        self.ui.qlb_cena.setText(str(self.data.price) + " pl")
+        self.ui.qlb_cena.setText(str(self.data.price))
 
     def open_info_window(self):
         self.new_window = QtWidgets.QDialog()
@@ -126,13 +131,13 @@ class DishWidget(QWidget):
         self.ui_window.qlb_danie.setText(self.data.name)
         self.ui_window.qlb_des.setText(self.data.description)
         self.ui_window.qlb_des_eng.setText(self.data.description_english)
-        self.ui_window.qlb_cena.setText(str(self.data.price) + " pl")
-
-        category = (
-            self.dish_list_widget.worker.session.query(Category)
-            .filter_by(id=self.data.category)
-            .first()
-        )
+        self.ui_window.qlb_cena.setText(str(self.data.price))
+        with Session() as session:
+            category = (
+                session.query(Category)
+                .filter_by(id=self.data.category)
+                .first()
+            )
         if category:
             self.ui_window.qlb_category.setText(category.category_name)
             self.ui_window.qlb_masa.setText(str(self.data.masa) + " " + category.pomiar)

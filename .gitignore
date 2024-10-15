@@ -166,10 +166,12 @@ Folder
 .media/
 media
 tlo.jpeg
-pyzunia.ico
 models/application.sqlite
 Menu.spec
 myapp.spec
 pyzunia.ico
 ui_designer/
-
+build
+dist
+Zdjęcia
+application.sqlite

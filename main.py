@@ -5,7 +5,7 @@ from PySide6.QtGui import QColor, QPalette
 from PySide6.QtWidgets import QApplication
 
 from models.database import DATABASE_NAME, Session
-from models.database_worker import Worker, create_database
+from models.database_worker import create_database
 from service.service import create_folders
 from ui.mainwindow import MainWindow, style_bar_menu
 
@@ -39,6 +39,6 @@ if __name__ == "__main__":
 
     app.setStyleSheet(style_bar_menu)
     set_light_theme(app)
-    window = MainWindow(Worker(Session()))
+    window = MainWindow()
     window.show()
     sys.exit(app.exec())

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from PySide6 import QtCore
 ################################################################################
 ## Form generated from reading UI file 'ui_new_transaction.ui'
 ##
@@ -9,7 +9,7 @@
 ################################################################################
 
 from PySide6.QtCore import QCoreApplication, QMetaObject, QSize, Qt
-from PySide6.QtGui import QIcon
+from PySide6.QtGui import QIcon, QCursor
 from PySide6.QtWidgets import (
     QComboBox,
     QFrame,
@@ -119,6 +119,7 @@ class Ui_New_transaction(object):
         self.verticalLayout.addWidget(self.le_cena)
 
         self.button_save_danie = QPushButton(self.frame)
+        self.button_save_danie.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.button_save_danie.setObjectName("button_save_danie")
         self.button_save_danie.setStyleSheet(
             "QPushButton{\n"

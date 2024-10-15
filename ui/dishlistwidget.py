@@ -2,7 +2,7 @@ from PySide6.QtCore import QRect, Qt
 from PySide6.QtGui import QBrush, QColor, QPainter
 from PySide6.QtWidgets import QAbstractItemView, QListWidget, QListWidgetItem, QWidget
 
-from models.database_worker import Worker
+from models.database_worker import getDishs
 from models.dish import Dish
 from models.dish_state import DishState
 from ui.dishwidget import DishWidget
@@ -34,12 +34,11 @@ class MyListWidget(QListWidget):
 
 
 class DishListWidget(QWidget):
-    def __init__(self, dish_state: DishState, worker: Worker):
+    def __init__(self, dish_state: DishState):
         super(DishListWidget, self).__init__()
         self.ui = Ui_Form()
         self.ui.setupUi(self)
         self.dish_state = dish_state
-        self.worker = worker
         self.ui.groupBox.setTitle(dish_state.dish_state_name)
         self.listWidget = MyListWidget(self.dish_state.id, self)
         self.ui.todoListLayout.addWidget(self.listWidget)
@@ -54,8 +53,9 @@ class DishListWidget(QWidget):
 
     def reloads(self):
         self.listWidget.clear()
-        for it in self.worker.getDishs(self.dish_state):
+        for it in getDishs(self.dish_state):
             self._add_widget(it)
+
 
     def _add_widget(self, dish: Dish):
         my_item = QListWidgetItem(self.listWidget)
