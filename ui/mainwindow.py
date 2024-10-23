@@ -1,4 +1,3 @@
-import PySide6
 from PySide6 import QtWidgets
 from PySide6.QtGui import QAction, QDoubleValidator, QIntValidator
 from PySide6.QtWidgets import QColorDialog, QLineEdit, QMainWindow
@@ -8,10 +7,9 @@ from generate_html import generation_pdf
 from intro.ui_dodawanie_dodatkow import Ui_new_Dodatek
 from intro.ui_mainwindow import Ui_MainWindow
 from models.database import Session
-from models.database_worker import Worker
+from models.database_worker import getStates, getCategories, getCategoryIdByName, getDishs, update_color
 from models.dish import Dish
 from models.dish_state import Category, Dodatki
-from service.service import load_settings, save_settings
 from ui.categorywidget import Category_list
 from ui.dishlistwidget import DishListWidget
 from ui.dodatkiwidget import DodatkiList
@@ -20,12 +18,10 @@ from ui.qt_base_ui.ui_new_transaction import Ui_New_transaction
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, worker: Worker):
+    def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        self.worker = worker
-        self.settings = load_settings()
         self.initUI()
 
         self.search_line = QLineEdit(self)
@@ -35,12 +31,14 @@ class MainWindow(QMainWindow):
         self.ui.verticalLayout.insertWidget(0, self.search_line)
 
         self.dish_list_widgets = []
-        for it in self.worker.getStates():
-            dish_list_widget = DishListWidget(it, self.worker)
+        for it in getStates():
+            dish_list_widget = DishListWidget(it)
+
             self.dish_list_widgets.append(dish_list_widget)
             self.ui.todoListLayout.addWidget(dish_list_widget)
 
     def initUI(self):
+        """Top tab menu"""
         menubar = self.menuBar()
         fileMenu = menubar.addMenu("Kategoria")
 
@@ -74,7 +72,8 @@ class MainWindow(QMainWindow):
 
         # Add color picker buttons
         color_menu = menubar.addMenu("Ustawienia Koloru")
-
+        #The use of the lambda function is due to the fact that without it the change_color function will be started
+        # at program startup because of the nested parameter
         headline_action = QAction("Kolor naglówka ", self)
         headline_action.triggered.connect(lambda: self.change_color("headline"))
         color_menu.addAction(headline_action)
@@ -113,13 +112,13 @@ class MainWindow(QMainWindow):
     def change_color(self, element):
         color = QColorDialog.getColor()
         if color.isValid():
-            self.settings[element] = color.name()
-            save_settings(self.settings)
+            update_color(color.name(), element)
+
 
     def handle_search(self, text):
         for dish_list_widget in self.dish_list_widgets:
             dish_list_widget.listWidget.clear()
-            for dish in self.worker.getDishs(dish_list_widget.dish_state):
+            for dish in getDishs(dish_list_widget.dish_state):
                 if (
                     text.lower() in dish.name.lower()
                     or text.lower() in dish.description.lower()
@@ -136,9 +135,6 @@ class MainWindow(QMainWindow):
         category_list_dialog.resize(400, 400)
         category_list_dialog.exec_()
 
-    def closeEvent(self, event: PySide6.QtGui.QCloseEvent) -> None:
-        del self.worker
-
     def open_new_category_window(self):
         self.new_window_category = QtWidgets.QDialog()
         self.ui_window_category = Ui_Dialog()
@@ -152,16 +148,15 @@ class MainWindow(QMainWindow):
         category_name = self.ui_window_category.le_category.text()
         category_eng_name = self.ui_window_category.le_category_eng.text()
         measurement = self.ui_window_category.le_measurement.text()
-        session = Session()
-        new_category = Category(
-            category_name=category_name,
-            category_eng_name=category_eng_name,
-            pomiar=measurement,
-            turn_number=new_turn_number(),
-        )
-        session.add(new_category)
-        session.commit()
-        session.close()
+        with Session() as session:
+            new_category = Category(
+                category_name=category_name,
+                category_eng_name=category_eng_name,
+                pomiar=measurement,
+                turn_number=new_turn_number(),
+            )
+            session.add(new_category)
+            session.commit()
         self.new_window_category.close()
 
     def open_new_dish_window(self):
@@ -173,7 +168,7 @@ class MainWindow(QMainWindow):
         self.ui_window_dish.le_cena.setValidator(QDoubleValidator())
 
         options = []
-        categories = self.worker.getCategories()
+        categories = getCategories()
 
         for category in categories:
             options.append(category.category_name)
@@ -184,7 +179,7 @@ class MainWindow(QMainWindow):
 
     def add_new_dish(self):
         category_name = self.ui_window_dish.cb_category.currentText()
-        category_id = self.worker.getCategoryIdByName(category_name)
+        category_id = getCategoryIdByName(category_name)
         name = self.ui_window_dish.le_name.text()
         description = self.ui_window_dish.le_description.text()
         description_eng = self.ui_window_dish.le_description_eng.text()
@@ -210,23 +205,21 @@ class MainWindow(QMainWindow):
     def add_new_dodatek(self):
         dodatki_name = self.ui_window_dodatki.dodatki.toPlainText()
         dodatki_eng_name = self.ui_window_dodatki.textEdit_eng.toPlainText()
-        session = Session()
-        new_dodatek = Dodatki(text=dodatki_name, text_eng=dodatki_eng_name)
-        session.add(new_dodatek)
-        session.commit()
-        session.close()
-        self.new_window_dodatki.close()
+        with Session() as session:
+            new_dodatek = Dodatki(text=dodatki_name, text_eng=dodatki_eng_name)
+            session.add(new_dodatek)
+            session.commit()
+            self.new_window_dodatki.close()
 
 
 def new_turn_number():
-    session = Session()
-    max_turn_number = session.query(func.max(Category.turn_number)).scalar()
-    session.close()
-    if max_turn_number:
-        if max_turn_number > 0:
-            return max_turn_number + 1
-    else:
-        return 1
+    with Session() as session:
+        max_turn_number = session.query(func.max(Category.turn_number)).scalar()
+        if max_turn_number:
+            if max_turn_number > 0:
+                return max_turn_number + 1
+        else:
+            return 1
 
 
 style_bar_menu = """

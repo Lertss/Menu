@@ -17,7 +17,7 @@ class DodatkiList(QDialog):
     def __init__(self):
         super().__init__()
 
-        self.setWindowTitle("Lista ketegorij")
+        self.setWindowTitle("Lista Dodatków")
 
         layout = QVBoxLayout(self)
 
